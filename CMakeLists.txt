@@ -14,7 +14,7 @@ option(WITH_OPENBLAS "Compile with OpenBLAS backend" OFF)
 option(WITH_RUY "Compile with Ruy backend" OFF)
 option(WITH_CUDA "Compile with CUDA backend" OFF)
 option(WITH_CUDNN "Compile with cuDNN backend" OFF)
-option(WITH_METAL "Enable Metal backend" OFF)
+option(WITH_METAL "Enable Metal backend" ON)
 option(CUDA_DYNAMIC_LOADING "Dynamically load CUDA libraries at runtime" OFF)
 option(ENABLE_CPU_DISPATCH "Compile CPU kernels for multiple ISA and dispatch at runtime" ON)
 option(ENABLE_PROFILING "Compile with profiling support" OFF)
@@ -49,7 +49,25 @@ else()
   set(INTEL_ROOT_DEFAULT "/opt/intel")
 endif()
 set(INTEL_ROOT ${INTEL_ROOT_DEFAULT} CACHE FILEPATH "Path to Intel root directory")
-set(OPENMP_RUNTIME "INTEL" CACHE STRING "OpenMP runtime (INTEL, COMP, NONE)")
+
+if(APPLE)
+  set(OPENMP_RUNTIME "LIBOMP" CACHE STRING "OpenMP runtime (INTEL, LIBOMP, NONE)")
+  if(OPENMP_RUNTIME STREQUAL "LIBOMP")
+    find_package(OpenMP)
+    if(OpenMP_FOUND)
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I/usr/local/opt/libomp/include")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/local/opt/libomp/include")
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/opt/libomp/lib -lomp")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -L/usr/local/opt/libomp/lib -lomp")
+    endif()
+  elseif(OPENMP_RUNTIME STREQUAL "NONE")
+    add_definitions(-DDISABLE_PARALLEL)
+  else()
+    message(FATAL_ERROR "Invalid OpenMP runtime ${OPENMP_RUNTIME}")
+  endif()
+else()
+  set(OPENMP_RUNTIME "INTEL" CACHE STRING "OpenMP runtime (INTEL, LIBOMP, NONE)")
+endif()
 
 # Set Release build type by default to get sane performance.
 if(NOT CMAKE_BUILD_TYPE)
@@ -301,10 +319,10 @@ if(NOT OPENMP_RUNTIME STREQUAL "NONE")
       set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /nodefaultlib:vcomp")
       set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /nodefaultlib:vcomp")
     endif()
-  elseif(OPENMP_RUNTIME STREQUAL "COMP")
-    if(OpenMP_CXX_FOUND)
-      list(APPEND LIBRARIES ${OpenMP_CXX_LIBRARIES})
-      message(STATUS "Using OpenMP: ${OpenMP_CXX_LIBRARIES}")
+  elseif(OPENMP_RUNTIME STREQUAL "LIBOMP")
+    if(OpenMP_FOUND)
+      list(APPEND LIBRARIES ${OpenMP_LIBRARIES})
+      message(STATUS "Using OpenMP: ${OpenMP_LIBRARIES}")
     elseif(NOT WIN32)
       message(FATAL_ERROR "OpenMP not found")
     endif()
@@ -358,7 +376,7 @@ if(WITH_MKL)
     else()
       list(APPEND MKL_LIBRARIES ${MKL_LIBRARY_DIR}/libmkl_intel_thread.a)
     endif()
-  elseif(OPENMP_RUNTIME STREQUAL "COMP")
+  elseif(OPENMP_RUNTIME STREQUAL "LIBOMP")
     if(WIN32)
       message(FATAL_ERROR "Building with MKL requires Intel OpenMP")
     else()
@@ -667,13 +685,23 @@ if (WITH_METAL)
   find_library(METAL_FRAMEWORK Metal REQUIRED)
   find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)
   
-  add_definitions(-DCT2_WITH_METAL)
-  list(APPEND SOURCES
-    src/metal/utils.mm
-  )
-  list(APPEND LIBRARIES
+  set(CMAKE_OBJCXX_FLAGS "${CMAKE_OBJCXX_FLAGS} -fobjc-arc")
+  
+  target_link_libraries(${PROJECT_NAME}
+    PRIVATE
     ${METAL_FRAMEWORK}
     ${FOUNDATION_FRAMEWORK}
+  )
+  
+  target_compile_definitions(${PROJECT_NAME}
+    PRIVATE
+    WITH_METAL
+  )
+  
+  list(APPEND SOURCES
+    src/metal/metal_device.mm
+    src/metal/metal_allocator.mm
+    src/metal/metal_kernels.mm
   )
 endif()
 
@@ -699,7 +727,58 @@ if (WITH_TENSOR_PARALLEL AND CUDA_DYNAMIC_LOADING)
 endif()
 
 if(BUILD_TESTS)
-  add_subdirectory(tests)
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.12.1
+  )
+  # For Windows: Prevent overriding the parent project's compiler/linker settings
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
+
+  # Rename test file to .mm extension for Objective-C++ compilation
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/metal/test_metal_memory.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/tests/metal/test_metal_memory.mm
+    COPYONLY
+  )
+
+  add_executable(ctranslate2_test
+    ${CMAKE_CURRENT_BINARY_DIR}/tests/metal/test_metal_memory.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_utils.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_device.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_allocator.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_kernels.mm
+  )
+  
+  set_source_files_properties(
+    ${CMAKE_CURRENT_BINARY_DIR}/tests/metal/test_metal_memory.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_utils.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_device.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_allocator.mm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_kernels.mm
+    PROPERTIES
+    COMPILE_FLAGS "-x objective-c++"
+  )
+  
+  target_include_directories(ctranslate2_test
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_BINARY_DIR}
+  )
+  
+  target_link_libraries(ctranslate2_test 
+    PRIVATE 
+    ${PROJECT_NAME}
+    "-framework Metal"
+    "-framework Foundation"
+    GTest::gtest_main
+  )
+  
+  include(GoogleTest)
+  gtest_discover_tests(ctranslate2_test)
 endif()
 
 include(GNUInstallDirs)
