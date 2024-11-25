@@ -9,6 +9,7 @@
 #include "module.h"
 #include "utils.h"
 
+namespace py = pybind11;
 
 static std::unordered_set<std::string>
 get_supported_compute_types(const std::string& device_str, const int device_index) {
@@ -44,9 +45,7 @@ get_supported_compute_types(const std::string& device_str, const int device_inde
   return compute_types;
 }
 
-
-PYBIND11_MODULE(_ext, m)
-{
+PYBIND11_MODULE(_ext, m) {
   py::options options;
   options.disable_enum_members_docstring();
 

@@ -1,88 +1,101 @@
-import glob
 import os
+import platform
+import subprocess
 import sys
 
 import pybind11
+from setuptools import Extension, setup
+from setuptools.command.build_ext import build_ext
 
-from pybind11.setup_helpers import ParallelCompile
-from setuptools import Extension, find_packages, setup
+VERSION = "4.5.0"  # Fixed version number matching the installed library
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-include_dirs = [pybind11.get_include()]
-library_dirs = []
+include_dirs = [
+    pybind11.get_include(),
+    "/usr/local/include",  # System-installed CTranslate2 headers
+]
+library_dirs = ["/usr/local/lib"]  # System-installed CTranslate2 library
 
+libraries = ["ctranslate2"]
+extra_compile_args = []
+extra_link_args = []
 
-def _get_long_description():
-    readme_path = os.path.join(base_dir, "README.md")
-    if not os.path.exists(readme_path):
-        return ""
-    with open(readme_path, encoding="utf-8") as readme_file:
-        return readme_file.read()
+if platform.system() == "Darwin":
+    extra_compile_args += [
+        "-std=c++17",
+        "-mmacosx-version-min=10.14",
+        "-fvisibility=default",  # Make all symbols visible by default
+        "-undefined", "dynamic_lookup",  # Allow undefined symbols to be looked up at runtime
+    ]
+    extra_link_args += [
+        "-mmacosx-version-min=10.14",
+        "-Wl,-rpath,/usr/local/lib",  # Add rpath to find the library
+        "-Wl,-dead_strip_dylibs",  # Remove unused libraries
+        "-Wl,-bind_at_load",  # Bind all symbols at load time
+    ]
+    if platform.machine() == "arm64":
+        os.environ["ARCHFLAGS"] = "-arch arm64"
 
-
-def _get_project_version():
-    version_path = os.path.join(base_dir, "ctranslate2", "version.py")
-    version = {}
-    with open(version_path, encoding="utf-8") as fp:
-        exec(fp.read(), version)
-    return version["__version__"]
-
-
-def _maybe_add_library_root(lib_name):
-    if "%s_ROOT" % lib_name in os.environ:
-        root = os.environ["%s_ROOT" % lib_name]
-        include_dirs.append("%s/include" % root)
-        for lib_dir in ("lib", "lib64"):
-            path = "%s/%s" % (root, lib_dir)
-            if os.path.exists(path):
-                library_dirs.append(path)
-                break
-
-
-_maybe_add_library_root("CTRANSLATE2")
-
-cflags = ["-std=c++17", "-fvisibility=hidden"]
-ldflags = []
-package_data = {}
-if sys.platform == "darwin":
-    # std::visit requires macOS 10.14
-    cflags.append("-mmacosx-version-min=10.14")
-    ldflags.append("-Wl,-rpath,/usr/local/lib")
-elif sys.platform == "win32":
-    cflags = ["/std:c++17", "/d2FH4-"]
-    package_data["ctranslate2"] = ["*.dll"]
+class CustomBuildExt(build_ext):
+    """A custom build_ext command to add install_name_tool step."""
+    def run(self):
+        build_ext.run(self)
+        if platform.system() == "Darwin":
+            # Fix the library path in the extension
+            ext_path = self.get_ext_fullpath(self.extensions[0].name)
+            subprocess.check_call([
+                "install_name_tool",
+                "-change",
+                "@rpath/libctranslate2.4.dylib",
+                "/usr/local/lib/libctranslate2.4.dylib",
+                ext_path
+            ])
 
 ctranslate2_module = Extension(
     "ctranslate2._ext",
-    sources=glob.glob(os.path.join("cpp", "*.cc")),
-    extra_compile_args=cflags,
-    extra_link_args=ldflags,
+    sources=[
+        os.path.join("cpp", name)
+        for name in [
+            "module.cc",
+            "encoder.cc",
+            "execution_stats.cc",
+            "generation_result.cc",
+            "generator.cc",
+            "logging.cc",
+            "mpi.cc",
+            "scoring_result.cc",
+            "storage_view.cc",
+            "translation_result.cc",
+            "translator.cc",
+            "wav2vec2.cc",
+            "wav2vec2bert.cc",
+            "whisper.cc",  # Added whisper.cc
+        ]
+    ],
     include_dirs=include_dirs,
     library_dirs=library_dirs,
-    libraries=["ctranslate2"],
+    libraries=libraries,
+    extra_compile_args=extra_compile_args,
+    extra_link_args=extra_link_args,
+    language="c++",
 )
-
-ParallelCompile("CMAKE_BUILD_PARALLEL_LEVEL").install()
 
 setup(
     name="ctranslate2",
-    version=_get_project_version(),
+    version=VERSION,
     license="MIT",
     description="Fast inference engine for Transformer models",
-    long_description=_get_long_description(),
-    long_description_content_type="text/markdown",
     author="OpenNMT",
-    url="https://opennmt.net",
+    author_email="guillaume.klein@systrangroup.com",
+    url="https://github.com/OpenNMT/CTranslate2",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
-        "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.0",
-        "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.1",
-        "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.2",
+        "Environment :: GPU :: NVIDIA CUDA :: 11.0",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
@@ -91,21 +104,21 @@ setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     project_urls={
-        "Documentation": "https://opennmt.net/CTranslate2",
         "Forum": "https://forum.opennmt.net",
-        "Gitter": "https://gitter.im/OpenNMT/CTranslate2",
         "Source": "https://github.com/OpenNMT/CTranslate2",
     },
-    keywords="opennmt nmt neural machine translation cuda mkl inference quantization",
-    packages=find_packages(exclude=["bin"]),
-    package_data=package_data,
-    ext_modules=[ctranslate2_module],
-    python_requires=">=3.8",
+    python_requires=">=3.7",
+    setup_requires=[
+        "pybind11>=2.6.0",
+        "setuptools>=65",
+    ],
     install_requires=[
-        "setuptools",
         "numpy",
         "pyyaml>=5.3,<7",
     ],
+    packages=["ctranslate2"],
+    ext_modules=[ctranslate2_module],
+    cmdclass={"build_ext": CustomBuildExt},
     entry_points={
         "console_scripts": [
             "ct2-fairseq-converter=ctranslate2.converters.fairseq:main",

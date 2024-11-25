@@ -65,6 +65,12 @@ if(APPLE)
   else()
     message(FATAL_ERROR "Invalid OpenMP runtime ${OPENMP_RUNTIME}")
   endif()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xpreprocessor -fopenmp")
+  set(CMAKE_OBJCXX_FLAGS "${CMAKE_OBJCXX_FLAGS} -Xpreprocessor -fopenmp")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/homebrew/opt/libomp/lib")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -L/opt/homebrew/opt/libomp/lib -lomp")
+  include_directories("/opt/homebrew/opt/libomp/include")
+  link_directories("/opt/homebrew/opt/libomp/lib")
 else()
   set(OPENMP_RUNTIME "INTEL" CACHE STRING "OpenMP runtime (INTEL, LIBOMP, NONE)")
 endif()
@@ -722,6 +728,8 @@ target_include_directories(${PROJECT_NAME} BEFORE
   PRIVATE ${PRIVATE_INCLUDE_DIRECTORIES}
 )
 
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
 if (WITH_TENSOR_PARALLEL AND CUDA_DYNAMIC_LOADING)
   target_compile_options(${PROJECT_NAME} PRIVATE -DOMPI_SKIP_MPICXX)
 endif()
@@ -731,52 +739,27 @@ if(BUILD_TESTS)
   FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.12.1
+    GIT_TAG v1.13.0
   )
-  # For Windows: Prevent overriding the parent project's compiler/linker settings
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(googletest)
-
-  # Rename test file to .mm extension for Objective-C++ compilation
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests/metal/test_metal_memory.cc
-    ${CMAKE_CURRENT_BINARY_DIR}/tests/metal/test_metal_memory.mm
-    COPYONLY
-  )
+  enable_testing()
 
   add_executable(ctranslate2_test
-    ${CMAKE_CURRENT_BINARY_DIR}/tests/metal/test_metal_memory.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_utils.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_device.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_allocator.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_kernels.mm
+    tests/metal/test_metal_memory.mm
+    src/metal/metal_device.mm
+    src/metal/metal_utils.mm
+    src/metal/metal_allocator.mm
+    src/metal/metal_kernels.mm
   )
-  
-  set_source_files_properties(
-    ${CMAKE_CURRENT_BINARY_DIR}/tests/metal/test_metal_memory.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_utils.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_device.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_allocator.mm
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_kernels.mm
-    PROPERTIES
-    COMPILE_FLAGS "-x objective-c++"
-  )
-  
-  target_include_directories(ctranslate2_test
+
+  target_include_directories(ctranslate2_test PRIVATE ${PROJECT_SOURCE_DIR}/src)
+  target_link_libraries(ctranslate2_test
     PRIVATE
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_BINARY_DIR}
-  )
-  
-  target_link_libraries(ctranslate2_test 
-    PRIVATE 
-    ${PROJECT_NAME}
-    "-framework Metal"
-    "-framework Foundation"
     GTest::gtest_main
+    GTest::gmock_main
+    ${PROJECT_NAME}
   )
-  
+
   include(GoogleTest)
   gtest_discover_tests(ctranslate2_test)
 endif()

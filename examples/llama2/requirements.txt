@@ -1,4 +1,4 @@
-ctranslate2>=3.17.1,<4
+ctranslate2 @ file:///Users/christophbackhaus/Documents/GitHub/ctranslate2-metal@feature/apple-silicon
 sentencepiece
 transformers[torch]==4.31.*
 accelerate
