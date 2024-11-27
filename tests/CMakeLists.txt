@@ -14,10 +14,22 @@ add_executable(ctranslate2_test
   primitives_test.cc
   translator_test.cc
   test_utils.cc
+  metal_ops_test.cpp
   test.cc)
+
 target_include_directories(ctranslate2_test PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/../src
   )
+
+if(WITH_METAL)
+  target_compile_options(ctranslate2_test PRIVATE -x objective-c++)
+  target_link_libraries(ctranslate2_test
+    "-framework Metal"
+    "-framework Foundation"
+    "-framework MetalKit"
+    )
+endif()
+
 target_link_libraries(ctranslate2_test
   ${PROJECT_NAME}
   gtest_main

@@ -1,5 +1,77 @@
 [![CI](https://github.com/OpenNMT/CTranslate2/workflows/CI/badge.svg)](https://github.com/OpenNMT/CTranslate2/actions?query=workflow%3ACI) [![PyPI version](https://badge.fury.io/py/ctranslate2.svg)](https://badge.fury.io/py/ctranslate2) [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://opennmt.net/CTranslate2/) [![Gitter](https://badges.gitter.im/OpenNMT/CTranslate2.svg)](https://gitter.im/OpenNMT/CTranslate2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Forum](https://img.shields.io/discourse/status?server=https%3A%2F%2Fforum.opennmt.net%2F)](https://forum.opennmt.net/)
 
+# CTranslate2 Metal
+
+GPU acceleration for CTranslate2 using Apple's Metal framework, providing high-performance neural network inference on Apple Silicon and Intel Macs.
+
+## Features
+
+- **High Performance**: Direct Metal implementation for maximum performance and control
+- **Optimized for Modern macOS**: Uses MPS Graph API for optimized performance on macOS 13.0+
+- **Broad Compatibility**: Fallback implementations using custom Metal compute kernels for older macOS versions
+- **Full Neural Network Support**: Implements all necessary operations for transformer-based models
+- **Memory Efficient**: Optimized memory management for both unified and discrete GPUs
+
+## Implementation Details
+
+The implementation uses a layered approach to provide the best performance across different macOS versions:
+
+1. **MPS Graph API (macOS 13.0+)**
+   - Optimized graph-level operations
+   - Hardware-specific optimizations
+   - Automatic memory management
+   - Built-in operator fusion
+
+2. **Custom Metal Compute Kernels (All versions)**
+   - Direct GPU access for maximum control
+   - Custom optimized implementations
+   - Fine-grained memory management
+   - Fallback for older macOS versions
+
+3. **Hybrid Approach**
+   - Automatic selection of best implementation
+   - Seamless fallback mechanisms
+   - Performance profiling support
+
+## Building
+
+To build the project:
+
+```bash
+./build.sh
+```
+
+This will configure CMake with Metal support and build the project with all necessary dependencies.
+
+## Requirements
+
+- macOS 11.0 or later
+- Xcode 12.0 or later with Metal development tools
+- CMake 3.7 or later
+- C++17 compatible compiler
+
+## Testing
+
+The project includes comprehensive tests for both Metal and MPS implementations:
+
+```bash
+cd build && ctest --output-on-failure
+```
+
+## Contributing
+
+Contributions are welcome! Please read our contributing guidelines for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Apple's Metal and MPS teams for their excellent documentation and frameworks
+- The CTranslate2 team for the original implementation
+- All contributors who have helped improve this implementation
+
 # CTranslate2
 
 CTranslate2 is a C++ and Python library for efficient inference with Transformer models.

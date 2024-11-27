@@ -10,35 +10,18 @@ namespace ctranslate2 {
   namespace metal {
 
     namespace {
-      id<MTLLibrary> get_metal_library(id<MTLDevice> device) {
-        static NSString* kernelSource = [NSString stringWithContentsOfFile:@"metal_kernels.metal"
-                                                                encoding:NSUTF8StringEncoding
-                                                                   error:nil];
-        
-        NSError* error = nil;
-        id<MTLLibrary> library = [device newLibraryWithSource:kernelSource
-                                                    options:nil
-                                                      error:&error];
-        if (!library) {
-          throw std::runtime_error("Failed to create Metal library: " + std::string([[error localizedDescription] UTF8String]));
+      static id<MTLComputePipelineState> get_compute_pipeline(const MetalDevice& device, NSString* kernelName) {
+        id<MTLFunction> kernel_function = [device.getLibrary() newFunctionWithName:kernelName];
+        if (!kernel_function) {
+            throw std::runtime_error("Failed to find the Metal kernel function");
         }
-        return library;
-      }
 
-      id<MTLComputePipelineState> get_compute_pipeline(id<MTLDevice> device,
-                                                      NSString* kernelName) {
-        id<MTLLibrary> library = get_metal_library(device);
-        id<MTLFunction> kernel = [library newFunctionWithName:kernelName];
-        if (!kernel) {
-          throw std::runtime_error("Failed to create kernel: " + std::string([kernelName UTF8String]));
-        }
-        
         NSError* error = nil;
-        id<MTLComputePipelineState> pipelineState = [device newComputePipelineStateWithFunction:kernel
-                                                                                        error:&error];
+        id<MTLComputePipelineState> pipelineState = [device.getDevice() newComputePipelineStateWithFunction:kernel_function error:&error];
         if (!pipelineState) {
-          throw std::runtime_error("Failed to create pipeline state: " + std::string([[error localizedDescription] UTF8String]));
+            throw std::runtime_error("Failed to create compute pipeline state");
         }
+
         return pipelineState;
       }
     }
@@ -64,7 +47,7 @@ namespace ctranslate2 {
         // Set compute pipeline state
         NSString* kernelName = a_trans ? (b_trans ? @"gemm_tt" : @"gemm_tn") 
                                      : (b_trans ? @"gemm_nt" : @"gemm_nn");
-        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device.getMetalUtils().getDevice(), kernelName);
+        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device, kernelName);
         [computeEncoder setComputePipelineState:pipelineState];
         
         // Set buffers
@@ -136,7 +119,7 @@ namespace ctranslate2 {
         id<MTLComputeCommandEncoder> computeEncoder = [commandBuffer computeCommandEncoder];
         
         // Set compute pipeline state
-        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device.getMetalUtils().getDevice(), @"axpy");
+        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device, @"axpy");
         [computeEncoder setComputePipelineState:pipelineState];
         
         // Set buffers
@@ -191,7 +174,7 @@ namespace ctranslate2 {
         id<MTLComputeCommandEncoder> computeEncoder = [commandBuffer computeCommandEncoder];
         
         // Set compute pipeline state
-        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device.getMetalUtils().getDevice(), @"relu");
+        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device, @"relu");
         [computeEncoder setComputePipelineState:pipelineState];
         
         // Set buffers
@@ -241,7 +224,7 @@ namespace ctranslate2 {
         id<MTLComputeCommandEncoder> computeEncoder = [commandBuffer computeCommandEncoder];
         
         // Set compute pipeline state
-        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device.getMetalUtils().getDevice(), @"layer_norm");
+        id<MTLComputePipelineState> pipelineState = get_compute_pipeline(device, @"layer_norm");
         [computeEncoder setComputePipelineState:pipelineState];
         
         // Set buffers
