@@ -139,6 +139,9 @@ int main(int argc, char* argv[]) {
     if (args.count("cuda_compute_type"))
       compute_type = ctranslate2::str_to_compute_type(args["cuda_compute_type"].as<std::string>());
     break;
+  case ctranslate2::Device::METAL:
+    // Metal uses the default compute type
+    break;
   };
 
   ctranslate2::ReplicaPoolConfig pool_config;
