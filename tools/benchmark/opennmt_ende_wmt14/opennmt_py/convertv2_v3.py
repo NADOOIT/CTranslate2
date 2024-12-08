@@ -56,9 +56,7 @@ if __name__ == "__main__":
     multifields = multifield.fields
     _, fields = multifields[0]
     voc = fields.vocab.__dict__["itos"]
-    src_vocab = pyonmttok.build_vocab_from_tokens(
-        voc, maximum_size=0, minimum_frequency=1
-    )
+    src_vocab = pyonmttok.build_vocab_from_tokens(voc, maximum_size=0, minimum_frequency=1)
     src_vocab.default_id = src_vocab[DefaultTokens.UNK]
     vocabs["src"] = src_vocab
     print("Source vocab size is:", len(src_vocab))
@@ -66,9 +64,7 @@ if __name__ == "__main__":
     multifields = multifield.fields
     _, fields = multifields[0]
     voc = fields.vocab.__dict__["itos"]
-    tgt_vocab = pyonmttok.build_vocab_from_tokens(
-        voc, maximum_size=0, minimum_frequency=1
-    )
+    tgt_vocab = pyonmttok.build_vocab_from_tokens(voc, maximum_size=0, minimum_frequency=1)
     tgt_vocab.default_id = src_vocab[DefaultTokens.UNK]
     vocabs["tgt"] = tgt_vocab
     print("Target vocab size is:", len(tgt_vocab))
@@ -79,9 +75,7 @@ if __name__ == "__main__":
         vocabs["data_task"] = "seq2seq"
     checkpoint["vocab"] = vocabs_to_dict(vocabs)
 
-    checkpoint["opt"].__dict__["hidden_size"] = checkpoint["opt"].__dict__.pop(
-        "rnn_size"
-    )
+    checkpoint["opt"].__dict__["hidden_size"] = checkpoint["opt"].__dict__.pop("rnn_size")
 
     checkpoint["opt"].__dict__["add_qkvbias"] = True
 

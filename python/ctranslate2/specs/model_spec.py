@@ -136,8 +136,7 @@ class LayerSpec(FrozenAttr, metaclass=FrozenMeta):
 
         if unset_attributes:
             raise ValueError(
-                "Some required model attributes are not set:\n\n%s"
-                % "\n".join(unset_attributes)
+                "Some required model attributes are not set:\n\n%s" % "\n".join(unset_attributes)
             )
 
     def variables(
@@ -213,9 +212,7 @@ class LayerSpec(FrozenAttr, metaclass=FrozenMeta):
                     scale = np.float32(2**10 / np.amax(np.absolute(value)))
                     value *= scale
                     value = np.rint(value)
-                    value = np.clip(
-                        value, np.iinfo(np.int16).min, np.iinfo(np.int16).max
-                    )
+                    value = np.clip(value, np.iinfo(np.int16).min, np.iinfo(np.int16).max)
                     value = value.astype(np.int16)
                     scale = NumpyVariable(scale)
                     value = NumpyVariable(value)
@@ -284,8 +281,7 @@ def _dtype_to_type_id(object_dtype):
         return dtypes.index(object_dtype)
     except ValueError:
         raise ValueError(
-            "%s is not in list of supported dtypes: %s"
-            % (object_dtype, ", ".join(dtypes))
+            "%s is not in list of supported dtypes: %s" % (object_dtype, ", ".join(dtypes))
         )
 
 
@@ -299,11 +295,7 @@ class ModelConfig(FrozenAttr, metaclass=FrozenMeta):
 
     def to_dict(self):
         """Returns the configuration as a dictionary."""
-        return {
-            key: value
-            for key, value in self.__dict__.items()
-            if not key.startswith("_")
-        }
+        return {key: value for key, value in self.__dict__.items() if not key.startswith("_")}
 
     def add_attribute(self, key, value):
         self.__dict__[key] = value
@@ -374,9 +366,7 @@ class ModelSpec(LayerSpec):
         for filename, path in self._files.items():
             destination = os.path.join(output_dir, filename)
             if os.path.exists(destination):
-                raise RuntimeError(
-                    "File %s already exists in the model directory" % destination
-                )
+                raise RuntimeError("File %s already exists in the model directory" % destination)
             shutil.copy(path, destination)
 
     def _serialize(self, path):
@@ -531,8 +521,7 @@ class SequenceToSequenceModelSpec(ModelSpec):
                 if len(vocabulary) != expected_size:
                     raise ValueError(
                         "%s vocabulary %d has size %d but the model expected a vocabulary "
-                        "of size %d"
-                        % (name.capitalize(), i, len(vocabulary), expected_size)
+                        "of size %d" % (name.capitalize(), i, len(vocabulary), expected_size)
                     )
 
     def save(self, output_dir: str) -> None:
@@ -695,9 +684,7 @@ class NumpyVariable(Variable):
     def _to(self, dtype: str) -> Variable:
         if dtype == "bfloat16":
             if not torch_is_available:
-                raise RuntimeError(
-                    "Converting to bfloat16 requires torch to be installed"
-                )
+                raise RuntimeError("Converting to bfloat16 requires torch to be installed")
             return PyTorchVariable.from_numpy(self.array).to(dtype)
 
         dtype = np.dtype(dtype)

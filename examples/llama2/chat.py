@@ -121,9 +121,7 @@ def build_prompt(sp, dialog):
         [],
     )
 
-    assert (
-        dialog[-1]["role"] == "user"
-    ), f"Last message must be from user, got {dialog[-1]['role']}"
+    assert dialog[-1]["role"] == "user", f"Last message must be from user, got {dialog[-1]['role']}"
 
     dialog_tokens += ["<s>"] + sp.encode_as_pieces(
         f"{B_INST} {(dialog[-1]['content']).strip()} {E_INST}"

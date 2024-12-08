@@ -110,11 +110,7 @@ def document_module(module, module_path, module_map, output_dir):
         symbol_path = "%s.%s" % (module_path, symbol_name)
         if inspect.isclass(symbol):
             classes.append((symbol, symbol_path))
-        elif (
-            inspect.isfunction(symbol)
-            or inspect.ismethod(symbol)
-            or inspect.isroutine(symbol)
-        ):
+        elif inspect.isfunction(symbol) or inspect.ismethod(symbol) or inspect.isroutine(symbol):
             functions.append(symbol_path)
         elif inspect.ismodule(symbol):
             submodules.append((symbol_path, symbol))
@@ -132,15 +128,11 @@ def document_module(module, module_path, module_map, output_dir):
         if classes:
             for class_info in annotate_classes(classes):
                 base = class_info["parent"]
-                base_path = module_map.get(
-                    base, "%s.%s" % (base.__module__, base.__name__)
-                )
+                base_path = module_map.get(base, "%s.%s" % (base.__module__, base.__name__))
                 children_paths = class_info["children"]
                 if children_paths:
                     children_paths = [
-                        module_map.get(
-                            child, "%s.%s" % (child.__module__, child.__name__)
-                        )
+                        module_map.get(child, "%s.%s" % (child.__module__, child.__name__))
                         for child in children_paths
                     ]
                 class_path = class_info["path"]
@@ -164,9 +156,7 @@ def document_module(module, module_path, module_map, output_dir):
 
         if submodules:
             for submodule_path, submodule in submodules:
-                modules.extend(
-                    document_module(submodule, submodule_path, module_map, output_dir)
-                )
+                modules.extend(document_module(submodule, submodule_path, module_map, output_dir))
 
         return modules
 

@@ -51,8 +51,7 @@ def _monitor_container(container, poll_interval=1, use_gpu=False):
     if result is not None and result["StatusCode"] != 0:
         stderr = container.logs(stdout=False).decode("utf-8")
         raise RuntimeError(
-            "Container exited with status code %d:\n\n%s"
-            % (result["StatusCode"], stderr)
+            "Container exited with status code %d:\n\n%s" % (result["StatusCode"], stderr)
         )
 
     return max_cpu_mem, max_gpu_mem
@@ -98,9 +97,7 @@ def _start_translation(
 
     if use_gpu:
         device = "GPU"
-        if docker_major_version < 19 or (
-            docker_major_version == 19 and docker_minor_version < 3
-        ):
+        if docker_major_version < 19 or (docker_major_version == 19 and docker_minor_version < 3):
             kwargs["runtime"] = "nvidia"
         else:
             kwargs["device_requests"] = [
@@ -257,9 +254,7 @@ def benchmark_image(
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--num_samples",
         type=int,

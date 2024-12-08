@@ -241,9 +241,7 @@ def test_transformers_dtype(clear_transformers_cache, tmp_dir):
 
 @test_utils.only_on_linux
 def test_transformers_marianmt_vocabulary(clear_transformers_cache, tmp_dir):
-    converter = ctranslate2.converters.TransformersConverter(
-        "Helsinki-NLP/opus-mt-en-de"
-    )
+    converter = ctranslate2.converters.TransformersConverter("Helsinki-NLP/opus-mt-en-de")
     output_dir = str(tmp_dir.join("ctranslate2_model"))
     output_dir = converter.convert(output_dir)
 
@@ -256,12 +254,8 @@ def test_transformers_marianmt_vocabulary(clear_transformers_cache, tmp_dir):
 
 @test_utils.only_on_linux
 @pytest.mark.parametrize("beam_size", [1, 2])
-def test_transformers_marianmt_disable_unk(
-    clear_transformers_cache, tmp_dir, beam_size
-):
-    converter = ctranslate2.converters.TransformersConverter(
-        "Helsinki-NLP/opus-mt-en-roa"
-    )
+def test_transformers_marianmt_disable_unk(clear_transformers_cache, tmp_dir, beam_size):
+    converter = ctranslate2.converters.TransformersConverter("Helsinki-NLP/opus-mt-en-roa")
     output_dir = str(tmp_dir.join("ctranslate2_model"))
     output_dir = converter.convert(output_dir)
 
@@ -302,9 +296,7 @@ def test_transformers_encoder(clear_transformers_cache, tmp_dir, device, model_n
     mask = inputs.attention_mask.unsqueeze(-1).cpu().numpy()
     ref_last_hidden_state = outputs.last_hidden_state.cpu().numpy()
     ref_pooler_output = (
-        outputs.pooler_output.cpu().numpy()
-        if hasattr(outputs, "pooler_output")
-        else None
+        outputs.pooler_output.cpu().numpy() if hasattr(outputs, "pooler_output") else None
     )
 
     converter = ctranslate2.converters.TransformersConverter(model_name)
@@ -321,16 +313,12 @@ def test_transformers_encoder(clear_transformers_cache, tmp_dir, device, model_n
 
     last_hidden_state *= mask
     ref_last_hidden_state *= mask
-    np.testing.assert_array_almost_equal(
-        last_hidden_state, ref_last_hidden_state, decimal=5
-    )
+    np.testing.assert_array_almost_equal(last_hidden_state, ref_last_hidden_state, decimal=5)
 
     if ref_pooler_output is not None:
         pooler_output = _to_numpy(outputs.pooler_output, device)
         assert pooler_output.shape == ref_pooler_output.shape
-        np.testing.assert_array_almost_equal(
-            pooler_output, ref_pooler_output, decimal=5
-        )
+        np.testing.assert_array_almost_equal(pooler_output, ref_pooler_output, decimal=5)
 
 
 def _to_numpy(storage, device):
@@ -356,9 +344,7 @@ def test_transformers_gptbigcode(clear_transformers_cache, tmp_dir):
     )
 
 
-def _check_generator_logits(
-    tmp_dir, model_name, hf_model_class, hf_tokenizer_class, input_text
-):
+def _check_generator_logits(tmp_dir, model_name, hf_model_class, hf_tokenizer_class, input_text):
     import torch
 
     model = hf_model_class.from_pretrained(model_name)
@@ -414,9 +400,7 @@ class TestGeneration:
     @test_utils.on_available_devices
     @pytest.mark.parametrize("return_log_probs", [True, False])
     @pytest.mark.parametrize("tensor_input", [True, False])
-    def test_transformers_lm_forward(
-        self, tmp_dir, device, return_log_probs, tensor_input
-    ):
+    def test_transformers_lm_forward(self, tmp_dir, device, return_log_probs, tensor_input):
         import torch
         import transformers
 
@@ -539,12 +523,8 @@ class TestGeneration:
         assert len(result_w_prompt.sequences[0]) == max_length
         assert tokens + result_wo_prompt.sequences[0] == result_w_prompt.sequences[0]
 
-        cum_score_wo_prompt = result_wo_prompt.scores[0] * (
-            len(result_wo_prompt.sequences[0])
-        )
-        cum_score_w_prompt = result_w_prompt.scores[0] * (
-            len(result_w_prompt.sequences[0]) - 1
-        )
+        cum_score_wo_prompt = result_wo_prompt.scores[0] * (len(result_wo_prompt.sequences[0]))
+        cum_score_w_prompt = result_w_prompt.scores[0] * (len(result_w_prompt.sequences[0]) - 1)
 
         assert cum_score_wo_prompt == pytest.approx(cum_score_w_prompt, abs=1e-3)
 
@@ -605,8 +585,7 @@ class TestGeneration:
         )[0]
 
         assert (
-            expected_result.sequences[0][:2] + result.sequences[0]
-            == expected_result.sequences[0]
+            expected_result.sequences[0][:2] + result.sequences[0] == expected_result.sequences[0]
         )
 
         batch_results = generator.generate_batch(
@@ -661,9 +640,7 @@ class TestGeneration:
         assert ids == expected_result.sequences_ids[0]
 
         if return_log_prob:
-            assert cum_log_probs / len(ids) == pytest.approx(
-                expected_result.scores[0], abs=1e-5
-            )
+            assert cum_log_probs / len(ids) == pytest.approx(expected_result.scores[0], abs=1e-5)
 
     @test_utils.only_on_linux
     def test_transformers_generator_token_streaming_early_stop(self, tmp_dir):
@@ -807,9 +784,7 @@ class TestWhisper:
             return_no_speech_prob=True,
         )
 
-        timestamp_begin = (
-            processor.tokenizer.convert_tokens_to_ids("<|notimestamps|>") + 1
-        )
+        timestamp_begin = processor.tokenizer.convert_tokens_to_ids("<|notimestamps|>") + 1
 
         for prompt, result, expected_transcription, expected_no_speech_prob in zip(
             prompts, results, expected_transcriptions, expected_no_speech_probs
@@ -825,18 +800,14 @@ class TestWhisper:
                     assert tokens[-1] >= timestamp_begin
                     assert tokens[-1] > tokens[0]
 
-            token_ids = list(
-                filter(lambda token: token < timestamp_begin, result.sequences_ids[0])
-            )
+            token_ids = list(filter(lambda token: token < timestamp_begin, result.sequences_ids[0]))
 
             transcription = processor.decode(token_ids)
             assert transcription == expected_transcription
 
     @test_utils.only_on_linux
     @test_utils.on_available_devices
-    @pytest.mark.parametrize(
-        "test_names", [["jfk"], ["jfk", "jfk"], ["mr_quilter", "jfk"]]
-    )
+    @pytest.mark.parametrize("test_names", [["jfk"], ["jfk", "jfk"], ["mr_quilter", "jfk"]])
     def test_transformers_whisper_align(self, tmp_dir, device, test_names):
         import transformers
 
@@ -876,9 +847,7 @@ class TestWhisper:
                 test_case["expected_text_token_probs_sum"], abs=1e-3
             )
 
-            assert result.alignments == [
-                tuple(pair) for pair in test_case["expected_alignments"]
-            ]
+            assert result.alignments == [tuple(pair) for pair in test_case["expected_alignments"]]
 
     @test_utils.only_on_linux
     @test_utils.on_available_devices
@@ -924,9 +893,7 @@ class TestWhisper:
         audio = np.load(audio_path)
 
         processor = transformers.WhisperProcessor.from_pretrained(model_name)
-        inputs = processor(
-            audio, padding=False, return_tensors="np", sampling_rate=16000
-        )
+        inputs = processor(audio, padding=False, return_tensors="np", sampling_rate=16000)
         features = ctranslate2.StorageView.from_array(inputs.input_features)
 
         model = ctranslate2.models.Whisper(output_dir)
@@ -974,17 +941,13 @@ class TestWav2Vec2:
         import torch
         import transformers
 
-        converter = ctranslate2.converters.TransformersConverter(
-            model_name, load_as_float16="int8"
-        )
+        converter = ctranslate2.converters.TransformersConverter(model_name, load_as_float16="int8")
         output_dir = str(tmp_dir.join("ctranslate2_model"))
         output_dir = converter.convert(output_dir)
 
         w2v2_processor = transformers.Wav2Vec2Processor.from_pretrained(model_name)
         w2v2_processor.save_pretrained(output_dir + "/wav2vec2_processor")
-        processor = transformers.AutoProcessor.from_pretrained(
-            output_dir + "/wav2vec2_processor"
-        )
+        processor = transformers.AutoProcessor.from_pretrained(output_dir + "/wav2vec2_processor")
 
         device = "cuda" if os.environ.get("CUDA_VISIBLE_DEVICES") else "cpu"
         cpu_threads = int(os.environ.get("OMP_NUM_THREADS", 0))
@@ -997,9 +960,7 @@ class TestWav2Vec2:
             inter_threads=1,
         )
 
-        speech_array = np.load(
-            os.path.join(test_utils.get_data_dir(), "audio", "mr_quilter.npy")
-        )
+        speech_array = np.load(os.path.join(test_utils.get_data_dir(), "audio", "mr_quilter.npy"))
         input_values = processor(
             speech_array,
             padding=True,
@@ -1014,9 +975,7 @@ class TestWav2Vec2:
         if model.device == "cuda":
             logits = torch.as_tensor(output, device=model.device)[0]
         else:
-            logits = torch.as_tensor(
-                np.array(output), dtype=torch.float32, device=model.device
-            )[0]
+            logits = torch.as_tensor(np.array(output), dtype=torch.float32, device=model.device)[0]
 
         predicted_ids = torch.argmax(logits, dim=-1)
         transcription = processor.decode(predicted_ids, output_word_offsets=True)
@@ -1054,17 +1013,13 @@ class TestWav2Vec2Bert:
         import torch
         import transformers
 
-        converter = ctranslate2.converters.TransformersConverter(
-            model_name, load_as_float16="int8"
-        )
+        converter = ctranslate2.converters.TransformersConverter(model_name, load_as_float16="int8")
         output_dir = str(tmp_dir.join("ctranslate2_model"))
         output_dir = converter.convert(output_dir)
 
         w2v2_processor = transformers.Wav2Vec2BertProcessor.from_pretrained(model_name)
         w2v2_processor.save_pretrained(output_dir + "/wav2vec2_processor")
-        processor = transformers.AutoProcessor.from_pretrained(
-            output_dir + "/wav2vec2_processor"
-        )
+        processor = transformers.AutoProcessor.from_pretrained(output_dir + "/wav2vec2_processor")
 
         device = "cuda" if os.environ.get("CUDA_VISIBLE_DEVICES") else "cpu"
         cpu_threads = int(os.environ.get("OMP_NUM_THREADS", 0))
@@ -1077,9 +1032,7 @@ class TestWav2Vec2Bert:
             inter_threads=1,
         )
 
-        speech_array = np.load(
-            os.path.join(test_utils.get_data_dir(), "audio", "mr_quilter.npy")
-        )
+        speech_array = np.load(os.path.join(test_utils.get_data_dir(), "audio", "mr_quilter.npy"))
         input_values = processor(
             [speech_array],
             padding=True,
@@ -1094,9 +1047,7 @@ class TestWav2Vec2Bert:
         if model.device == "cuda":
             logits = torch.as_tensor(output, device=model.device)[0]
         else:
-            logits = torch.as_tensor(
-                np.array(output), dtype=torch.float32, device=model.device
-            )[0]
+            logits = torch.as_tensor(np.array(output), dtype=torch.float32, device=model.device)[0]
 
         predicted_ids = torch.argmax(logits, dim=-1)
         transcription = processor.decode(predicted_ids, output_word_offsets=True)

@@ -22,18 +22,14 @@ class OpenAIGPT2Converter(Converter):
 
         reader = tf.train.load_checkpoint(self._model_dir)
         weights = {
-            name: reader.get_tensor(name)
-            for name in reader.get_variable_to_shape_map().keys()
+            name: reader.get_tensor(name) for name in reader.get_variable_to_shape_map().keys()
         }
 
         with open(os.path.join(self._model_dir, "hparams.json")) as hparams_file:
             hparams = json.load(hparams_file)
         with open(os.path.join(self._model_dir, "encoder.json")) as vocab_file:
             vocab = json.load(vocab_file)
-            vocab = [
-                token
-                for token, index in sorted(vocab.items(), key=lambda item: item[1])
-            ]
+            vocab = [token for token, index in sorted(vocab.items(), key=lambda item: item[1])]
 
         spec = transformer_spec.TransformerDecoderModelSpec.from_config(
             hparams["n_layer"],
@@ -79,12 +75,8 @@ def set_layer(spec, weights, scope):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
-    parser.add_argument(
-        "--model_dir", required=True, help="Path to the model directory."
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--model_dir", required=True, help="Path to the model directory.")
     Converter.declare_arguments(parser)
     args = parser.parse_args()
     converter = OpenAIGPT2Converter(args.model_dir)

@@ -153,9 +153,7 @@ class FairseqConverter(Converter):
             if self._fixed_dictionary is not None:
                 args.fixed_dictionary = self._fixed_dictionary
             if hasattr(args, "lang_dict") and args.lang_dict:
-                args.lang_dict = os.path.join(
-                    self._data_dir, os.path.basename(args.lang_dict)
-                )
+                args.lang_dict = os.path.join(self._data_dir, os.path.basename(args.lang_dict))
 
             if self._source_lang is not None:
                 args.source_lang = self._source_lang
@@ -294,9 +292,7 @@ def set_position_encodings(spec, module):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--model_path", required=True, help="Model path.")
     parser.add_argument(
         "--data_dir",

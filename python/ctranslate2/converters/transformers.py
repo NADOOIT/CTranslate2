@@ -124,9 +124,7 @@ class TransformersConverter(Converter):
 
             kwargs = {
                 "torch_dtype": (
-                    torch.float16
-                    if self._load_as_float16
-                    else getattr(config, "torch_dtype", None)
+                    torch.float16 if self._load_as_float16 else getattr(config, "torch_dtype", None)
                 )
             }
 
@@ -150,9 +148,7 @@ class TransformersConverter(Converter):
             spec = loader(model, tokenizer)
 
             if self._activation_scales:
-                activation_scales = torch.load(
-                    self._activation_scales, map_location="cpu"
-                )
+                activation_scales = torch.load(self._activation_scales, map_location="cpu")
                 loader.smooth_activation(spec, activation_scales)
 
             if self._copy_files:
@@ -180,8 +176,7 @@ class TransformersConverter(Converter):
 
         if path is None or not os.path.isfile(path):
             raise ValueError(
-                "File %s does not exist in model %s"
-                % (filename, self._model_name_or_path)
+                "File %s does not exist in model %s" % (filename, self._model_name_or_path)
             )
 
         return path
@@ -209,10 +204,7 @@ class ModelLoader(abc.ABC):
 
     def get_vocabulary(self, model, tokenizer):
         return [
-            token
-            for token, _ in sorted(
-                tokenizer.get_vocab().items(), key=lambda item: item[1]
-            )
+            token for token, _ in sorted(tokenizer.get_vocab().items(), key=lambda item: item[1])
         ]
 
     def set_vocabulary(self, spec, tokens):
@@ -248,9 +240,7 @@ class ModelLoader(abc.ABC):
             spec.encodings = spec.encodings[offset:]
 
     def smooth_activation(self, spec, activation_scales):
-        raise NotImplementedError(
-            "No activation smoothing logic is defined for this model"
-        )
+        raise NotImplementedError("No activation smoothing logic is defined for this model")
 
 
 @register_loader("BartConfig")
@@ -361,21 +351,13 @@ class BartLoader(ModelLoader):
         import math
 
         if not hasattr(module, "embed_scale"):
-            embed_scale = (
-                math.sqrt(module.config.d_model)
-                if module.config.scale_embedding
-                else 1.0
-            )
+            embed_scale = math.sqrt(module.config.d_model) if module.config.scale_embedding else 1.0
         else:
             embed_scale = module.embed_scale
         spec.scale_embeddings = embed_scale
         self.set_position_encodings(spec.position_encodings, module.embed_positions)
         self.set_embeddings(
-            (
-                spec.embeddings[0]
-                if isinstance(spec.embeddings, list)
-                else spec.embeddings
-            ),
+            (spec.embeddings[0] if isinstance(spec.embeddings, list) else spec.embeddings),
             module.embed_tokens,
         )
 
@@ -870,12 +852,8 @@ class GPTNeoXLoader(ModelLoader):
                     layer_spec.post_attention_layer_norm, layer.post_attention_layernorm
                 )
             else:
-                self.set_layer_norm(
-                    layer_spec.self_attention.layer_norm, layer.input_layernorm
-                )
-                self.set_layer_norm(
-                    layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-                )
+                self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
+                self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
 
             qkv_w = layer.attention.query_key_value.weight
             qkv_b = layer.attention.query_key_value.bias
@@ -969,10 +947,7 @@ class WhisperLoader(BartLoader):
         tokens = super().get_vocabulary(model, tokenizer)
 
         # Add timestamp tokens.
-        tokens.extend(
-            "<|%.2f|>" % (i * 0.02)
-            for i in range(model.config.vocab_size - len(tokens))
-        )
+        tokens.extend("<|%.2f|>" % (i * 0.02) for i in range(model.config.vocab_size - len(tokens)))
 
         return tokens
 
@@ -1036,9 +1011,7 @@ class Wav2Vec2Loader(BartLoader):
         self.set_layer_norm(
             spec.feat_layer0.layer_norm, feature_extractor.conv_layers[0].layer_norm
         )
-        for spec_layer, module_layer in zip(
-            spec.feat_layer, feature_extractor.conv_layers[1:]
-        ):
+        for spec_layer, module_layer in zip(spec.feat_layer, feature_extractor.conv_layers[1:]):
             spec_layer.conv.weight = module_layer.conv.weight
             spec_layer.conv.bias = module_layer.conv.bias
             self.set_layer_norm(spec_layer.layer_norm, module_layer.layer_norm)
@@ -1050,9 +1023,7 @@ class Wav2Vec2Loader(BartLoader):
     def set_pos_conv_embed(self, spec, encoder, config):
         # forcing parameters to be set because some transformers version initializes garbage numbers
         # conv parameters are float16 so force float32 for the loading
-        encoder.pos_conv_embed.conv.weight.data = (
-            encoder.pos_conv_embed.conv.weight.data.float()
-        )
+        encoder.pos_conv_embed.conv.weight.data = encoder.pos_conv_embed.conv.weight.data.float()
         encoder.pos_conv_embed.conv.bias.data = encoder.pos_conv_embed.conv.bias.float()
         for param in encoder.pos_conv_embed.parameters():
             param.data = param.data.float()
@@ -1098,9 +1069,7 @@ class Wav2Vec2BertLoader(BartLoader):
         self.set_layer_norm(spec.fp_layer_norm, feature_projection.layer_norm)
         self.set_linear(spec.fp_projection, feature_projection.projection)
 
-    def set_attention(
-        self, spec, attention, left_max_position=None, right_max_position=None
-    ):
+    def set_attention(self, spec, attention, left_max_position=None, right_max_position=None):
         split_layers = [common_spec.LinearSpec() for _ in range(3)]
         self.set_linear(split_layers[0], attention.linear_q)
         self.set_linear(split_layers[1], attention.linear_k)
@@ -1110,13 +1079,9 @@ class Wav2Vec2BertLoader(BartLoader):
         if left_max_position or right_max_position:
             spec.relative_asymmetric_position_keys = attention.distance_embedding.weight
             spec.relative_left_max_position = np.dtype("int32").type(left_max_position)
-            spec.relative_right_max_position = np.dtype("int32").type(
-                right_max_position
-            )
+            spec.relative_right_max_position = np.dtype("int32").type(right_max_position)
 
-    def set_wav2vec2bert_encoder(
-        self, spec_layers, layers, left_max_position, right_max_position
-    ):
+    def set_wav2vec2bert_encoder(self, spec_layers, layers, left_max_position, right_max_position):
         for slayer, layer in zip(spec_layers, layers):
             self.set_layer_norm(slayer.enc_ffn1_layer_norm, layer.ffn1_layer_norm)
             self.set_linear(slayer.enc_ffn1.linear_0, layer.ffn1.intermediate_dense)
@@ -1125,22 +1090,14 @@ class Wav2Vec2BertLoader(BartLoader):
                 slayer.enc_attn, layer.self_attn, left_max_position, right_max_position
             )
             self.set_layer_norm(slayer.enc_attn_layer_norm, layer.self_attn_layer_norm)
-            self.set_layer_norm(
-                slayer.enc_conv_layer_norm, layer.conv_module.layer_norm
-            )
-            self.set_conv1d(
-                slayer.enc_conv_pointwise_conv1, layer.conv_module.pointwise_conv1
-            )
-            self.set_conv1d(
-                slayer.enc_conv_depthwise_conv, layer.conv_module.depthwise_conv
-            )
+            self.set_layer_norm(slayer.enc_conv_layer_norm, layer.conv_module.layer_norm)
+            self.set_conv1d(slayer.enc_conv_pointwise_conv1, layer.conv_module.pointwise_conv1)
+            self.set_conv1d(slayer.enc_conv_depthwise_conv, layer.conv_module.depthwise_conv)
             self.set_layer_norm(
                 slayer.enc_conv_depthwise_layer_norm,
                 layer.conv_module.depthwise_layer_norm,
             )
-            self.set_conv1d(
-                slayer.enc_conv_pointwise_conv2, layer.conv_module.pointwise_conv2
-            )
+            self.set_conv1d(slayer.enc_conv_pointwise_conv2, layer.conv_module.pointwise_conv2)
             self.set_layer_norm(slayer.enc_ffn2_layer_norm, layer.ffn2_layer_norm)
             self.set_linear(slayer.enc_ffn2.linear_0, layer.ffn2.intermediate_dense)
             self.set_linear(slayer.enc_ffn2.linear_1, layer.ffn2.output_dense)
@@ -1148,9 +1105,7 @@ class Wav2Vec2BertLoader(BartLoader):
 
     def set_wav2vec2bert_adapter(self, spec_layers, layers):
         for slayer, layer in zip(spec_layers, layers):
-            self.set_layer_norm(
-                slayer.adpt_residual_layer_norm, layer.residual_layer_norm
-            )
+            self.set_layer_norm(slayer.adpt_residual_layer_norm, layer.residual_layer_norm)
             self.set_conv1d(slayer.adpt_residual_conv, layer.residual_conv)
             self.set_layer_norm(slayer.adpt_attn_layer_norm, layer.self_attn_layer_norm)
             self.set_conv1d(slayer.adpt_attn_conv, layer.self_attn_conv)
@@ -1167,9 +1122,7 @@ class Wav2Vec2BertLoader(BartLoader):
             model.wav2vec2_bert.config.left_max_position_embeddings,
             model.wav2vec2_bert.config.right_max_position_embeddings,
         )
-        self.set_wav2vec2bert_adapter(
-            spec.adapter_layers, model.wav2vec2_bert.adapter.layers
-        )
+        self.set_wav2vec2bert_adapter(spec.adapter_layers, model.wav2vec2_bert.adapter.layers)
         self.set_linear(spec.lm_head, model.lm_head)
 
     def set_conv1d(self, spec, module):
@@ -1236,11 +1189,7 @@ class T5Loader(ModelLoader):
     def set_stack(self, spec, module, is_decoder=False):
         self.set_layer_norm(spec.layer_norm, module.final_layer_norm)
         self.set_embeddings(
-            (
-                spec.embeddings[0]
-                if isinstance(spec.embeddings, list)
-                else spec.embeddings
-            ),
+            (spec.embeddings[0] if isinstance(spec.embeddings, list) else spec.embeddings),
             module.embed_tokens,
         )
 
@@ -1360,21 +1309,15 @@ class BloomLoader(ModelLoader):
         self.set_layer_norm(spec.layer_norm, module.ln_f)
 
         for layer_spec, layer in zip(spec.layer, module.h):
-            self.set_layer_norm(
-                layer_spec.self_attention.layer_norm, layer.input_layernorm
-            )
+            self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
             self.set_qkv_linear(
                 layer_spec.self_attention.linear[0],
                 layer.self_attention.query_key_value,
                 layer.self_attention.num_heads,
             )
-            self.set_linear(
-                layer_spec.self_attention.linear[1], layer.self_attention.dense
-            )
+            self.set_linear(layer_spec.self_attention.linear[1], layer.self_attention.dense)
 
-            self.set_layer_norm(
-                layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-            )
+            self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
             self.set_linear(layer_spec.ffn.linear_0, layer.mlp.dense_h_to_4h)
             self.set_linear(layer_spec.ffn.linear_1, layer.mlp.dense_4h_to_h)
 
@@ -1463,9 +1406,7 @@ class GemmaLoader(ModelLoader):
         if num_heads_kv == num_heads:
             num_heads_kv = None
 
-        activation_config = getattr(
-            model.config, "hidden_activation", "gelu_pytorch_tanh"
-        )
+        activation_config = getattr(model.config, "hidden_activation", "gelu_pytorch_tanh")
 
         spec = transformer_spec.TransformerDecoderModelSpec.from_config(
             num_layers,
@@ -1521,12 +1462,8 @@ class GemmaLoader(ModelLoader):
         self.set_layer_norm(spec.layer_norm, module.norm)
 
         for layer_spec, layer in zip(spec.layer, module.layers):
-            self.set_layer_norm(
-                layer_spec.self_attention.layer_norm, layer.input_layernorm
-            )
-            self.set_layer_norm(
-                layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-            )
+            self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
+            self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
 
             wq = layer.self_attn.q_proj.weight
             wk = layer.self_attn.k_proj.weight
@@ -1559,9 +1496,7 @@ class Gemma2Loader(ModelLoader):
         if num_heads_kv == num_heads:
             num_heads_kv = None
 
-        activation_config = getattr(
-            model.config, "hidden_activation", "gelu_pytorch_tanh"
-        )
+        activation_config = getattr(model.config, "hidden_activation", "gelu_pytorch_tanh")
 
         spec = transformer_spec.TransformerDecoderModelSpec.from_config(
             num_layers,
@@ -1724,12 +1659,8 @@ class LlamaLoader(ModelLoader):
         # set extra RoPE parameters for Llama-3.1
         if rotary_scaling_type == attention_spec.RotaryScalingType.Llama3:
             for layer in spec.decoder.layer:
-                layer.self_attention.rotary_low_freq_factor = rope_scaling[
-                    "low_freq_factor"
-                ]
-                layer.self_attention.rotary_high_freq_factor = rope_scaling[
-                    "high_freq_factor"
-                ]
+                layer.self_attention.rotary_low_freq_factor = rope_scaling["low_freq_factor"]
+                layer.self_attention.rotary_high_freq_factor = rope_scaling["high_freq_factor"]
         return spec
 
     def get_vocabulary(self, model, tokenizer):
@@ -1749,9 +1680,7 @@ class LlamaLoader(ModelLoader):
     def set_config(self, config, model, tokenizer):
         config.bos_token = tokenizer.bos_token
         config.eos_token = tokenizer.eos_token
-        config.unk_token = (
-            tokenizer.unk_token if tokenizer.unk_token is not None else ""
-        )
+        config.unk_token = tokenizer.unk_token if tokenizer.unk_token is not None else ""
         config.layer_norm_epsilon = model.config.rms_norm_eps
 
     def set_layer_norm(self, spec, layer_norm):
@@ -1763,23 +1692,13 @@ class LlamaLoader(ModelLoader):
         self.set_layer_norm(spec.layer_norm, module.norm)
 
         for layer_spec, layer in zip(spec.layer, module.layers):
-            self.set_layer_norm(
-                layer_spec.self_attention.layer_norm, layer.input_layernorm
-            )
-            self.set_layer_norm(
-                layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-            )
+            self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
+            self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
 
             split_layers = [common_spec.LinearSpec() for _ in range(3)]
-            self.set_linear(
-                split_layers[0], layer.self_attn.q_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                split_layers[1], layer.self_attn.k_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                split_layers[2], layer.self_attn.v_proj, quant_type=quant_type
-            )
+            self.set_linear(split_layers[0], layer.self_attn.q_proj, quant_type=quant_type)
+            self.set_linear(split_layers[1], layer.self_attn.k_proj, quant_type=quant_type)
+            self.set_linear(split_layers[2], layer.self_attn.v_proj, quant_type=quant_type)
 
             if quant_type == common_spec.Quantization.CT2:
                 utils.fuse_linear(layer_spec.self_attention.linear[0], split_layers)
@@ -1794,15 +1713,9 @@ class LlamaLoader(ModelLoader):
                 quant_type=quant_type,
             )
 
-            self.set_linear(
-                layer_spec.ffn.linear_0, layer.mlp.gate_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                layer_spec.ffn.linear_0_noact, layer.mlp.up_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                layer_spec.ffn.linear_1, layer.mlp.down_proj, quant_type=quant_type
-            )
+            self.set_linear(layer_spec.ffn.linear_0, layer.mlp.gate_proj, quant_type=quant_type)
+            self.set_linear(layer_spec.ffn.linear_0_noact, layer.mlp.up_proj, quant_type=quant_type)
+            self.set_linear(layer_spec.ffn.linear_1, layer.mlp.down_proj, quant_type=quant_type)
 
             delattr(layer, "self_attn")
             delattr(layer, "mlp")
@@ -1911,22 +1824,12 @@ class MistralLoader(ModelLoader):
         self.set_layer_norm(spec.layer_norm, module.norm)
 
         for layer_spec, layer in zip(spec.layer, module.layers):
-            self.set_layer_norm(
-                layer_spec.self_attention.layer_norm, layer.input_layernorm
-            )
-            self.set_layer_norm(
-                layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-            )
+            self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
+            self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
             split_layers = [common_spec.LinearSpec() for _ in range(3)]
-            self.set_linear(
-                split_layers[0], layer.self_attn.q_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                split_layers[1], layer.self_attn.k_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                split_layers[2], layer.self_attn.v_proj, quant_type=quant_type
-            )
+            self.set_linear(split_layers[0], layer.self_attn.q_proj, quant_type=quant_type)
+            self.set_linear(split_layers[1], layer.self_attn.k_proj, quant_type=quant_type)
+            self.set_linear(split_layers[2], layer.self_attn.v_proj, quant_type=quant_type)
 
             if quant_type == common_spec.Quantization.CT2:
                 utils.fuse_linear(layer_spec.self_attention.linear[0], split_layers)
@@ -1941,15 +1844,9 @@ class MistralLoader(ModelLoader):
                 quant_type=quant_type,
             )
 
-            self.set_linear(
-                layer_spec.ffn.linear_0, layer.mlp.gate_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                layer_spec.ffn.linear_0_noact, layer.mlp.up_proj, quant_type=quant_type
-            )
-            self.set_linear(
-                layer_spec.ffn.linear_1, layer.mlp.down_proj, quant_type=quant_type
-            )
+            self.set_linear(layer_spec.ffn.linear_0, layer.mlp.gate_proj, quant_type=quant_type)
+            self.set_linear(layer_spec.ffn.linear_0_noact, layer.mlp.up_proj, quant_type=quant_type)
+            self.set_linear(layer_spec.ffn.linear_1, layer.mlp.down_proj, quant_type=quant_type)
 
             delattr(layer, "self_attn")
             delattr(layer, "mlp")
@@ -2134,9 +2031,7 @@ class Phi3Loader(ModelLoader):
     def set_layer_norm(self, spec, layer_norm):
         spec.gamma = layer_norm.weight
 
-    def set_rotary_embeddings(
-        self, spec, rotary_scaling_long_factor, rotary_scaling_short_factor
-    ):
+    def set_rotary_embeddings(self, spec, rotary_scaling_long_factor, rotary_scaling_short_factor):
         spec.rotary_scaling_long_factor = torch.tensor(
             rotary_scaling_long_factor, dtype=torch.float32
         )
@@ -2150,16 +2045,10 @@ class Phi3Loader(ModelLoader):
         self.set_layer_norm(spec.layer_norm, module.norm)
 
         for layer_spec, layer in zip(spec.layer, module.layers):
-            self.set_layer_norm(
-                layer_spec.self_attention.layer_norm, layer.input_layernorm
-            )
-            self.set_layer_norm(
-                layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-            )
+            self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
+            self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
 
-            self.set_linear(
-                layer_spec.self_attention.linear[0], layer.self_attn.qkv_proj
-            )
+            self.set_linear(layer_spec.self_attention.linear[0], layer.self_attn.qkv_proj)
             self.set_linear(layer_spec.self_attention.linear[1], layer.self_attn.o_proj)
             if (
                 layer.self_attn.rotary_emb.long_factor is not None
@@ -2249,12 +2138,8 @@ class RWLoader(ModelLoader):
             elif hasattr(layer_spec, "shared_layer_norm"):
                 self.set_layer_norm(layer_spec.shared_layer_norm, layer.input_layernorm)
             else:
-                self.set_layer_norm(
-                    layer_spec.self_attention.layer_norm, layer.input_layernorm
-                )
-                self.set_layer_norm(
-                    layer_spec.ffn.layer_norm, layer.post_attention_layernorm
-                )
+                self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.input_layernorm)
+                self.set_layer_norm(layer_spec.ffn.layer_norm, layer.post_attention_layernorm)
 
             num_kv = getattr(layer.self_attention, self._num_kv_attr)
             if num_kv == 1:
@@ -2270,9 +2155,7 @@ class RWLoader(ModelLoader):
                     num_kv if num_kv < layer.self_attention.num_heads else None,
                 )
 
-            self.set_linear(
-                layer_spec.self_attention.linear[1], layer.self_attention.dense
-            )
+            self.set_linear(layer_spec.self_attention.linear[1], layer.self_attention.dense)
 
             self.set_linear(layer_spec.ffn.linear_0, layer.mlp.dense_h_to_4h)
             self.set_linear(layer_spec.ffn.linear_1, layer.mlp.dense_4h_to_h)
@@ -2286,9 +2169,7 @@ class RWLoader(ModelLoader):
             weight = weight.reshape(-1, weight.shape[-1])
         else:
             head_dim = weight.shape[0] // (num_heads + num_kv * 2)
-            weight = weight.reshape(
-                -1, num_heads // num_kv + 2, head_dim, weight.shape[-1]
-            )
+            weight = weight.reshape(-1, num_heads // num_kv + 2, head_dim, weight.shape[-1])
             q, k, v = weight.split([num_heads // num_kv, 1, 1], dim=1)
             weight = torch.cat(
                 [
@@ -2350,15 +2231,11 @@ class DistilBertLoader(ModelLoader):
 
         spec.encoder.scale_embeddings = False
 
-        self.set_embeddings(
-            spec.encoder.embeddings[0], model.embeddings.word_embeddings
-        )
+        self.set_embeddings(spec.encoder.embeddings[0], model.embeddings.word_embeddings)
         self.set_position_encodings(
             spec.encoder.position_encodings, model.embeddings.position_embeddings
         )
-        self.set_layer_norm(
-            spec.encoder.layernorm_embedding, model.embeddings.LayerNorm
-        )
+        self.set_layer_norm(spec.encoder.layernorm_embedding, model.embeddings.LayerNorm)
 
         for layer_spec, layer in zip(spec.encoder.layer, model.transformer.layer):
             split_layers = [common_spec.LinearSpec() for _ in range(3)]
@@ -2367,12 +2244,8 @@ class DistilBertLoader(ModelLoader):
             self.set_linear(split_layers[2], layer.attention.v_lin)
             utils.fuse_linear(layer_spec.self_attention.linear[0], split_layers)
 
-            self.set_linear(
-                layer_spec.self_attention.linear[1], layer.attention.out_lin
-            )
-            self.set_layer_norm(
-                layer_spec.self_attention.layer_norm, layer.sa_layer_norm
-            )
+            self.set_linear(layer_spec.self_attention.linear[1], layer.attention.out_lin)
+            self.set_layer_norm(layer_spec.self_attention.layer_norm, layer.sa_layer_norm)
 
             self.set_linear(layer_spec.ffn.linear_0, layer.ffn.lin1)
             self.set_linear(layer_spec.ffn.linear_1, layer.ffn.lin2)
@@ -2415,18 +2288,12 @@ class BertLoader(ModelLoader):
 
         spec.encoder.scale_embeddings = False
 
-        self.set_embeddings(
-            spec.encoder.embeddings[0], model.embeddings.word_embeddings
-        )
-        self.set_embeddings(
-            spec.encoder.embeddings[1], model.embeddings.token_type_embeddings
-        )
+        self.set_embeddings(spec.encoder.embeddings[0], model.embeddings.word_embeddings)
+        self.set_embeddings(spec.encoder.embeddings[1], model.embeddings.token_type_embeddings)
         self.set_position_encodings(
             spec.encoder.position_encodings, model.embeddings.position_embeddings
         )
-        self.set_layer_norm(
-            spec.encoder.layernorm_embedding, model.embeddings.LayerNorm
-        )
+        self.set_layer_norm(spec.encoder.layernorm_embedding, model.embeddings.LayerNorm)
 
         self.set_linear(spec.pooler_dense, model.pooler.dense)
 
@@ -2437,9 +2304,7 @@ class BertLoader(ModelLoader):
             self.set_linear(split_layers[2], layer.attention.self.value)
             utils.fuse_linear(layer_spec.self_attention.linear[0], split_layers)
 
-            self.set_linear(
-                layer_spec.self_attention.linear[1], layer.attention.output.dense
-            )
+            self.set_linear(layer_spec.self_attention.linear[1], layer.attention.output.dense)
             self.set_layer_norm(
                 layer_spec.self_attention.layer_norm, layer.attention.output.LayerNorm
             )
@@ -2499,9 +2364,7 @@ class XLMRobertaLoader(ModelLoader):
 
         spec.encoder.scale_embeddings = False
 
-        self.set_embeddings(
-            spec.encoder.embeddings[0], model.roberta.embeddings.word_embeddings
-        )
+        self.set_embeddings(spec.encoder.embeddings[0], model.roberta.embeddings.word_embeddings)
         self.set_embeddings(
             spec.encoder.embeddings[1], model.roberta.embeddings.token_type_embeddings
         )
@@ -2509,9 +2372,7 @@ class XLMRobertaLoader(ModelLoader):
             spec.encoder.position_encodings,
             model.roberta.embeddings.position_embeddings,
         )
-        self.set_layer_norm(
-            spec.encoder.layernorm_embedding, model.roberta.embeddings.LayerNorm
-        )
+        self.set_layer_norm(spec.encoder.layernorm_embedding, model.roberta.embeddings.LayerNorm)
         if pooling_layer:
             self.set_linear(spec.pooler_dense, model.roberta.pooler.dense)
 
@@ -2522,9 +2383,7 @@ class XLMRobertaLoader(ModelLoader):
             self.set_linear(split_layers[2], layer.attention.self.value)
             utils.fuse_linear(layer_spec.self_attention.linear[0], split_layers)
 
-            self.set_linear(
-                layer_spec.self_attention.linear[1], layer.attention.output.dense
-            )
+            self.set_linear(layer_spec.self_attention.linear[1], layer.attention.output.dense)
             self.set_layer_norm(
                 layer_spec.self_attention.layer_norm, layer.attention.output.LayerNorm
             )
@@ -2550,9 +2409,7 @@ class XLMRobertaLoader(ModelLoader):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--model",
         required=True,

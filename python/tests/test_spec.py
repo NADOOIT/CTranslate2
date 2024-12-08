@@ -111,9 +111,7 @@ def test_int8_quantization():
         spec.weight.numpy(),
         np.array([[-127, -38, 64, 25], [0, 0, 0, 0]], dtype=np.int8),
     )
-    assert test_utils.array_equal(
-        spec.weight_scale.numpy(), np.array([12.7, 1], dtype=np.float32)
-    )
+    assert test_utils.array_equal(spec.weight_scale.numpy(), np.array([12.7, 1], dtype=np.float32))
 
 
 @pytest.mark.parametrize(
@@ -163,9 +161,7 @@ def test_int8_quantization():
         ),
     ],
 )
-def test_fp16_weights(
-    quantization, expected_weight, expected_weight_scale, expected_bias
-):
+def test_fp16_weights(quantization, expected_weight, expected_weight_scale, expected_bias):
     class Spec(ctranslate2.specs.LayerSpec):
         def __init__(self, weight, bias):
             self.weight = weight
@@ -201,9 +197,7 @@ def test_index_spec():
         index_spec(spec, "encoder/layer_5"),
         transformer_spec.TransformerEncoderLayerSpec,
     )
-    assert isinstance(
-        index_spec(spec, "encoder/layer_5/ffn"), transformer_spec.FeedForwardSpec
-    )
+    assert isinstance(index_spec(spec, "encoder/layer_5/ffn"), transformer_spec.FeedForwardSpec)
 
 
 def test_fuse_linear_no_bias():

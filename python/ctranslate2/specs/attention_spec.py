@@ -36,9 +36,7 @@ class MultiHeadAttentionSpec(model_spec.LayerSpec):
         self.queries_scale = model_spec.OPTIONAL
 
         self.layer_norm = common_spec.LayerNormSpec(rms_norm=rms_norm)
-        self.linear = [
-            common_spec.LinearSpec() for _ in range(2 if self_attention else 3)
-        ]
+        self.linear = [common_spec.LinearSpec() for _ in range(2 if self_attention else 3)]
 
         if relative_position:
             self.relative_position_keys = None
@@ -58,9 +56,7 @@ class MultiHeadAttentionSpec(model_spec.LayerSpec):
                 original_max_position_embeddings
             )
         if max_position_embeddings != 0:
-            self.max_position_embeddings = np.dtype("int32").type(
-                max_position_embeddings
-            )
+            self.max_position_embeddings = np.dtype("int32").type(max_position_embeddings)
 
         if rotary_dim is not None:
             self.rotary_dim = np.dtype("int32").type(rotary_dim)
@@ -70,9 +66,7 @@ class MultiHeadAttentionSpec(model_spec.LayerSpec):
             if rotary_scaling_type is not None:
                 self.rotary_scaling_type = np.dtype("int8").type(rotary_scaling_type)
             if rotary_scaling_type is RotaryScalingType.Linear:
-                self.rotary_scaling_factor = np.dtype("float32").type(
-                    rotary_scaling_factor
-                )
+                self.rotary_scaling_factor = np.dtype("float32").type(rotary_scaling_factor)
             elif rotary_scaling_type is RotaryScalingType.Su:
                 self.rotary_scaling_long_factor = None
                 self.rotary_scaling_short_factor = None

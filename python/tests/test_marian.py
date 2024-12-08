@@ -19,9 +19,7 @@ def test_marian_model_conversion(tmp_dir):
 
 def test_marian_vocab_parsing():
     vocab_path = os.path.join(test_utils.get_data_dir(), "marian", "vocab.yml")
-    expected_path = os.path.join(
-        test_utils.get_data_dir(), "marian", "vocab.expected.txt"
-    )
+    expected_path = os.path.join(test_utils.get_data_dir(), "marian", "vocab.expected.txt")
 
     with open(expected_path, encoding="utf-8") as expected_file:
         expected_tokens = [line.rstrip("\n") for line in expected_file]

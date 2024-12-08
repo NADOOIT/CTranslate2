@@ -1,0 +1,4 @@
+torch
+ctranslate2
+whisperx
+pytest

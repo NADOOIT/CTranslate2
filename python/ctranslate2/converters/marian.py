@@ -149,9 +149,7 @@ def load_vocab(path):
                 try:
                     idx = int(idx.strip())
                 except ValueError as e:
-                    raise ValueError(
-                        "Unexpected format at line %d: '%s'" % (i + 1, line)
-                    ) from e
+                    raise ValueError("Unexpected format at line %d: '%s'" % (i + 1, line)) from e
 
                 tokens.append((idx, token))
 
@@ -208,16 +206,12 @@ def set_common_layers(spec, weights, scope):
 
 def set_transformer_encoder_layer(spec, weights, scope):
     set_ffn(spec.ffn, weights, "%s_ffn" % scope)
-    set_multi_head_attention(
-        spec.self_attention, weights, "%s_self" % scope, self_attention=True
-    )
+    set_multi_head_attention(spec.self_attention, weights, "%s_self" % scope, self_attention=True)
 
 
 def set_transformer_decoder_layer(spec, weights, scope):
     set_ffn(spec.ffn, weights, "%s_ffn" % scope)
-    set_multi_head_attention(
-        spec.self_attention, weights, "%s_self" % scope, self_attention=True
-    )
+    set_multi_head_attention(spec.self_attention, weights, "%s_self" % scope, self_attention=True)
     set_multi_head_attention(spec.attention, weights, "%s_context" % scope)
 
 
@@ -293,12 +287,8 @@ def _make_sinusoidal_position_encodings(dim, num_positions=2048):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
-    parser.add_argument(
-        "--model_path", required=True, help="Path to the model .npz file."
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--model_path", required=True, help="Path to the model .npz file.")
     parser.add_argument(
         "--vocab_paths",
         required=True,

@@ -72,6 +72,4 @@ class WhisperEncoderSpec(model_spec.LayerSpec):
         self.conv2 = common_spec.Conv1DSpec()
         self.position_encodings = transformer_spec.PositionEncoderSpec()
         self.layer_norm = common_spec.LayerNormSpec()
-        self.layer = [
-            transformer_spec.TransformerEncoderLayerSpec() for _ in range(num_layers)
-        ]
+        self.layer = [transformer_spec.TransformerEncoderLayerSpec() for _ in range(num_layers)]

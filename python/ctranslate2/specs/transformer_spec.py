@@ -50,9 +50,7 @@ class TransformerEncoderSpec(model_spec.LayerSpec):
         self.pre_norm = pre_norm
         self.activation = np.dtype("int8").type(activation)
         self.embeddings_merge = np.dtype("int8").type(embeddings_merge)
-        self.embeddings = [
-            common_spec.EmbeddingsSpec() for _ in range(num_source_embeddings)
-        ]
+        self.embeddings = [common_spec.EmbeddingsSpec() for _ in range(num_source_embeddings)]
         self.scale_embeddings = True
         if not relative_position and not relative_attention_bias:
             self.position_encodings = PositionEncoderSpec()
@@ -166,15 +164,12 @@ class TransformerDecoderSpec(model_spec.LayerSpec):
 
         if multi_query_attention:
             if num_heads_kv is not None and num_heads_kv != 1:
-                raise ValueError(
-                    "Enabling multi_query_attention implies num_heads_kv=1"
-                )
+                raise ValueError("Enabling multi_query_attention implies num_heads_kv=1")
             num_heads_kv = 1
 
         if with_encoder_attention and num_heads_kv not in (None, 1, num_heads):
             raise ValueError(
-                "num_heads_kv=%d is not supported in the cross-attention layers"
-                % num_heads_kv
+                "num_heads_kv=%d is not supported in the cross-attention layers" % num_heads_kv
             )
 
         self.num_heads = np.dtype("int16").type(num_heads)
@@ -226,9 +221,7 @@ class TransformerDecoderSpec(model_spec.LayerSpec):
             for _ in range(num_layers)
         ]
         self.start_from_zero_embedding = False
-        self._config["multi_query_attention"] = multi_query_attention or (
-            num_heads_kv != num_heads
-        )
+        self._config["multi_query_attention"] = multi_query_attention or (num_heads_kv != num_heads)
 
         if project_in_out:
             self.project_in = common_spec.LinearSpec()
@@ -325,15 +318,9 @@ class TransformerDecoderLayerSpec(model_spec.LayerSpec):
 
         if pre_post_layer_norm:
             self.input_layer_norm = common_spec.LayerNormSpec(rms_norm=rms_norm)
-            self.post_attention_layer_norm = common_spec.LayerNormSpec(
-                rms_norm=rms_norm
-            )
-            self.pre_feedforward_layer_norm = common_spec.LayerNormSpec(
-                rms_norm=rms_norm
-            )
-            self.post_feedforward_layer_norm = common_spec.LayerNormSpec(
-                rms_norm=rms_norm
-            )
+            self.post_attention_layer_norm = common_spec.LayerNormSpec(rms_norm=rms_norm)
+            self.pre_feedforward_layer_norm = common_spec.LayerNormSpec(rms_norm=rms_norm)
+            self.post_feedforward_layer_norm = common_spec.LayerNormSpec(rms_norm=rms_norm)
 
             delattr(self.self_attention, "layer_norm")
             delattr(self.ffn, "layer_norm")
@@ -373,9 +360,7 @@ class TransformerSpec(model_spec.SequenceToSequenceModelSpec):
     explicitly set the number of layers and attention heads.
     """
 
-    def __init__(
-        self, encoder: TransformerEncoderSpec, decoder: TransformerDecoderSpec
-    ):
+    def __init__(self, encoder: TransformerEncoderSpec, decoder: TransformerDecoderSpec):
         """Initializes a Transformer model specification.
 
         Args:
@@ -390,9 +375,7 @@ class TransformerSpec(model_spec.SequenceToSequenceModelSpec):
         super().__init__()
         self.encoder = encoder
         self.decoder = decoder
-        self._config.add_attribute(
-            "multi_query_attention", self.encoder.multi_query_attention
-        )
+        self._config.add_attribute("multi_query_attention", self.encoder.multi_query_attention)
 
     @classmethod
     def from_config(
@@ -684,9 +667,7 @@ class TransformerEncoderModelSpec(model_spec.LanguageModelSpec):
 
         super().__init__()
         self.encoder = encoder
-        self._config.add_attribute(
-            "multi_query_attention", self.encoder.multi_query_attention
-        )
+        self._config.add_attribute("multi_query_attention", self.encoder.multi_query_attention)
 
         if pooling_layer:
             self.pooler_dense = common_spec.LinearSpec()

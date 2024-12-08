@@ -36,9 +36,7 @@ def test_opennmt_py_relative_transformer(tmp_dir):
     output_dir = str(tmp_dir.join("ctranslate2_model"))
     converter.convert(output_dir)
     translator = ctranslate2.Translator(output_dir)
-    output = translator.translate_batch(
-        [["آ", "ت", "ز", "م", "و", "ن"], ["آ", "ر", "ث", "ر"]]
-    )
+    output = translator.translate_batch([["آ", "ت", "ز", "م", "و", "ن"], ["آ", "ر", "ث", "ر"]])
     assert output[0].hypotheses[0] == ["a", "t", "z", "o", "m", "o", "n"]
     assert output[1].hypotheses[0] == ["a", "r", "t", "h", "e", "r"]
 

@@ -111,9 +111,7 @@ def test_opennmt_tf_model_conversion_invalid_dir(tmp_dir):
         "data": {"source_vocabulary": vocab_path, "target_vocabulary": vocab_path},
     }
     with pytest.raises(RuntimeError, match="checkpoint"):
-        ctranslate2.converters.OpenNMTTFConverter.from_config(
-            config, model="TransformerBase"
-        )
+        ctranslate2.converters.OpenNMTTFConverter.from_config(config, model="TransformerBase")
 
 
 def test_opennmt_tf_shared_embeddings_conversion(tmp_dir):

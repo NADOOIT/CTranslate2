@@ -52,7 +52,5 @@ class Wav2Vec2EncoderSpec(model_spec.LayerSpec):
         self.fp_projection = common_spec.LinearSpec()
         self.pos_conv_embed = Wav2Vec2PosEmbedConvLayer()
         self.layer_norm = common_spec.LayerNormSpec()
-        self.layer = [
-            transformer_spec.TransformerEncoderLayerSpec() for _ in range(num_layers)
-        ]
+        self.layer = [transformer_spec.TransformerEncoderLayerSpec() for _ in range(num_layers)]
         self.lm_head = common_spec.LinearSpec()

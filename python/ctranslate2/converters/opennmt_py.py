@@ -29,8 +29,7 @@ def check_opt(opt, num_source_embeddings):
     check(
         opt.encoder_type == opt.decoder_type
         and opt.decoder_type in {"transformer", "transformer_lm"},
-        "Options --encoder_type and --decoder_type must be"
-        " 'transformer' or 'transformer_lm",
+        "Options --encoder_type and --decoder_type must be" " 'transformer' or 'transformer_lm",
     )
     check(
         self_attn_type == "scaled-dot",
@@ -55,9 +54,7 @@ def check_opt(opt, num_source_embeddings):
     check.validate()
 
 
-def _get_model_spec_seq2seq(
-    opt, variables, src_vocabs, tgt_vocabs, num_source_embeddings
-):
+def _get_model_spec_seq2seq(opt, variables, src_vocabs, tgt_vocabs, num_source_embeddings):
     """Creates a model specification from the model options."""
     with_relative_position = getattr(opt, "max_relative_positions", 0) > 0
     activation_fn = getattr(opt, "pos_ffn_activation_fn", "relu")
@@ -182,10 +179,7 @@ class OpenNMTPyConverter(Converter):
 
         variables = checkpoint["model"]
         variables.update(
-            {
-                "generator.%s" % key: value
-                for key, value in checkpoint["generator"].items()
-            }
+            {"generator.%s" % key: value for key, value in checkpoint["generator"].items()}
         )
 
         if checkpoint["opt"].decoder_type == "transformer_lm":
@@ -346,9 +340,7 @@ def _get_variable(variables, name):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--model_path", required=True, help="Model path.")
     Converter.declare_arguments(parser)
     args = parser.parse_args()

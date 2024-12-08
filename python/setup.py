@@ -24,7 +24,8 @@ if platform.system() == "Darwin":
         "-std=c++17",
         "-mmacosx-version-min=10.14",
         "-fvisibility=default",  # Make all symbols visible by default
-        "-undefined", "dynamic_lookup",  # Allow undefined symbols to be looked up at runtime
+        "-undefined",
+        "dynamic_lookup",  # Allow undefined symbols to be looked up at runtime
     ]
     extra_link_args += [
         "-mmacosx-version-min=10.14",
@@ -35,20 +36,25 @@ if platform.system() == "Darwin":
     if platform.machine() == "arm64":
         os.environ["ARCHFLAGS"] = "-arch arm64"
 
+
 class CustomBuildExt(build_ext):
     """A custom build_ext command to add install_name_tool step."""
+
     def run(self):
         build_ext.run(self)
         if platform.system() == "Darwin":
             # Fix the library path in the extension
             ext_path = self.get_ext_fullpath(self.extensions[0].name)
-            subprocess.check_call([
-                "install_name_tool",
-                "-change",
-                "@rpath/libctranslate2.4.dylib",
-                "/usr/local/lib/libctranslate2.4.dylib",
-                ext_path
-            ])
+            subprocess.check_call(
+                [
+                    "install_name_tool",
+                    "-change",
+                    "@rpath/libctranslate2.4.dylib",
+                    "/usr/local/lib/libctranslate2.4.dylib",
+                    ext_path,
+                ]
+            )
+
 
 ctranslate2_module = Extension(
     "ctranslate2._ext",

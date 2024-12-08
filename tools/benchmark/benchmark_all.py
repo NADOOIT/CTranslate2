@@ -170,9 +170,7 @@ try:
 
             if gpu:
                 if first:
-                    print(
-                        "| | Tokens per second | Max. GPU memory | Max. CPU memory | BLEU |"
-                    )
+                    print("| | Tokens per second | Max. GPU memory | Max. CPU memory | BLEU |")
                     print("| --- | --- | --- | --- | --- |")
                 print(
                     "| %s | %.1f | %dMB | %dMB | %.2f |"

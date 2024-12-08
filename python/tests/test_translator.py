@@ -13,9 +13,7 @@ import ctranslate2
 
 
 def _get_model_path():
-    return os.path.join(
-        test_utils.get_data_dir(), "models", "v2", "aren-transliteration"
-    )
+    return os.path.join(test_utils.get_data_dir(), "models", "v2", "aren-transliteration")
 
 
 def _get_model_path_with_vmap(tmp_dir, tokens):
@@ -91,9 +89,7 @@ def test_compute_type():
     translator = ctranslate2.Translator(model_path, compute_type="int8")
     assert translator.compute_type == "int8_float32"
 
-    translator = ctranslate2.Translator(
-        model_path, compute_type={"cuda": "float16", "cpu": "int8"}
-    )
+    translator = ctranslate2.Translator(model_path, compute_type={"cuda": "float16", "cpu": "int8"})
     assert translator.compute_type == "int8_float32"
 
 
@@ -111,12 +107,9 @@ def test_batch_translation(max_batch_size):
     assert output[0].scores[0] < 0
     assert not output[0].attention
 
-    expected_repr = (
-        "TranslationResult(hypotheses=%s, scores=%s, attention=[], logits=[])"
-        % (
-            output[0].hypotheses,
-            output[0].scores,
-        )
+    expected_repr = "TranslationResult(hypotheses=%s, scores=%s, attention=[], logits=[])" % (
+        output[0].hypotheses,
+        output[0].scores,
     )
     assert repr(output[0]) == expected_repr
 
@@ -195,17 +188,13 @@ def test_token_streaming(return_log_prob):
     assert tokens == expected_result.hypotheses[0] + ["</s>"]
 
     if return_log_prob:
-        assert cum_log_probs / len(tokens) == pytest.approx(
-            expected_result.scores[0], abs=1e-5
-        )
+        assert cum_log_probs / len(tokens) == pytest.approx(expected_result.scores[0], abs=1e-5)
 
 
 def test_token_streaming_exception():
     source = ["آ", "ت", "ز", "م", "و", "ن"]
     translator = _get_transliterator()
-    step_results = translator.generate_tokens(
-        source, min_decoding_length=2, max_decoding_length=1
-    )
+    step_results = translator.generate_tokens(source, min_decoding_length=2, max_decoding_length=1)
 
     with pytest.raises(ValueError, match="decoding length"):
         step_results = list(step_results)
@@ -300,13 +289,9 @@ def test_raw_file_translation(tmp_dir):
     detokenize_fn = lambda tokens: "".join(tokens)
 
     with pytest.raises(ValueError, match="target_detokenize_fn"):
-        translator.translate_file(
-            input_path, output_path, source_tokenize_fn=tokenize_fn
-        )
+        translator.translate_file(input_path, output_path, source_tokenize_fn=tokenize_fn)
     with pytest.raises(ValueError, match="source_tokenize_fn"):
-        translator.translate_file(
-            input_path, output_path, target_detokenize_fn=detokenize_fn
-        )
+        translator.translate_file(input_path, output_path, target_detokenize_fn=detokenize_fn)
 
     translator.translate_file(
         input_path,
@@ -484,21 +469,11 @@ def test_weakly_biased_target_prefix(beam_size):
         prefix_bias_beta=0.0000001,
         return_scores=True,
     )
-    assert (
-        unconstrained_output[0].hypotheses[0] == weakly_biased_output[0].hypotheses[0]
-    )
-    assert (
-        abs(unconstrained_output[0].scores[0] - weakly_biased_output[0].scores[0])
-        < 0.00001
-    )
+    assert unconstrained_output[0].hypotheses[0] == weakly_biased_output[0].hypotheses[0]
+    assert abs(unconstrained_output[0].scores[0] - weakly_biased_output[0].scores[0]) < 0.00001
 
-    assert (
-        unconstrained_output[1].hypotheses[0] == weakly_biased_output[1].hypotheses[0]
-    )
-    assert (
-        abs(unconstrained_output[1].scores[0] - weakly_biased_output[1].scores[0])
-        < 0.00001
-    )
+    assert unconstrained_output[1].hypotheses[0] == weakly_biased_output[1].hypotheses[0]
+    assert abs(unconstrained_output[1].scores[0] - weakly_biased_output[1].scores[0]) < 0.00001
 
 
 @pytest.mark.parametrize("beam_size", [1, 2])
@@ -537,9 +512,7 @@ def test_no_repeat_ngram_size_with_vmap(tmp_dir, beam_size):
 
 @pytest.mark.parametrize("beam_size", [1, 2])
 def test_suppress_sequences_with_vmap(tmp_dir, beam_size):
-    model_dir = _get_model_path_with_vmap(
-        tmp_dir, ["a", "t", "z", "s", "m", "o", "u", "n"]
-    )
+    model_dir = _get_model_path_with_vmap(tmp_dir, ["a", "t", "z", "s", "m", "o", "u", "n"])
     translator = ctranslate2.Translator(model_dir)
     output = translator.translate_batch(
         [["آ", "ت", "ز", "م", "و", "ن"]],
@@ -560,17 +533,13 @@ def test_num_hypotheses():
 
 def test_max_decoding_length():
     translator = _get_transliterator()
-    output = translator.translate_batch(
-        [["آ", "ت", "ز", "م", "و", "ن"]], max_decoding_length=2
-    )
+    output = translator.translate_batch([["آ", "ت", "ز", "م", "و", "ن"]], max_decoding_length=2)
     assert output[0].hypotheses[0] == ["a", "t"]
 
 
 def test_min_decoding_length():
     translator = _get_transliterator()
-    output = translator.translate_batch(
-        [["آ", "ت", "ز", "م", "و", "ن"]], min_decoding_length=7
-    )
+    output = translator.translate_batch([["آ", "ت", "ز", "م", "و", "ن"]], min_decoding_length=7)
     assert len(output[0].hypotheses[0]) > 6  # 6 is the expected target length.
 
 
@@ -589,9 +558,7 @@ def test_min_decoding_length_with_vmap(tmp_dir, beam_size):
 
 def test_return_attention():
     translator = _get_transliterator()
-    output = translator.translate_batch(
-        [["آ", "ت", "ز", "م", "و", "ن"]], return_attention=True
-    )
+    output = translator.translate_batch([["آ", "ت", "ز", "م", "و", "ن"]], return_attention=True)
     attention = output[0].attention[0]
     assert len(attention) == 6  # Target length.
     for vector in attention:
@@ -684,14 +651,9 @@ def test_score_api(tmp_dir):
         [result.log_probs for result in translator.score_batch(source, target)],
         [
             async_result.result().log_probs
-            for async_result in translator.score_batch(
-                source, target, asynchronous=True
-            )
+            for async_result in translator.score_batch(source, target, asynchronous=True)
         ],
-        [
-            result.log_probs
-            for result in translator.score_iterable(iter(source), iter(target))
-        ],
+        [result.log_probs for result in translator.score_iterable(iter(source), iter(target))],
     ]
 
     for batch_log_probs in all_log_probs:
@@ -714,9 +676,7 @@ def test_score_api(tmp_dir):
     assert stats.num_tokens == 15
 
     with open(output_path, encoding="utf-8") as output_file:
-        for line, expected_tokens, expected_scores in zip(
-            output_file, target, expected
-        ):
+        for line, expected_tokens, expected_scores in zip(output_file, target, expected):
             parts = line.strip().split("|||")
             assert len(parts) == 3
 
@@ -767,9 +727,7 @@ def test_model_unload(to_cpu):
 
 def test_model_unload_while_async_translation():
     translator = _get_transliterator()
-    outputs = translator.translate_batch(
-        [["آ", "ت", "ز", "م", "و", "ن"]], asynchronous=True
-    )
+    outputs = translator.translate_batch([["آ", "ت", "ز", "م", "و", "ن"]], asynchronous=True)
     translator.unload_model()
     assert translator.model_is_loaded
     assert outputs[0].result().hypotheses[0] == ["a", "t", "z", "m", "o", "n"]

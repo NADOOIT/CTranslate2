@@ -441,9 +441,7 @@ class AsyncGenerator:
 
     async def producer(self):
         # Data generation logic here
-        for step_result in _generate_tokens(
-            self.process_func, *self.args, **self.kwargs
-        ):
+        for step_result in _generate_tokens(self.process_func, *self.args, **self.kwargs):
             await self.queue.put(step_result)
             await asyncio.sleep(0.0001)
             # asyc sleep otherwise this doesn't yield any result

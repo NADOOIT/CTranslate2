@@ -41,9 +41,7 @@ napoleon_include_init_with_doc = True
 napoleon_include_special_with_doc = True
 
 
-def fix_pybind11_signatures(
-    app, what, name, obj, options, signature, return_annotation
-):
+def fix_pybind11_signatures(app, what, name, obj, options, signature, return_annotation):
     def _remove_self(signature):
         arguments = signature[1:-1].split(", ")
         if arguments and arguments[0].startswith("self:"):

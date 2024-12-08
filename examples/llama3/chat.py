@@ -89,25 +89,26 @@ def build_prompt(tokenizer, dialog):
     if dialog[0]["role"] == "system":
         begin_pos = 1
     assert all([msg["role"] == "user" for msg in dialog[begin_pos::2]]) and all(
-        [msg["role"] == "assistant" for msg in dialog[begin_pos + 1::2]]
+        [msg["role"] == "assistant" for msg in dialog[begin_pos + 1 :: 2]]
     ), (
         "model only supports 'system', 'user' and 'assistant' roles, "
         "starting with 'system', then 'user' and alternating (u/a/u/a/u...)"
     )
 
-    dialog_tokens = sum([
+    dialog_tokens = sum(
+        [
             tokenizer.tokenize(
                 f"{B_ID} {(item['role'])} {E_ID} {(item['content']).strip()} {E_INST}"
-                )
+            )
             for item in dialog
-        ], [])
-    dialog_tokens = ["<|begin_of_text|>"] + dialog_tokens + tokenizer.tokenize(
-                f"{B_ID} assistant {E_ID}"
-                )
+        ],
+        [],
+    )
+    dialog_tokens = (
+        ["<|begin_of_text|>"] + dialog_tokens + tokenizer.tokenize(f"{B_ID} assistant {E_ID}")
+    )
 
-    assert (
-        dialog[-1]["role"] == "user"
-    ), f"Last message must be from user, got {dialog[-1]['role']}"
+    assert dialog[-1]["role"] == "user", f"Last message must be from user, got {dialog[-1]['role']}"
 
     return dialog_tokens
 

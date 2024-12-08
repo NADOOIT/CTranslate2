@@ -18,9 +18,7 @@ class Converter(abc.ABC):
         Arguments:
           parser: Command line argument parser.
         """
-        parser.add_argument(
-            "--output_dir", required=True, help="Output model directory."
-        )
+        parser.add_argument("--output_dir", required=True, help="Output model directory.")
         parser.add_argument(
             "--vocab_mapping", default=None, help="Vocabulary mapping file (optional)."
         )
@@ -82,8 +80,7 @@ class Converter(abc.ABC):
         """
         if os.path.exists(output_dir) and not force:
             raise RuntimeError(
-                "output directory %s already exists, use --force to override"
-                % output_dir
+                "output directory %s already exists, use --force to override" % output_dir
             )
 
         model_spec = self._load()

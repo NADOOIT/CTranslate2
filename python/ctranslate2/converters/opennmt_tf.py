@@ -275,12 +275,8 @@ class TransformerSpecBuilder:
         if self_attention:
             utils.fuse_linear(spec.linear[0], split_layers)
             if module.layer.maximum_relative_position is not None:
-                spec.relative_position_keys = (
-                    module.layer.relative_position_keys.numpy()
-                )
-                spec.relative_position_values = (
-                    module.layer.relative_position_values.numpy()
-                )
+                spec.relative_position_keys = module.layer.relative_position_keys.numpy()
+                spec.relative_position_values = module.layer.relative_position_values.numpy()
         else:
             utils.fuse_linear(spec.linear[0], split_layers[:1])
             utils.fuse_linear(spec.linear[1], split_layers[1:])
@@ -291,9 +287,11 @@ class TransformerSpecBuilder:
     def set_layer_norm_from_wrapper(self, spec, module):
         self.set_layer_norm(
             spec,
-            module.output_layer_norm
-            if module.input_layer_norm is None
-            else module.input_layer_norm,
+            (
+                module.output_layer_norm
+                if module.input_layer_norm is None
+                else module.input_layer_norm
+            ),
         )
 
     def set_layer_norm(self, spec, module):
@@ -360,9 +358,7 @@ def _get_inputters(inputter):
     import opennmt
 
     return (
-        inputter.inputters
-        if isinstance(inputter, opennmt.inputters.MultiInputter)
-        else [inputter]
+        inputter.inputters if isinstance(inputter, opennmt.inputters.MultiInputter) else [inputter]
     )
 
 
@@ -384,9 +380,7 @@ def _load_vocab(vocab, unk_token="<unk>"):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--config", help="Path to the YAML configuration.")
     parser.add_argument(
         "--auto_config",
@@ -428,9 +422,7 @@ def main():
             )
 
         model_dir = (
-            args.model_path
-            if os.path.isdir(args.model_path)
-            else os.path.dirname(args.model_path)
+            args.model_path if os.path.isdir(args.model_path) else os.path.dirname(args.model_path)
         )
         config = {
             "model_dir": model_dir,

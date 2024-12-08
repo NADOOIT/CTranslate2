@@ -15,9 +15,9 @@ class BenchmarkResult(
     collections.namedtuple(
         "BenchmarkResult",
         (
-                "generation_time",
-                "num_tokens",
-                "max_gpu_mem",
+            "generation_time",
+            "num_tokens",
+            "max_gpu_mem",
         ),
     )
 ):
@@ -27,9 +27,7 @@ class BenchmarkResult(
 def build_prompt(sp, inputs):
     prompt_tokens = []
     for question in inputs:
-        input_tokens = ["<s>"] + sp.encode_as_pieces(
-            f"{B_INST} {question.strip()} {E_INST}"
-        )
+        input_tokens = ["<s>"] + sp.encode_as_pieces(f"{B_INST} {question.strip()} {E_INST}")
         prompt_tokens.append(input_tokens)
     return prompt_tokens
 
@@ -58,12 +56,7 @@ def process_prompt(generator, max_generation_length, generated_token, prompt):
         generated_token[batch_id].append(step_result.token)
 
 
-def benchmark_generation(generator,
-                         sp,
-                         prompt_tokens,
-                         generated_file,
-                         mode,
-                         batch_size):
+def benchmark_generation(generator, sp, prompt_tokens, generated_file, mode, batch_size):
     max_generation_length = 512
     generated_token = [[] for _ in range(len(prompt_tokens))]
     generated_text = ["" for _ in range(len(prompt_tokens))]
@@ -75,7 +68,7 @@ def benchmark_generation(generator,
         start_all = time.time()
         for i in range(0, len(prompt_tokens), batch_size):
             step_results = generator.generate_tokens(
-                prompt_tokens[i:i + batch_size],
+                prompt_tokens[i : i + batch_size],
                 max_length=max_generation_length,
                 sampling_temperature=0.75,
                 sampling_topk=1,
@@ -91,9 +84,16 @@ def benchmark_generation(generator,
         nb_process = len(prompt_tokens) / batch_size + 1
         start_all = time.time()
         with concurrent.futures.ThreadPoolExecutor(max_workers=nb_process) as executor:
-            futures = [executor.submit(process_prompt, generator, max_generation_length, generated_token,
-                                       prompt_tokens[index:index + batch_size])
-                       for index in range(0, len(prompt_tokens), batch_size)]
+            futures = [
+                executor.submit(
+                    process_prompt,
+                    generator,
+                    max_generation_length,
+                    generated_token,
+                    prompt_tokens[index : index + batch_size],
+                )
+                for index in range(0, len(prompt_tokens), batch_size)
+            ]
         num_tokens = count_tokens(generated_token)
         end_all = time.time()
         elapsed_time = end_all - start_all
@@ -132,9 +132,7 @@ def benchmark_generation(generator,
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--mode",
         choices=["sequence", "parallel"],
@@ -148,8 +146,9 @@ def main():
     args = parser.parse_args()
 
     print("Loading the model...")
-    generator = ctranslate2.Generator(args.model_path, device="cuda", tensor_parallel=True,
-                                      flash_attention=False, inter_threads=2)
+    generator = ctranslate2.Generator(
+        args.model_path, device="cuda", tensor_parallel=True, flash_attention=False, inter_threads=2
+    )
     sp = spm.SentencePieceProcessor(os.path.join(args.model_path, "tokenizer.model"))
 
     if not os.path.exists(args.src):
@@ -160,7 +159,9 @@ def main():
         inputs = file.readlines()
 
     prompt_tokens = build_prompt(sp, inputs)
-    result = benchmark_generation(generator, sp, prompt_tokens, args.target, args.mode, args.batch_size)
+    result = benchmark_generation(
+        generator, sp, prompt_tokens, args.target, args.mode, args.batch_size
+    )
     if ctranslate2.MpiInfo.getCurRank() == 0:
         print("Benchmark result (%d sample(s)):" % len(prompt_tokens))
         print("- Generation time: %.2f s" % result.generation_time)
