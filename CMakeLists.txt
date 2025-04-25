@@ -377,8 +377,10 @@ if (WITH_TENSOR_PARALLEL AND CUDA_DYNAMIC_LOADING)
 endif()
 
 if(BUILD_CLI)
-  add_subdirectory(cli)
+  add_subdirectory(tests)
+add_subdirectory(tests/metal)
 endif()
+
 
 install(
   TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets

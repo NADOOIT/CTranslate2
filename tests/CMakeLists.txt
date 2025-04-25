@@ -14,7 +14,6 @@ add_executable(ctranslate2_test
   primitives_test.cc
   translator_test.cc
   test_utils.cc
-  metal_ops_test.cpp
   test.cc)
 
 target_include_directories(ctranslate2_test PRIVATE
@@ -41,6 +40,7 @@ add_executable(benchmark_ops
 target_link_libraries(benchmark_ops
   ${PROJECT_NAME}
   )
+
 
 if(WITH_CUDA)
   target_link_libraries(benchmark_ops ${CUDA_LIBRARIES})

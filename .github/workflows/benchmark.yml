@@ -1,0 +1,20 @@
+name: GEMM Benchmark
+on: [push, pull_request]
+jobs:
+  benchmark:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python dependencies
+        run: pip3 install pandas matplotlib
+      - name: Build
+        run: |
+          cd build/tests/metal/ops
+          make -j2
+      - name: Run Benchmark
+        run: ./build/tests/metal/ops/gemm_multi_device_bench_test
+      - name: Analyze Results
+        run: python3 benchmarks/analyze_benchmarks.py
+      # Optional: Add a step to check for regression vs. a baseline CSV
+      # - name: Check Regression
+      #   run: python3 benchmarks/check_regression.py benchmarks_ops.csv baseline.csv

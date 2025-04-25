@@ -2,6 +2,7 @@ import os
 import platform
 import subprocess
 import sys
+from pathlib import Path
 
 import pybind11
 from setuptools import Extension, setup
@@ -9,48 +10,49 @@ from setuptools.command.build_ext import build_ext
 
 VERSION = "4.5.0"  # Fixed version number matching the installed library
 
-include_dirs = [
-    pybind11.get_include(),
-    "/usr/local/include",  # System-installed CTranslate2 headers
-]
-library_dirs = ["/usr/local/lib"]  # System-installed CTranslate2 library
-
-libraries = ["ctranslate2"]
-extra_compile_args = []
-extra_link_args = []
-
-if platform.system() == "Darwin":
-    extra_compile_args += [
-        "-std=c++17",
-        "-mmacosx-version-min=10.14",
-        "-fvisibility=default",  # Make all symbols visible by default
-        "-undefined", "dynamic_lookup",  # Allow undefined symbols to be looked up at runtime
+def build_cpp_lib():
+    """Build and install the C++ library."""
+    if platform.system() != "Darwin":
+        raise RuntimeError("This package only supports macOS")
+    
+    # Get the root directory of the project
+    root_dir = Path(__file__).parent.parent.absolute()
+    
+    # Run CMake configuration
+    build_dir = root_dir / "build"
+    build_dir.mkdir(exist_ok=True)
+    
+    cmake_args = [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DWITH_METAL=ON",
+        "-DWITH_MKL=OFF",
+        "-DWITH_DNNL=OFF",
+        "-DWITH_CUDA=OFF",
+        "-DWITH_CUDNN=OFF",
+        "-DBUILD_TESTS=OFF",
+        "-DCMAKE_CXX_FLAGS=-std=c++17",
+        "-DOpenMP_C_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
+        "-DOpenMP_CXX_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
+        "-DOpenMP_C_LIB_NAMES=omp",
+        "-DOpenMP_CXX_LIB_NAMES=omp",
+        "-DOpenMP_omp_LIBRARY=/opt/homebrew/opt/libomp/lib/libomp.dylib",
+        f"-DCMAKE_INSTALL_PREFIX={sys.prefix}"
     ]
-    extra_link_args += [
-        "-mmacosx-version-min=10.14",
-        "-Wl,-rpath,/usr/local/lib",  # Add rpath to find the library
-        "-Wl,-dead_strip_dylibs",  # Remove unused libraries
-        "-Wl,-bind_at_load",  # Bind all symbols at load time
-    ]
-    if platform.machine() == "arm64":
-        os.environ["ARCHFLAGS"] = "-arch arm64"
+    
+    subprocess.check_call(["cmake", "-S", str(root_dir), "-B", str(build_dir)] + cmake_args)
+    
+    # Build and install
+    subprocess.check_call(["cmake", "--build", str(build_dir), "-j", str(os.cpu_count())])
+    subprocess.check_call(["cmake", "--install", str(build_dir)])
 
 class CustomBuildExt(build_ext):
-    """A custom build_ext command to add install_name_tool step."""
+    """Custom build command that builds the C++ library first."""
     def run(self):
-        build_ext.run(self)
-        if platform.system() == "Darwin":
-            # Fix the library path in the extension
-            ext_path = self.get_ext_fullpath(self.extensions[0].name)
-            subprocess.check_call([
-                "install_name_tool",
-                "-change",
-                "@rpath/libctranslate2.4.dylib",
-                "/usr/local/lib/libctranslate2.4.dylib",
-                ext_path
-            ])
+        build_cpp_lib()
+        super().run()
 
-ctranslate2_module = Extension(
+# Define the extension module
+ext_module = Extension(
     "ctranslate2._ext",
     sources=[
         os.path.join("cpp", name)
@@ -71,13 +73,21 @@ ctranslate2_module = Extension(
             "whisper.cc",  # Added whisper.cc
         ]
     ],
-    include_dirs=include_dirs,
-    library_dirs=library_dirs,
-    libraries=libraries,
-    extra_compile_args=extra_compile_args,
-    extra_link_args=extra_link_args,
-    language="c++",
+    include_dirs=[
+        pybind11.get_include(),
+        f"{sys.prefix}/include",
+    ],
+    library_dirs=[f"{sys.prefix}/lib"],
+    libraries=["ctranslate2"],
+    extra_compile_args=["-std=c++17", "-mmacosx-version-min=10.14"],
+    extra_link_args=[
+        "-mmacosx-version-min=10.14",
+        "-Wl,-rpath,@loader_path/../lib"
+    ],
 )
+
+if platform.machine() == "arm64":
+    os.environ["ARCHFLAGS"] = "-arch arm64"
 
 setup(
     name="ctranslate2",
@@ -117,7 +127,7 @@ setup(
         "pyyaml>=5.3,<7",
     ],
     packages=["ctranslate2"],
-    ext_modules=[ctranslate2_module],
+    ext_modules=[ext_module],
     cmdclass={"build_ext": CustomBuildExt},
     entry_points={
         "console_scripts": [

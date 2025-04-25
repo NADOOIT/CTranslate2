@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "cmake>=3.12", "pybind11>=2.6.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,7 @@ name = "ctranslate2"
 version = "4.0.0"
 description = "Fork of ctranslate2 with Metal support"
 authors = [
-    { name = "Your Name", email = "your.email@example.com" }
+    { name = "NADOO", email = "info@nadoo.de" }
 ]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -16,7 +16,7 @@ keywords = ["ctranslate2", "metal", "gpu"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+    "Operating System :: MacOS :: MacOS X",
 ]
 
 [project.urls]
