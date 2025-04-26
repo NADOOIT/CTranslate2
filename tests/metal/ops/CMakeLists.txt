@@ -12,8 +12,6 @@ target_link_libraries(gemm_multi_device_bench_test
   "-framework Metal"
   "-framework Foundation"
   "-framework MetalKit"
-  "-framework Accelerate"
-  "-framework MetalPerformanceShaders"
 )
 
 add_executable(relu_multi_device_bench_test relu_multi_device_bench_test.mm)

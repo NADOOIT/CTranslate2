@@ -103,7 +103,6 @@ int main() {
                 std::cout << "[GEMMTest] Metal-Library explizit geladen: " << [path UTF8String] << std::endl;
             }
         }
-
         id<MTLFunction> func = [lib newFunctionWithName:@"gemm_kernel"];
         if (!func) {
             std::cerr << "[GEMMTest] Kein gemm_kernel!" << std::endl;
@@ -175,8 +174,3 @@ int main() {
         } else {
             std::cerr << "[GEMMTest] Fehler! MaxDiff: " << max_diff << std::endl;
         }
-    }
-    // Close the for loop over sizes
-    }
-    return 0;
-}
