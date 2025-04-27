@@ -8,7 +8,7 @@ import pybind11
 from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 
-VERSION = "4.5.0"  # Fixed version number matching the installed library
+VERSION = "4.5.1"  # Fixed version number matching the installed library
 
 def build_cpp_lib():
     """Build and install the C++ library."""
