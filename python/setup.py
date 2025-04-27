@@ -45,10 +45,36 @@ def build_cpp_lib():
     subprocess.check_call(["cmake", "--build", str(build_dir), "-j", str(os.cpu_count())])
     subprocess.check_call(["cmake", "--install", str(build_dir)])
 
+import shutil
+import glob
+
 class CustomBuildExt(build_ext):
-    """Custom build command that builds the C++ library first."""
+    """Custom build command that builds the C++ library first and copies the dylib into the package."""
     def run(self):
         build_cpp_lib()
+        # Find and copy the libctranslate2*.dylib into ctranslate2/
+        root_dir = Path(__file__).parent.parent.absolute()
+        dylib_candidates = list(root_dir.glob('python/Agent/testenv/lib/libctranslate2*.dylib'))
+        target_dir = Path(__file__).parent / 'ctranslate2'
+        target_dir.mkdir(exist_ok=True)
+        for dylib_path in dylib_candidates:
+            shutil.copy2(dylib_path, target_dir)
+        # Fix install_name of the .so to use @loader_path for the dylib
+        if sys.platform == "darwin":
+            try:
+                so_files = list(target_dir.glob("_ext.cpython-*.so"))
+                for so_path in so_files:
+                    for dylib_path in target_dir.glob("libctranslate2*.dylib"):
+                        import subprocess
+                        subprocess.run([
+                            "install_name_tool",
+                            "-change",
+                            f"@rpath/{dylib_path.name}",
+                            f"@loader_path/{dylib_path.name}",
+                            str(so_path)
+                        ], check=True)
+            except Exception as e:
+                print(f"[WARNING] Failed to patch install_name for .so: {e}")
         super().run()
 
 # Define the extension module

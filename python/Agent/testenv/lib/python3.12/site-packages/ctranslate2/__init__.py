@@ -17,6 +17,21 @@ if sys.platform == "win32":
     for library in glob.glob(os.path.join(package_dir, "*.dll")):
         ctypes.CDLL(library)
 
+import sys
+import os
+import glob
+import ctypes
+from pathlib import Path
+
+if sys.platform == "darwin":
+    # Ensure the .dylib is loaded from the same directory as the .so
+    package_dir = Path(__file__).parent.absolute()
+    for dylib_path in package_dir.glob("libctranslate2*.dylib"):
+        try:
+            ctypes.CDLL(str(dylib_path))
+        except Exception as e:
+            pass  # fallback: let import error happen if truly missing
+
 try:
     from ctranslate2._ext import (
         AsyncGenerationResult,
