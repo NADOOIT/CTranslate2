@@ -1,0 +1,700 @@
+Processing /Users/christophbackhaus/Documents/GitHub/CTranslate2/python
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting numpy (from ctranslate2==4.5.1)
+  Using cached numpy-2.2.5-cp312-cp312-macosx_14_0_arm64.whl.metadata (62 kB)
+Collecting pyyaml<7,>=5.3 (from ctranslate2==4.5.1)
+  Using cached PyYAML-6.0.2-cp312-cp312-macosx_11_0_arm64.whl.metadata (2.1 kB)
+Using cached PyYAML-6.0.2-cp312-cp312-macosx_11_0_arm64.whl (173 kB)
+Using cached numpy-2.2.5-cp312-cp312-macosx_14_0_arm64.whl (5.2 MB)
+Building wheels for collected packages: ctranslate2
+  Building wheel for ctranslate2 (pyproject.toml): started
+  Building wheel for ctranslate2 (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Building wheel for ctranslate2 (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [673 lines of output]
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `license` defined outside of `pyproject.toml` is ignored.
+      !!
+      
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+      
+              `license = 'MIT'`
+      
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `license` is listed as `dynamic`.
+      
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+      
+              To prevent this problem, you can list `license` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+      
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is ignored.
+      !!
+      
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+      
+              `classifiers = ['Development Status :: 5 - Production/Stable', 'Environment :: GPU :: NVIDIA CUDA :: 11.0', 'Intended Audience :: Developers', 'Intended Audience :: Science/Research', 'License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3', 'Programming Language :: Python :: 3 :: Only', 'Programming Language :: Python :: 3.7', 'Programming Language :: Python :: 3.8', 'Programming Language :: Python :: 3.9', 'Programming Language :: Python :: 3.10', 'Programming Language :: Python :: 3.11', 'Programming Language :: Python :: 3.12', 'Topic :: Scientific/Engineering :: Artificial Intelligence']`
+      
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `classifiers` is listed as `dynamic`.
+      
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+      
+              To prevent this problem, you can list `classifiers` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+      
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `urls` defined outside of `pyproject.toml` is ignored.
+      !!
+      
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+      
+              `urls = {'Forum': 'https://forum.opennmt.net', 'Source': 'https://github.com/OpenNMT/CTranslate2'}`
+      
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `urls` is listed as `dynamic`.
+      
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+      
+              To prevent this problem, you can list `urls` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+      
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `scripts` defined outside of `pyproject.toml` is ignored.
+      !!
+      
+              ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+      
+              `scripts = ['ct2-fairseq-converter=ctranslate2.converters.fairseq:main', 'ct2-marian-converter=ctranslate2.converters.marian:main', 'ct2-openai-gpt2-converter=ctranslate2.converters.openai_gpt2:main', 'ct2-opennmt-py-converter=ctranslate2.converters.opennmt_py:main', 'ct2-opennmt-tf-converter=ctranslate2.converters.opennmt_tf:main', 'ct2-opus-mt-converter=ctranslate2.converters.opus_mt:main', 'ct2-transformers-converter=ctranslate2.converters.transformers:main']`
+      
+              According to the spec (see the link below), however, setuptools CANNOT
+              consider this value unless `scripts` is listed as `dynamic`.
+      
+              https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+      
+              To prevent this problem, you can list `scripts` under `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on other means of
+              configuration.
+              ********************************************************************************
+      
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/expand.py:128: SetuptoolsWarning: File '/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/README.md' cannot be found
+        for path in _filter_existing_files(_filepaths)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml` (dependencies)
+        corresp(dist, value, root_dir)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/pip-build-env-f8yv_jrj/overlay/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `license` overwritten by `pyproject.toml`
+        corresp(dist, value, root_dir)
+      running bdist_wheel
+      running build
+      running build_py
+      creating build/lib.macosx-14.5-arm64-cpython-312/ctranslate2
+      copying ctranslate2/logging.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2
+      copying ctranslate2/version.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2
+      copying ctranslate2/__init__.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2
+      copying ctranslate2/extensions.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2
+      creating build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/model_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/transformer_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/wav2vec2bert_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/common_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/__init__.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/attention_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/wav2vec2_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      copying ctranslate2/specs/whisper_spec.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/specs
+      creating build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/opennmt_tf.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/fairseq.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/transformers.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/opus_mt.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/converter.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/__init__.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/marian.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/utils.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/opennmt_py.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      copying ctranslate2/converters/openai_gpt2.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/converters
+      creating build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/models
+      copying ctranslate2/models/__init__.py -> build/lib.macosx-14.5-arm64-cpython-312/ctranslate2/models
+      running egg_info
+      creating ctranslate2.egg-info
+      writing ctranslate2.egg-info/PKG-INFO
+      writing dependency_links to ctranslate2.egg-info/dependency_links.txt
+      writing requirements to ctranslate2.egg-info/requires.txt
+      writing top-level names to ctranslate2.egg-info/top_level.txt
+      writing manifest file 'ctranslate2.egg-info/SOURCES.txt'
+      reading manifest file 'ctranslate2.egg-info/SOURCES.txt'
+      writing manifest file 'ctranslate2.egg-info/SOURCES.txt'
+      running build_ext
+      CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+        Compatibility with CMake < 3.10 will be removed from a future version of
+        CMake.
+      
+        Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+        to tell CMake that the project requires at least <min> but has been updated
+        to work with policies introduced by <max> or earlier.
+      
+      
+      -- The C compiler identification is AppleClang 17.0.0.17000013
+      -- The CXX compiler identification is AppleClang 17.0.0.17000013
+      -- Detecting C compiler ABI info
+      -- Detecting C compiler ABI info - done
+      -- Check for working C compiler: /usr/bin/cc - skipped
+      -- Detecting C compile features
+      -- Detecting C compile features - done
+      -- Detecting CXX compiler ABI info
+      -- Detecting CXX compiler ABI info - done
+      -- Check for working CXX compiler: /usr/bin/c++ - skipped
+      -- Detecting CXX compile features
+      -- Detecting CXX compile features - done
+      -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+      -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+      -- Found Threads: TRUE
+      -- Build spdlog: 1.10.0
+      -- Build type: Release
+      -- The OBJCXX compiler identification is AppleClang 17.0.0.17000013
+      -- Detecting OBJCXX compiler ABI info
+      -- Detecting OBJCXX compiler ABI info - done
+      -- Check for working OBJCXX compiler: /usr/bin/c++ - skipped
+      -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
+      -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
+      -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
+      -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
+      -- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+      -- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
+      -- Found Python3: /opt/homebrew/Frameworks/Python.framework/Versions/3.13/bin/python3.13 (found version "3.13.3") found components: Interpreter
+      -- Configuring done (5.5s)
+      -- Generating done (0.1s)
+      CMake Warning:
+        Manually-specified variables were not used by the project:
+      
+          OpenMP_CXX_FLAGS
+          OpenMP_CXX_LIB_NAMES
+          OpenMP_C_FLAGS
+          OpenMP_C_LIB_NAMES
+          OpenMP_omp_LIBRARY
+      
+      
+      -- Build files have been written to: /Users/christophbackhaus/Documents/GitHub/CTranslate2/build
+      [  0%] Compiling Metal kernel to metallib
+      [  1%] Building OBJCXX object tests/metal/CMakeFiles/metal_ops_test.dir/metal_ops_test.mm.o
+      [  3%] Building CXX object tests/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+      [  3%] Building OBJCXX object tests/metal/CMakeFiles/metal_device_info_test.dir/metal_device_info_test.mm.o
+      [  4%] Building OBJCXX object tests/metal/CMakeFiles/metal_buffer_test.dir/metal_buffer_test.mm.o
+      [  4%] Generating relu_kernel.metallib
+      [  5%] Building OBJCXX object tests/metal/ops/CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.mm.o
+      [  7%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_multi_device_bench_test_cpu.mm.o
+      [  7%] Building OBJCXX object tests/metal/ops/CMakeFiles/multiply_multi_device_bench_test.dir/multiply_multi_device_bench_test.mm.o
+      [  7%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_multi_device_bench_test_metal.mm.o
+      [  8%] Building OBJCXX object tests/metal/ops/CMakeFiles/add_multi_device_bench_test.dir/add_multi_device_bench_test.mm.o
+      [  8%] Building CXX object CMakeFiles/ctranslate2.dir/src/allocator.cc.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [  9%] Building CXX object CMakeFiles/ctranslate2.dir/src/batch_reader.cc.o
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/metal_buffer_test.mm:13:46: warning: 'maxBufferLength' is only available on macOS 10.14 or newer [-Wunguarded-availability-new]
+         13 |         NSUInteger maxBufferLength = [device maxBufferLength];
+            |                                              ^~~~~~~~~~~~~~~~
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLDevice.h:1125:33: note: 'maxBufferLength' has been marked as being introduced in macOS 10.14 here, but the deployment target is macOS 10.13.0
+       1125 | @property (readonly) NSUInteger maxBufferLength API_AVAILABLE(macos(10.14), ios(12.0));
+            |                                 ^
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/metal_buffer_test.mm:13:46: note: enclose 'maxBufferLength' in an @available check to silence this warning
+         13 |         NSUInteger maxBufferLength = [device maxBufferLength];
+            |                                              ^~~~~~~~~~~~~~~~
+         14 |         std::cout << "[MetalBufferTest] Max Buffer Length: " << maxBufferLength << std::endl;
+            |
+      1 warning generated.
+      [  9%] Linking OBJCXX executable metal_ops_test
+      [  9%] Linking OBJCXX executable metal_buffer_test
+      [  9%] Built target metal_ops_test
+      [  9%] Built target metal_buffer_test
+      [  9%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_bench_helpers.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 10%] Building CXX object tests/metal/ops/CMakeFiles/max_load_bench.dir/max_load_bench.cpp.o
+      [ 10%] Linking OBJCXX executable metal_device_info_test
+      [ 10%] Building CXX object tests/metal/ops/CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.cpp.o
+      [ 11%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_bench_helpers.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 11%] Built target metal_device_info_test
+      [ 11%] Building OBJCXX object tests/metal/ops/CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 11%] Building OBJCXX object tests/metal/ops/CMakeFiles/multiply_multi_device_bench_test.dir/multiply_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 11%] Building OBJCXX object tests/metal/ops/CMakeFiles/add_multi_device_bench_test.dir/add_metal_batch.mm.o
+      [ 11%] Generating add_kernel.metallib
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 11%] Building CXX object CMakeFiles/ctranslate2.dir/src/buffered_translation_wrapper.cc.o
+      [ 11%] Building OBJCXX object tests/metal/ops/CMakeFiles/max_load_bench.dir/add_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 11%] Building OBJCXX object tests/metal/ops/CMakeFiles/adaptive_dispatch_bench.dir/relu_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_kernel.metal:9:13: warning: comparison of integers of different signs: 'uint' (aka 'unsigned int') and 'const constant int' [-Wsign-compare]
+          if (gid < size)
+              ~~~ ^ ~~~~
+      1 warning generated.
+      [ 12%] Linking OBJCXX executable softmax_multi_device_bench_test
+      [ 13%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_utils.mm.o
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/add_kernel.metal:8:13: warning: comparison of integers of different signs: 'uint' (aka 'unsigned int') and 'const constant int' [-Wsign-compare]
+          if (gid < size)
+              ~~~ ^ ~~~~
+      1 warning generated.
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 14%] Linking OBJCXX executable multiply_multi_device_bench_test
+      [ 14%] Built target softmax_multi_device_bench_test
+      [ 15%] Linking OBJCXX executable add_multi_device_bench_test
+      [ 15%] Generating multiply_kernel.metallib
+      [ 15%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_utils.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      [ 15%] Built target multiply_multi_device_bench_test
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_kernel.metal:8:13: warning: comparison of integers of different signs: 'uint' (aka 'unsigned int') and 'const constant int' [-Wsign-compare]
+          if (gid < size)
+              ~~~ ^ ~~~~
+      1 warning generated.
+      [ 15%] Generating softmax_kernel.metallib
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_kernel.metal:9:24: warning: comparison of integers of different signs: 'uint' (aka 'unsigned int') and 'const constant int' [-Wsign-compare]
+          for (uint i = 0; i < size; ++i)
+                           ~ ^ ~~~~
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_kernel.metal:12:24: warning: comparison of integers of different signs: 'uint' (aka 'unsigned int') and 'const constant int' [-Wsign-compare]
+          for (uint i = 0; i < size; ++i)
+                           ~ ^ ~~~~
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_kernel.metal:14:13: warning: comparison of integers of different signs: 'uint' (aka 'unsigned int') and 'const constant int' [-Wsign-compare]
+          if (gid < size)
+              ~~~ ^ ~~~~
+      3 warnings generated.
+      [ 15%] Built target add_multi_device_bench_test
+      [ 16%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/allocator.cc.o
+      [ 17%] Building OBJCXX object tests/metal/ops/CMakeFiles/max_load_bench.dir/multiply_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 17%] Built target relu_kernel_lib
+      [ 17%] Built target gemm_kernel_lib
+      [ 17%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_cpu_accel.mm.o
+      [ 17%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/backend.cc.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 18%] Linking CXX executable adaptive_dispatch_bench
+      [ 18%] Built target add_kernel_lib
+      [ 19%] Building OBJCXX object tests/metal/ops/CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.mm.o
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 19%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_test_main.dir/gemm_test_main.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 20%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_metal.mm.o
+      [ 21%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/cpu_info.cc.o
+      [ 21%] Built target adaptive_dispatch_bench
+      [ 22%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_test_main.dir/gemm_utils.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 22%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/cpu_isa.cc.o
+      [ 22%] Built target multiply_kernel_lib
+      [ 22%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_cpu_accel.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 22%] Built target softmax_kernel_lib
+      [ 22%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_test_main.dir/gemm_metal_runner.mm.o
+      [ 23%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_test_main.dir/gemm_cpu_accel.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 25%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/kernels.cc.o
+      [ 25%] Linking CXX executable max_load_bench
+      [ 25%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/parallel.cc.o
+      [ 26%] Building CXX object CMakeFiles/ctranslate2.dir/src/cpu/primitives.cc.o
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 26%] Built target max_load_bench
+      [ 26%] Building CXX object CMakeFiles/ctranslate2.dir/src/decoding.cc.o
+      [ 27%] Building CXX object CMakeFiles/ctranslate2.dir/src/decoding_utils.cc.o
+      [ 27%] Building CXX object CMakeFiles/ctranslate2.dir/src/devices.cc.o
+      [ 27%] Linking OBJCXX executable relu_multi_device_bench_test
+      [ 28%] Linking OBJCXX executable gemm_multi_device_bench_test_cpu
+      [ 29%] Building CXX object CMakeFiles/ctranslate2.dir/src/dtw.cc.o
+      [ 29%] Building CXX object CMakeFiles/ctranslate2.dir/src/encoder.cc.o
+      [ 29%] Built target relu_multi_device_bench_test
+      [ 30%] Building CXX object CMakeFiles/ctranslate2.dir/src/env.cc.o
+      [ 30%] Built target gemm_multi_device_bench_test_cpu
+      [ 30%] Building CXX object CMakeFiles/ctranslate2.dir/src/filesystem.cc.o
+      [ 31%] Building CXX object CMakeFiles/ctranslate2.dir/src/generator.cc.o
+      [ 32%] Linking OBJCXX executable gemm_multi_device_bench_test_metal
+      [ 32%] Linking OBJCXX executable gemm_test_main
+      [ 32%] Built target gemm_multi_device_bench_test_metal
+      [ 32%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/attention_layer.cc.o
+      [ 32%] Built target gemm_test_main
+      [ 33%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/attention.cc.o
+      [ 33%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/flash_attention.cc.o
+      [ 33%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/decoder.cc.o
+      [ 34%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/common.cc.o
+      [ 35%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/transformer.cc.o
+      [ 35%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/wav2vec2.cc.o
+      [ 36%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/wav2vec2bert.cc.o
+      [ 36%] Linking CXX shared library ../../../lib/libgtest.dylib
+      [ 36%] Built target gtest
+      [ 37%] Building CXX object tests/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+      [ 37%] Building CXX object CMakeFiles/ctranslate2.dir/src/layers/whisper.cc.o
+      [ 38%] Building CXX object CMakeFiles/ctranslate2.dir/src/logging.cc.o
+      [ 38%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/language_model.cc.o
+      [ 39%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/model.cc.o
+      [ 39%] Linking CXX shared library ../../../lib/libgtest_main.dylib
+      [ 39%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/model_factory.cc.o
+      [ 40%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/model_reader.cc.o
+      [ 40%] Built target gtest_main
+      [ 40%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/sequence_to_sequence.cc.o
+      [ 40%] Building CXX object tests/metal/ops/CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o
+      [ 41%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/transformer.cc.o
+      [ 41%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/wav2vec2.cc.o
+      [ 42%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/wav2vec2bert.cc.o
+      [ 42%] Building CXX object CMakeFiles/ctranslate2.dir/src/models/whisper.cc.o
+      [ 43%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/activation.cc.o
+      [ 44%] Building OBJCXX object tests/metal/ops/CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 45%] Building CXX object tests/metal/ops/CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.cpp.o
+      [ 45%] Building OBJCXX object tests/metal/ops/CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_metal_batch.mm.o
+      [ 46%] Building CXX object tests/metal/ops/CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.cpp.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 46%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/add.cc.o
+      [ 47%] Building CXX object tests/metal/ops/CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.cpp.o
+      [ 47%] Linking CXX executable adaptive_dispatch_test
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 47%] Building OBJCXX object tests/metal/ops/CMakeFiles/add_adaptive_dispatch_test.dir/add_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 47%] Built target adaptive_dispatch_test
+      [ 47%] Building OBJCXX object tests/metal/ops/CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 48%] Building CXX object tests/metal/ops/CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o
+      [ 50%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/alibi_add.cc.o
+      [ 51%] Linking CXX executable gemm_adaptive_dispatch_test
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 51%] Built target gemm_adaptive_dispatch_test
+      [ 51%] Building OBJCXX object tests/metal/ops/CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 51%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/alibi_add_cpu.cc.o
+      [ 52%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/bias_add.cc.o
+      [ 53%] Linking CXX executable add_adaptive_dispatch_test
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 53%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/bias_add_cpu.cc.o
+      [ 54%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/concat.cc.o
+      [ 54%] Built target add_adaptive_dispatch_test
+      [ 54%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/concat_split_slide_cpu.cc.o
+      [ 55%] Linking CXX executable multiply_adaptive_dispatch_test
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 56%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/conv1d.cc.o
+      [ 56%] Built target multiply_adaptive_dispatch_test
+      [ 56%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/conv1d_cpu.cc.o
+      [ 57%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/cos.cc.o
+      [ 57%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/dequantize.cc.o
+      [ 58%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/dequantize_cpu.cc.o
+      [ 58%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/flash_attention.cc.o
+      [ 59%] Linking CXX executable softmax_adaptive_dispatch_test
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 59%] Built target softmax_adaptive_dispatch_test
+      [ 60%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/flash_attention_cpu.cc.o
+      [ 60%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/gather.cc.o
+      [ 60%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/gather_cpu.cc.o
+      [ 60%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/gemm.cc.o
+      [ 61%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/gelu.cc.o
+      [ 62%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/gumbel_max.cc.o
+      [ 62%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/gumbel_max_cpu.cc.o
+      [ 63%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/layer_norm.cc.o
+      [ 63%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/layer_norm_cpu.cc.o
+      [ 64%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/log.cc.o
+      [ 64%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/matmul.cc.o
+      [ 65%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/mean.cc.o
+      [ 65%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/mean_cpu.cc.o
+      [ 66%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/median_filter.cc.o
+      [ 66%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/min_max.cc.o
+      [ 67%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/mul.cc.o
+      [ 68%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/multinomial_cpu.cc.o
+      [ 68%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/multinomial.cc.o
+      [ 68%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/quantize.cc.o
+      [ 69%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/quantize_cpu.cc.o
+      [ 69%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/relu.cc.o
+      [ 70%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/rms_norm.cc.o
+      [ 70%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/rms_norm_cpu.cc.o
+      [ 71%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/rotary.cc.o
+      [ 71%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/rotary_cpu.cc.o
+      [ 72%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/sin.cc.o
+      [ 73%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/softmax_cpu.cc.o
+      [ 73%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/softmax.cc.o
+      [ 73%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/split.cc.o
+      [ 75%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/slide.cc.o
+      [ 75%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/sub.cc.o
+      [ 76%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/sigmoid.cc.o
+      [ 76%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/swish.cc.o
+      [ 77%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/tanh.cc.o
+      [ 77%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/tile.cc.o
+      [ 78%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/tile_cpu.cc.o
+      [ 78%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/topk.cc.o
+      [ 79%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/topk_cpu.cc.o
+      [ 80%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/topp_mask_cpu.cc.o
+      [ 80%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/transpose.cc.o
+      [ 80%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/topp_mask.cc.o
+      [ 81%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/nccl_ops.cc.o
+      [ 81%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/nccl_ops_cpu.cc.o
+      [ 82%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/awq/dequantize.cc.o
+      [ 82%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/awq/dequantize_cpu.cc.o
+      [ 83%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/awq/gemm.cc.o
+      [ 83%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/awq/gemm_cpu.cc.o
+      [ 84%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/awq/gemv.cc.o
+      [ 84%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/awq/gemv_cpu.cc.o
+      [ 85%] Building CXX object CMakeFiles/ctranslate2.dir/src/ops/sum.cc.o
+      [ 85%] Building CXX object CMakeFiles/ctranslate2.dir/src/padder.cc.o
+      [ 86%] Building CXX object CMakeFiles/ctranslate2.dir/src/profiler.cc.o
+      [ 86%] Building CXX object CMakeFiles/ctranslate2.dir/src/random.cc.o
+      [ 87%] Building CXX object CMakeFiles/ctranslate2.dir/src/sampling.cc.o
+      [ 87%] Building CXX object CMakeFiles/ctranslate2.dir/src/scoring.cc.o
+      [ 87%] Building CXX object CMakeFiles/ctranslate2.dir/src/thread_pool.cc.o
+      [ 88%] Building CXX object CMakeFiles/ctranslate2.dir/src/storage_view.cc.o
+      [ 89%] Building CXX object CMakeFiles/ctranslate2.dir/src/translator.cc.o
+      [ 89%] Building CXX object CMakeFiles/ctranslate2.dir/src/types.cc.o
+      [ 89%] Building CXX object CMakeFiles/ctranslate2.dir/src/vocabulary.cc.o
+      [ 90%] Building CXX object CMakeFiles/ctranslate2.dir/src/utils.cc.o
+      [ 91%] Building CXX object CMakeFiles/ctranslate2.dir/src/vocabulary_map.cc.o
+      [ 91%] Building OBJCXX object CMakeFiles/ctranslate2.dir/src/metal/metal_device.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 92%] Building OBJCXX object CMakeFiles/ctranslate2.dir/src/metal/metal_utils.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 92%] Building OBJCXX object CMakeFiles/ctranslate2.dir/src/metal/metal_allocator.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 93%] Building OBJCXX object CMakeFiles/ctranslate2.dir/src/metal/metal_kernels.mm.o
+      clang++: warning: -framework Metal: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: -framework Foundation: 'linker' input unused [-Wunused-command-line-argument]
+      clang++: warning: argument unused during compilation: '-ObjC++' [-Wunused-command-line-argument]
+      [ 93%] Linking CXX shared library libctranslate2.dylib
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      [ 93%] Built target ctranslate2
+      [ 93%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/decoding_test.cc.o
+      [ 95%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/layers_test.cc.o
+      [ 95%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/ops_test.cc.o
+      [ 95%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/model_test.cc.o
+      [ 96%] Building CXX object tests/CMakeFiles/benchmark_ops.dir/benchmark_ops.cc.o
+      [ 96%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/primitives_test.cc.o
+      [ 96%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/test.cc.o
+      [ 96%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/test_utils.cc.o
+      [ 97%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/storage_view_test.cc.o
+      [ 98%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/translator_test.cc.o
+      [ 98%] Building CXX object tests/CMakeFiles/ctranslate2_test.dir/batching_test.cc.o
+      [100%] Linking CXX executable benchmark_ops
+      [100%] Built target benchmark_ops
+      [100%] Linking CXX executable ctranslate2_test
+      [100%] Built target ctranslate2_test
+      -- Install configuration: "Release"
+      -- Installing: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/libctranslate2.4.5.1.dylib
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/libctranslate2.4.dylib
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/libctranslate2.dylib
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/half_float
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/half_float/half.hpp
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/filesystem.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/devices.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/utils.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/decoding.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/vocabulary_map.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/generation.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/storage_view.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/attention.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/whisper.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/decoder.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/wav2vec2bert.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/common.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/encoder.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/flash_attention.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/transformer.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/wav2vec2.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/layers.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/layers/attention_layer.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/replica_pool.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/types.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/vocabulary.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/encoding.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/translation.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/decoding_utils.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/logging.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/whisper.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/sequence_to_sequence.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/language_model.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/wav2vec2bert.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/model_reader.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/model.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/transformer.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/wav2vec2.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/models/model_factory.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/thread_pool.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/bfloat16.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/allocator.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/encoder.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/padder.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/softmax.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/quantize.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/dequantize.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/matmul.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/layer_norm.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/multinomial.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/topk.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/op.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/bias_add.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/gumbel_max.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/gemm.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/rms_norm.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/unsqueeze.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/tile.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/relu.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/gelu.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/conv1d.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/swish.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/gather.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/sub.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/rotary.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/add.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/awq
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/awq/gemm.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/awq/dequantize_awq.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/awq/gemv.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/topp_mask.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/concat.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/min_max.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/tanh.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/sum.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/mul.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/nccl_ops.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/identity.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/log.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/mean.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/sigmoid.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/slide.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash_attention.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/activation.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/cos.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/ops.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/softmax.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/mask.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/flash_fwd_kernel.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/utils.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/block_info.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/flash_fwd_launch_template.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/rotary.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/alibi.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/kernel_traits.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/static_switch.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/flash-attention/flash.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/squeeze.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/sin.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/alibi_add.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/transpose.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/split.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/ops/median_filter.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/sampling.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/primitives.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/translator.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/profiler.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/buffered_translation_wrapper.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/scoring.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/generator.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/random.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/ctranslate2/batch_reader.h
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/nlohmann
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/include/nlohmann/json.hpp
+      -- Installing: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/cmake/ctranslate2/ctranslate2Targets.cmake
+      -- Installing: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/cmake/ctranslate2/ctranslate2Targets-release.cmake
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/cmake/ctranslate2/ctranslate2Config.cmake
+      -- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/cmake/ctranslate2/FindNCCL.cmake
+      -- Installing: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/cmake/ctranslate2/ctranslate2ConfigVersion.cmake
+      building 'ctranslate2._ext' extension
+      error: unknown file type '.mm' (from '../src/metal/audio_processing.mm')
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for ctranslate2
+Failed to build ctranslate2
+ERROR: Failed to build installable wheels for some pyproject.toml based projects (ctranslate2)

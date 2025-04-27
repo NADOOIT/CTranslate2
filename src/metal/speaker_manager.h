@@ -6,6 +6,11 @@
 #include <mutex>
 #include <optional>
 
+#ifdef __OBJC__
+#import <Metal/Metal.h>
+#import <MetalPerformanceShaders/MetalPerformanceShaders.h>
+#endif
+
 namespace ctranslate2 {
 namespace metal {
 
@@ -27,7 +32,7 @@ public:
     
     // Current speaker info
     std::string get_current_speaker_id() const { return _current_speaker_id; }
-    std::optional<SpeakerProfile> get_current_profile() const;
+    std::optional<std::reference_wrapper<const SpeakerProfile>> get_current_profile() const;
     
 private:
     static constexpr size_t kDetectionIntervalSamples = 44100 * 2; // 2 seconds
@@ -40,14 +45,14 @@ private:
     MPSNNGraph* _fingerprint_pipeline;
     
     // Speaker profiles
-    std::unordered_map<std::string, SpeakerProfile> _active_profiles;
+    std::unordered_map<std::string, std::unique_ptr<SpeakerProfile>> _active_profiles;
     std::string _current_speaker_id;
     mutable std::mutex _profiles_mutex;
     
     // Internal methods
     VoiceFingerprint extract_fingerprint(const float* audio, size_t size);
     std::string match_fingerprint(const VoiceFingerprint& fp);
-    void process_with_model(const float* audio, size_t size, SpeakerProfile& profile);
+    void process_with_model(const float* audio, size_t size, SpeakerProfile& profile); // (signature is already correct, but ensure all callers pass by reference, not by value or copy)
     void setup_neural_engine_pipeline();
     
     // File operations
@@ -56,7 +61,5 @@ private:
     static std::string decompress_model(std::istream& compressed_data);
 };
 
-} // namespace metal
-} // namespace ctranslate2
 
 #endif // CTRANSLATE2_METAL_SPEAKER_MANAGER_H_

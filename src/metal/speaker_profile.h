@@ -62,6 +62,10 @@ struct WordDetectionResult {
 
 class SpeakerProfile {
 public:
+    SpeakerProfile(const SpeakerProfile&) = delete;
+    SpeakerProfile& operator=(const SpeakerProfile&) = delete;
+    SpeakerProfile(SpeakerProfile&&) = default;
+    SpeakerProfile& operator=(SpeakerProfile&&) = default;
     SpeakerProfile() = default;
     explicit SpeakerProfile(const std::string& id);
     

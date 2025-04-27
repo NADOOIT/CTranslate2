@@ -209,6 +209,7 @@ if(WITH_METAL)
     "-framework Metal"
     "-framework Foundation"
     "-framework MetalKit"
+    "-framework MetalPerformanceShaders"
   )
 endif()
 

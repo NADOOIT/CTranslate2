@@ -142,9 +142,9 @@ std::string SpeakerManager::match_fingerprint(const VoiceFingerprint& fp) {
     float best_similarity = 0.0f;
     std::string best_match;
     
-    for (const auto& [id, profile] : _active_profiles) {
+    for (const auto& [id, profile_ptr] : _active_profiles) {
         float similarity = cosine_similarity(fp.mel_fingerprint, 
-                                          profile.fingerprint().mel_fingerprint);
+                                          profile_ptr->fingerprint().mel_fingerprint);
         
         if (similarity > best_similarity && similarity > 0.85f) { // Threshold
             best_similarity = similarity;
@@ -160,8 +160,7 @@ bool SpeakerManager::save_speaker_model(const std::string& speaker_id) {
     
     auto it = _active_profiles.find(speaker_id);
     if (it == _active_profiles.end()) return false;
-    
-    const auto& profile = it->second;
+    const auto& profile = *(it->second);
     
     // Create JSON representation
     nlohmann::json model_json = {
@@ -210,7 +209,7 @@ bool SpeakerManager::load_speaker_model(const std::string& speaker_id) {
         auto model_json = nlohmann::json::parse(json_str);
         
         // Create new profile
-        SpeakerProfile profile(speaker_id);
+        auto profile = std::make_unique<SpeakerProfile>(speaker_id);
         
         // Load fingerprint
         VoiceFingerprint fp;
@@ -218,17 +217,18 @@ bool SpeakerManager::load_speaker_model(const std::string& speaker_id) {
         fp.pitch_contour = model_json["fingerprint"]["pitch_contour"].get<std::vector<float>>();
         fp.speaking_rate = model_json["fingerprint"]["speaking_rate"].get<float>();
         fp.fundamental_freq = model_json["fingerprint"]["fundamental_freq"].get<float>();
-        profile.update_fingerprint(fp);
+        profile->update_fingerprint(fp);
         
         // Load weights
         ModelWeights weights;
         weights.separation_weights = model_json["weights"]["separation"].get<std::vector<float>>();
         weights.prediction_weights = model_json["weights"]["prediction"].get<std::vector<float>>();
-        profile.update_weights(weights);
+        profile->update_weights(weights);
         
         // Store profile
         std::lock_guard<std::mutex> lock(_profiles_mutex);
-        _active_profiles[speaker_id] = std::move(profile);
+        _active_profiles.insert_or_assign(speaker_id, std::move(profile));
+
         
         return true;
     } catch (...) {
@@ -238,7 +238,7 @@ bool SpeakerManager::load_speaker_model(const std::string& speaker_id) {
 
 void SpeakerManager::create_new_speaker_profile(const std::string& speaker_id) {
     std::lock_guard<std::mutex> lock(_profiles_mutex);
-    _active_profiles.emplace(speaker_id, SpeakerProfile(speaker_id));
+    _active_profiles.try_emplace(speaker_id, std::make_unique<SpeakerProfile>(speaker_id));
 }
 
 void SpeakerManager::process_audio_with_speaker_detection(const float* audio, size_t size) {
@@ -248,9 +248,9 @@ void SpeakerManager::process_audio_with_speaker_detection(const float* audio, si
     if (detected_speaker != "unknown_speaker") {
         std::lock_guard<std::mutex> lock(_profiles_mutex);
         auto it = _active_profiles.find(detected_speaker);
-        if (it != _active_profiles.end()) {
-            process_with_model(audio, size, it->second);
-        }
+    if (it != _active_profiles.end()) {
+        process_with_model(audio, size, *(it->second));
+    }    }
     }
 }
 
@@ -268,18 +268,18 @@ void SpeakerManager::process_with_model(const float* audio, size_t size, Speaker
     profile.enhance_audio_quality(audio, size, output_ptr);
     
     // Update profile metrics
-    float quality = calculate_output_quality(audio, output_ptr, size);
-    profile.update_metrics(1.0f, quality);  // Assuming perfect prediction for now
+    // float quality = calculate_output_quality(audio, output_ptr, size);
+    // profile.update_metrics(1.0f, quality);  // Assuming perfect prediction for now
     
     [inputBuffer release];
     [outputBuffer release];
 }
 
-std::optional<SpeakerProfile> SpeakerManager::get_current_profile() const {
+std::optional<std::reference_wrapper<const SpeakerProfile>> SpeakerManager::get_current_profile() const {
     std::lock_guard<std::mutex> lock(_profiles_mutex);
     auto it = _active_profiles.find(_current_speaker_id);
     if (it != _active_profiles.end()) {
-        return it->second;
+        return std::cref(*(it->second));
     }
     return std::nullopt;
 }

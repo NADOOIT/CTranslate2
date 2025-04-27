@@ -1,0 +1,355 @@
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/__init__.py:94: _DeprecatedInstaller: setuptools.installer and fetch_build_eggs are deprecated.
+!!
+
+        ********************************************************************************
+        Requirements should be satisfied by a PEP 517 installer.
+        If you are using pip, you can try `pip install --use-pep517`.
+        ********************************************************************************
+
+!!
+  dist.fetch_build_eggs(dist.setup_requires)
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `license` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `license = 'MIT'`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `license` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `license` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `classifiers = ['Development Status :: 5 - Production/Stable', 'Environment :: GPU :: NVIDIA CUDA :: 11.0', 'Intended Audience :: Developers', 'Intended Audience :: Science/Research', 'License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3', 'Programming Language :: Python :: 3 :: Only', 'Programming Language :: Python :: 3.7', 'Programming Language :: Python :: 3.8', 'Programming Language :: Python :: 3.9', 'Programming Language :: Python :: 3.10', 'Programming Language :: Python :: 3.11', 'Programming Language :: Python :: 3.12', 'Topic :: Scientific/Engineering :: Artificial Intelligence']`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `classifiers` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `classifiers` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `urls` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `urls = {'Forum': 'https://forum.opennmt.net', 'Source': 'https://github.com/OpenNMT/CTranslate2'}`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `urls` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `urls` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `scripts` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `scripts = ['ct2-fairseq-converter=ctranslate2.converters.fairseq:main', 'ct2-marian-converter=ctranslate2.converters.marian:main', 'ct2-openai-gpt2-converter=ctranslate2.converters.openai_gpt2:main', 'ct2-opennmt-py-converter=ctranslate2.converters.opennmt_py:main', 'ct2-opennmt-tf-converter=ctranslate2.converters.opennmt_tf:main', 'ct2-opus-mt-converter=ctranslate2.converters.opus_mt:main', 'ct2-transformers-converter=ctranslate2.converters.transformers:main']`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `scripts` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `scripts` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/expand.py:126: SetuptoolsWarning: File '/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/README.md' cannot be found
+  return '\n'.join(
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml` (dependencies)
+  corresp(dist, value, root_dir)
+/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `license` overwritten by `pyproject.toml`
+  corresp(dist, value, root_dir)
+running build_ext
+building 'ctranslate2._ext' extension
+clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/audio_processing.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/audio_processing.o -std=c++17 -mmacosx-version-min=10.14
+clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_allocator.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_allocator.o -std=c++17 -mmacosx-version-min=10.14
+clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_device.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_device.o -std=c++17 -mmacosx-version-min=10.14
+../src/metal/metal_device.mm:52:15: warning: '__bridge_retained' casts have no effect when not using ARC [-Warc-bridge-casts-disallowed-in-nonarc]
+   52 |       return (__bridge_retained void*)buffer;
+      |               ^~~~~~~~~~~~~~~~~
+../src/metal/metal_device.mm:63:15: warning: '__bridge_retained' casts have no effect when not using ARC [-Warc-bridge-casts-disallowed-in-nonarc]
+   63 |       return (__bridge_retained void*)command_buffer;
+      |               ^~~~~~~~~~~~~~~~~
+2 warnings generated.
+clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_kernels.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_kernels.o -std=c++17 -mmacosx-version-min=10.14
+clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_utils.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_utils.o -std=c++17 -mmacosx-version-min=10.14
+clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/speaker_manager.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/speaker_manager.o -std=c++17 -mmacosx-version-min=10.14
+In file included from ../src/metal/speaker_manager.mm:1:
+In file included from ../src/metal/speaker_manager.h:4:
+../src/metal/speaker_profile.h:67:5: warning: explicitly defaulted move constructor is implicitly deleted [-Wdefaulted-function-deleted]
+   67 |     SpeakerProfile(SpeakerProfile&&) = default;
+      |     ^
+../src/metal/speaker_profile.h:225:23: note: move constructor of 'SpeakerProfile' is implicitly deleted because field '_background_processing' has a deleted move constructor
+  225 |     std::atomic<bool> _background_processing{false};
+      |                       ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:38:17: note: copy constructor of 'atomic<bool>' is implicitly deleted because base class '__atomic_base<bool>' has a deleted copy constructor
+   38 | struct atomic : public __atomic_base<_Tp> {
+      |                 ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic_base.h:129:3: note: '__atomic_base' has been explicitly marked deleted here
+  129 |   __atomic_base(const __atomic_base&) = delete;
+      |   ^
+../src/metal/speaker_profile.h:67:40: note: replace 'default' with 'delete'
+   67 |     SpeakerProfile(SpeakerProfile&&) = default;
+      |                                        ^~~~~~~
+      |                                        delete
+../src/metal/speaker_profile.h:68:21: warning: explicitly defaulted move assignment operator is implicitly deleted [-Wdefaulted-function-deleted]
+   68 |     SpeakerProfile& operator=(SpeakerProfile&&) = default;
+      |                     ^
+../src/metal/speaker_profile.h:225:23: note: move assignment operator of 'SpeakerProfile' is implicitly deleted because field '_background_processing' has a deleted move assignment operator
+  225 |     std::atomic<bool> _background_processing{false};
+      |                       ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__atomic/atomic.h:60:11: note: 'operator=' has been explicitly marked deleted here
+   60 |   atomic& operator=(const atomic&)          = delete;
+      |           ^
+../src/metal/speaker_profile.h:68:51: note: replace 'default' with 'delete'
+   68 |     SpeakerProfile& operator=(SpeakerProfile&&) = default;
+      |                                                   ^~~~~~~
+      |                                                   delete
+../src/metal/speaker_profile.h:124:12: error: default member initializer for 'mode' needed within definition of enclosing class 'SpeakerProfile' outside of member functions
+  124 |     struct SmartCompressionConfig {
+      |            ^
+../src/metal/speaker_profile.h:152:76: note: in evaluation of exception specification for 'ctranslate2::metal::SpeakerProfile::SmartCompressionConfig::SmartCompressionConfig' needed here
+  152 |                                     const SmartCompressionConfig& config = SmartCompressionConfig());
+      |                                                                            ^
+../src/metal/speaker_profile.h:132:14: note: default member initializer declared here
+  132 |         Mode mode = Mode::BALANCED;
+      |              ^
+../src/metal/speaker_profile.h:124:12: error: default member initializer for 'use_profile_prediction' needed within definition of enclosing class 'SpeakerProfile' outside of member functions
+  124 |     struct SmartCompressionConfig {
+      |            ^
+../src/metal/speaker_profile.h:133:14: note: default member initializer declared here
+  133 |         bool use_profile_prediction = true;    // Use profile for better compression
+      |              ^
+../src/metal/speaker_profile.h:124:12: error: default member initializer for 'store_fingerprints' needed within definition of enclosing class 'SpeakerProfile' outside of member functions
+  124 |     struct SmartCompressionConfig {
+      |            ^
+../src/metal/speaker_profile.h:134:14: note: default member initializer declared here
+  134 |         bool store_fingerprints = true;        // Store voice fingerprints for reconstruction
+      |              ^
+../src/metal/speaker_profile.h:124:12: error: default member initializer for 'silence_bits' needed within definition of enclosing class 'SpeakerProfile' outside of member functions
+  124 |     struct SmartCompressionConfig {
+      |            ^
+../src/metal/speaker_profile.h:135:17: note: default member initializer declared here
+  135 |         uint8_t silence_bits = 2;              // Bits used for silence
+      |                 ^
+../src/metal/speaker_profile.h:124:12: error: default member initializer for 'speech_bits' needed within definition of enclosing class 'SpeakerProfile' outside of member functions
+  124 |     struct SmartCompressionConfig {
+      |            ^
+../src/metal/speaker_profile.h:136:17: note: default member initializer declared here
+  136 |         uint8_t speech_bits = 8;               // Bits used for speech
+      |                 ^
+../src/metal/speaker_profile.h:124:12: error: default member initializer for 'quality_threshold' needed within definition of enclosing class 'SpeakerProfile' outside of member functions
+  124 |     struct SmartCompressionConfig {
+      |            ^
+../src/metal/speaker_profile.h:137:15: note: default member initializer declared here
+  137 |         float quality_threshold = 0.95f;       // Quality threshold for compression
+      |               ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:17:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_time_type.h:25:9: error: use of undeclared identifier 'chrono'; did you mean '::std::chrono'?
+   25 | typedef chrono::time_point<_FilesystemClock> file_time_type;
+      |         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__chrono/high_resolution_clock.h:23:11: note: '::std::chrono' declared here
+   23 | namespace chrono {
+      |           ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:17:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_time_type.h:25:28: error: unknown type name '_FilesystemClock'; did you mean '::std::filesystem::_FilesystemClock'?
+   25 | typedef chrono::time_point<_FilesystemClock> file_time_type;
+      |                            ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__chrono/file_clock.h:49:8: note: '::std::filesystem::_FilesystemClock' declared here
+   49 | struct _FilesystemClock {
+      |        ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:136:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_char_like_type.h:24:30: error: use of undeclared identifier 'is_standard_layout'
+   24 | using _IsCharLikeType = _And<is_standard_layout<_CharT>, is_trivial<_CharT> >;
+      |                              ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_char_like_type.h:24:76: error: expected ';' after alias declaration
+   24 | using _IsCharLikeType = _And<is_standard_layout<_CharT>, is_trivial<_CharT> >;
+      |                                                                            ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:162:8: error: no template named '__has_storage_type'; did you mean '::std::__has_storage_type'?
+  162 | struct __has_storage_type<__bitset<_N_words, _Size> > {
+      |        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:42:8: note: '::std::__has_storage_type' declared here
+   42 | struct __has_storage_type {
+      |        ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:162:8: error: class template partial specialization of '__has_storage_type' not in a namespace enclosing '__1'
+  162 | struct __has_storage_type<__bitset<_N_words, _Size> > {
+      |        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:42:8: note: explicitly specialized declaration is here
+   42 | struct __has_storage_type {
+      |        ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:179:16: error: no template named '__bit_reference'; did you mean '::std::__bit_reference'?
+  179 |   friend class __bit_reference<__bitset>;
+      |                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:47:7: note: '::std::__bit_reference' declared here
+   47 | class __bit_reference {
+      |       ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:180:16: error: no template named '__bit_const_reference'; did you mean '::std::__bit_const_reference'?
+  180 |   friend class __bit_const_reference<__bitset>;
+      |                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:139:7: note: '::std::__bit_const_reference' declared here
+  139 | class __bit_const_reference {
+      |       ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:181:16: error: no template named '__bit_iterator'; did you mean '::std::__bit_iterator'?
+  181 |   friend class __bit_iterator<__bitset, false>;
+      |                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:782:7: note: '::std::__bit_iterator' declared here
+  782 | class __bit_iterator {
+      |       ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:182:16: error: no template named '__bit_iterator'; did you mean '::std::__bit_iterator'?
+  182 |   friend class __bit_iterator<__bitset, true>;
+      |                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:782:7: note: '::std::__bit_iterator' declared here
+  782 | class __bit_iterator {
+      |       ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:183:17: error: no template named '__bit_array'; did you mean '::std::__bit_array'?
+  183 |   friend struct __bit_array<__bitset>;
+      |                 ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:591:8: note: '::std::__bit_array' declared here
+  591 | struct __bit_array {
+      |        ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:187:11: error: no template named '__bit_reference'; did you mean '::std::__bit_reference'?
+  187 |   typedef __bit_reference<__bitset> reference;
+      |           ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:47:7: note: '::std::__bit_reference' declared here
+   47 | class __bit_reference {
+      |       ^
+In file included from ../src/metal/speaker_manager.mm:5:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:200:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem:540:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h:19:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h:30:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream:164:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__ostream/basic_ostream.h:22:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset:188:11: error: no template named '__bit_const_reference'; did you mean '::std::__bit_const_reference'?
+  188 |   typedef __bit_const_reference<__bitset> const_reference;
+      |           ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference:139:7: note: '::std::__bit_const_reference' declared here
+  139 | class __bit_const_reference {
+      |       ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+2 warnings and 20 errors generated.
+error: command '/usr/bin/clang++' failed with exit code 1

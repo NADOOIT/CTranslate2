@@ -7,6 +7,7 @@ set -e
 # Use your universal binary Python (replace 'ub python3' with your actual command if different)
 export ARCHFLAGS='-arch x86_64 -arch arm64'
 export CMAKE_OSX_ARCHITECTURES='arm64;x86_64'
+
 # Install build tool if needed
 uv pip install --upgrade pip build
 
@@ -16,7 +17,7 @@ rm -rf build/ dist/ ctranslate2.egg-info/
 
 # Build sdist and universal2 wheel
 echo "Building universal2 wheel..."
-uv run -m build --sdist --wheel
+CMAKE_ARGS="-DWITH_METAL=ON" uv run -m build --sdist --wheel
 
 echo "\nBuild complete. Check dist/ for the universal2 wheel."
 ls -lh dist/

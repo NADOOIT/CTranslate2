@@ -8,6 +8,20 @@ import pybind11
 from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 
+class custom_build_ext(build_ext):
+    def build_extensions(self):
+        # .mm-Dateien wie .cpp behandeln
+        if '.mm' not in self.compiler.src_extensions:
+            self.compiler.src_extensions.append('.mm')
+        original_compile = self.compiler._compile
+        def _compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+            if src.endswith('.mm'):
+                # Verwende clang++ explizit für .mm
+                self.compiler.set_executable('compiler_so', 'clang++')
+            return original_compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
+        self.compiler._compile = _compile
+        super().build_extensions()
+
 VERSION = "4.5.1"  # Fixed version number matching the installed library
 
 def build_cpp_lib():
@@ -31,6 +45,8 @@ def build_cpp_lib():
         "-DWITH_CUDNN=OFF",
         "-DBUILD_TESTS=OFF",
         "-DCMAKE_CXX_FLAGS=-std=c++17",
+        "-DCMAKE_OBJCXX_FLAGS=-ObjC++ -std=c++17 -framework Metal -framework Foundation",
+        "-DCMAKE_EXE_LINKER_FLAGS=-framework Metal -framework Foundation",
         "-DOpenMP_C_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
         "-DOpenMP_CXX_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
         "-DOpenMP_C_LIB_NAMES=omp",
@@ -54,7 +70,7 @@ class CustomBuildExt(build_ext):
         build_cpp_lib()
         # Find and copy the libctranslate2*.dylib into ctranslate2/
         root_dir = Path(__file__).parent.parent.absolute()
-        dylib_candidates = list(root_dir.glob('python/Agent/testenv/lib/libctranslate2*.dylib'))
+        dylib_candidates = list((root_dir / "build").glob("libctranslate2*.dylib"))
         target_dir = Path(__file__).parent / 'ctranslate2'
         target_dir.mkdir(exist_ok=True)
         for dylib_path in dylib_candidates:
@@ -96,7 +112,18 @@ ext_module = Extension(
             "translator.cc",
             "wav2vec2.cc",
             "wav2vec2bert.cc",
-            "whisper.cc",  # Added whisper.cc
+            "whisper.cc",
+        ]
+    ] + [
+        os.path.join("..", "src", "metal", name) for name in [
+            "audio_processing.mm",
+            "metal_allocator.mm",
+            "metal_device.mm",
+            "metal_kernels.mm",
+            "metal_utils.mm",
+            "speaker_manager.mm",
+            "speaker_profile.mm",
+            "utils.mm",
         ]
     ],
     include_dirs=[
@@ -110,6 +137,7 @@ ext_module = Extension(
         "-mmacosx-version-min=10.14",
         "-Wl,-rpath,@loader_path/../lib"
     ],
+    language="objc++",
 )
 
 if platform.machine() == "arm64":
@@ -125,6 +153,7 @@ def get_long_description():
 setup(
     name="ctranslate2",
     version=VERSION,
+    cmdclass={"build_ext": custom_build_ext},
     license="MIT",
     description="Fast inference engine for Transformer models",
     long_description=get_long_description(),
@@ -166,7 +195,6 @@ setup(
     ],
 
     ext_modules=[ext_module],
-    cmdclass={"build_ext": CustomBuildExt},
     entry_points={
         "console_scripts": [
             "ct2-fairseq-converter=ctranslate2.converters.fairseq:main",
