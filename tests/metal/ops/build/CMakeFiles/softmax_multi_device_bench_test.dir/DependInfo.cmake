@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.o" "gcc" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.o.d"
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_multi_device_bench_test.mm" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.o" "gcc" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.mm.o" "gcc" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.mm.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_multi_device_bench_test.mm" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.mm.o" "gcc" "CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.mm.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

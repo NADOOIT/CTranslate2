@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_adaptive_dispatch_test.cpp" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.o" "gcc" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.o.d"
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_metal_batch.mm" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.o" "gcc" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_adaptive_dispatch_test.cpp" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.cpp.o" "gcc" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.cpp.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_metal_batch.mm" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.mm.o" "gcc" "CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.mm.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

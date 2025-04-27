@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_multi_device_bench_test.mm" "CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.o" "gcc" "CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_multi_device_bench_test.mm" "CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.mm.o" "gcc" "CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.mm.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

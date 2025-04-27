@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp" "CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o" "gcc" "CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o.d"
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm" "CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o" "gcc" "CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp" "CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o" "gcc" "CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm" "CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o" "gcc" "CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

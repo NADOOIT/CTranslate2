@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/add_metal_batch.mm" "CMakeFiles/max_load_bench.dir/add_metal_batch.o" "gcc" "CMakeFiles/max_load_bench.dir/add_metal_batch.o.d"
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/max_load_bench.cpp" "CMakeFiles/max_load_bench.dir/max_load_bench.o" "gcc" "CMakeFiles/max_load_bench.dir/max_load_bench.o.d"
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_metal_batch.mm" "CMakeFiles/max_load_bench.dir/multiply_metal_batch.o" "gcc" "CMakeFiles/max_load_bench.dir/multiply_metal_batch.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/max_load_bench.cpp" "CMakeFiles/max_load_bench.dir/max_load_bench.cpp.o" "gcc" "CMakeFiles/max_load_bench.dir/max_load_bench.cpp.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/add_metal_batch.mm" "CMakeFiles/max_load_bench.dir/add_metal_batch.mm.o" "gcc" "CMakeFiles/max_load_bench.dir/add_metal_batch.mm.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/multiply_metal_batch.mm" "CMakeFiles/max_load_bench.dir/multiply_metal_batch.mm.o" "gcc" "CMakeFiles/max_load_bench.dir/multiply_metal_batch.mm.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

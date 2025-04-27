@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o" "gcc" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o.d"
-  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o" "gcc" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o" "gcc" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o.d"
+  "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o" "gcc" "CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

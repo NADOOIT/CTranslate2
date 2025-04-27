@@ -85,6 +85,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"gmock\" \"gtest\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/opt/homebrew/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/opt/homebrew/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build//CMakeFiles/progress.marks
@@ -117,30 +162,43 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named gemm_test
+# Target rules for targets named gemm_test_main
 
 # Build rule for target.
-gemm_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gemm_test
-.PHONY : gemm_test
+gemm_test_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gemm_test_main
+.PHONY : gemm_test_main
 
 # fast build rule for target.
-gemm_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test.dir/build.make CMakeFiles/gemm_test.dir/build
-.PHONY : gemm_test/fast
+gemm_test_main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test_main.dir/build.make CMakeFiles/gemm_test_main.dir/build
+.PHONY : gemm_test_main/fast
 
 #=============================================================================
-# Target rules for targets named gemm_multi_device_bench_test
+# Target rules for targets named gemm_multi_device_bench_test_cpu
 
 # Build rule for target.
-gemm_multi_device_bench_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gemm_multi_device_bench_test
-.PHONY : gemm_multi_device_bench_test
+gemm_multi_device_bench_test_cpu: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gemm_multi_device_bench_test_cpu
+.PHONY : gemm_multi_device_bench_test_cpu
 
 # fast build rule for target.
-gemm_multi_device_bench_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test.dir/build.make CMakeFiles/gemm_multi_device_bench_test.dir/build
-.PHONY : gemm_multi_device_bench_test/fast
+gemm_multi_device_bench_test_cpu/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_cpu.dir/build.make CMakeFiles/gemm_multi_device_bench_test_cpu.dir/build
+.PHONY : gemm_multi_device_bench_test_cpu/fast
+
+#=============================================================================
+# Target rules for targets named gemm_multi_device_bench_test_metal
+
+# Build rule for target.
+gemm_multi_device_bench_test_metal: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gemm_multi_device_bench_test_metal
+.PHONY : gemm_multi_device_bench_test_metal
+
+# fast build rule for target.
+gemm_multi_device_bench_test_metal/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_metal.dir/build.make CMakeFiles/gemm_multi_device_bench_test_metal.dir/build
+.PHONY : gemm_multi_device_bench_test_metal/fast
 
 #=============================================================================
 # Target rules for targets named relu_multi_device_bench_test
@@ -350,293 +408,372 @@ softmax_kernel_lib/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_kernel_lib.dir/build.make CMakeFiles/softmax_kernel_lib.dir/build
 .PHONY : softmax_kernel_lib/fast
 
-# target to build an object file
-adaptive_dispatch_bench.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.o
+#=============================================================================
+# Target rules for targets named gmock
+
+# Build rule for target.
+gmock: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock
+.PHONY : gmock
+
+# fast build rule for target.
+gmock/fast:
+	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/build
+.PHONY : gmock/fast
+
+#=============================================================================
+# Target rules for targets named gmock_main
+
+# Build rule for target.
+gmock_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock_main
+.PHONY : gmock_main
+
+# fast build rule for target.
+gmock_main/fast:
+	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/build
+.PHONY : gmock_main/fast
+
+#=============================================================================
+# Target rules for targets named gtest
+
+# Build rule for target.
+gtest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest
+.PHONY : gtest
+
+# fast build rule for target.
+gtest/fast:
+	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/build
+.PHONY : gtest/fast
+
+#=============================================================================
+# Target rules for targets named gtest_main
+
+# Build rule for target.
+gtest_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_main
+.PHONY : gtest_main
+
+# fast build rule for target.
+gtest_main/fast:
+	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/build
+.PHONY : gtest_main/fast
+
+adaptive_dispatch_bench.o: adaptive_dispatch_bench.cpp.o
 .PHONY : adaptive_dispatch_bench.o
 
-# target to preprocess a source file
-adaptive_dispatch_bench.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.i
+# target to build an object file
+adaptive_dispatch_bench.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.cpp.o
+.PHONY : adaptive_dispatch_bench.cpp.o
+
+adaptive_dispatch_bench.i: adaptive_dispatch_bench.cpp.i
 .PHONY : adaptive_dispatch_bench.i
 
-# target to generate assembly for a file
-adaptive_dispatch_bench.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.s
+# target to preprocess a source file
+adaptive_dispatch_bench.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.cpp.i
+.PHONY : adaptive_dispatch_bench.cpp.i
+
+adaptive_dispatch_bench.s: adaptive_dispatch_bench.cpp.s
 .PHONY : adaptive_dispatch_bench.s
 
-# target to build an object file
-adaptive_dispatch_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o
+# target to generate assembly for a file
+adaptive_dispatch_bench.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/adaptive_dispatch_bench.cpp.s
+.PHONY : adaptive_dispatch_bench.cpp.s
+
+adaptive_dispatch_test.o: adaptive_dispatch_test.cpp.o
 .PHONY : adaptive_dispatch_test.o
 
-# target to preprocess a source file
-adaptive_dispatch_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.i
+# target to build an object file
+adaptive_dispatch_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o
+.PHONY : adaptive_dispatch_test.cpp.o
+
+adaptive_dispatch_test.i: adaptive_dispatch_test.cpp.i
 .PHONY : adaptive_dispatch_test.i
 
-# target to generate assembly for a file
-adaptive_dispatch_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.s
+# target to preprocess a source file
+adaptive_dispatch_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.i
+.PHONY : adaptive_dispatch_test.cpp.i
+
+adaptive_dispatch_test.s: adaptive_dispatch_test.cpp.s
 .PHONY : adaptive_dispatch_test.s
 
-# target to build an object file
-add_adaptive_dispatch_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.o
+# target to generate assembly for a file
+adaptive_dispatch_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.s
+.PHONY : adaptive_dispatch_test.cpp.s
+
+add_adaptive_dispatch_test.o: add_adaptive_dispatch_test.cpp.o
 .PHONY : add_adaptive_dispatch_test.o
 
-# target to preprocess a source file
-add_adaptive_dispatch_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.i
+# target to build an object file
+add_adaptive_dispatch_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.cpp.o
+.PHONY : add_adaptive_dispatch_test.cpp.o
+
+add_adaptive_dispatch_test.i: add_adaptive_dispatch_test.cpp.i
 .PHONY : add_adaptive_dispatch_test.i
 
-# target to generate assembly for a file
-add_adaptive_dispatch_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.s
+# target to preprocess a source file
+add_adaptive_dispatch_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.cpp.i
+.PHONY : add_adaptive_dispatch_test.cpp.i
+
+add_adaptive_dispatch_test.s: add_adaptive_dispatch_test.cpp.s
 .PHONY : add_adaptive_dispatch_test.s
 
-# target to build an object file
-add_metal_batch.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_metal_batch.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/add_metal_batch.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_metal_batch.o
+# target to generate assembly for a file
+add_adaptive_dispatch_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_adaptive_dispatch_test.cpp.s
+.PHONY : add_adaptive_dispatch_test.cpp.s
+
+add_metal_batch.o: add_metal_batch.mm.o
 .PHONY : add_metal_batch.o
 
-# target to preprocess a source file
-add_metal_batch.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_metal_batch.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/add_metal_batch.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_metal_batch.i
-.PHONY : add_metal_batch.i
-
-# target to generate assembly for a file
-add_metal_batch.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_metal_batch.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/add_metal_batch.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_metal_batch.s
-.PHONY : add_metal_batch.s
-
 # target to build an object file
-add_multi_device_bench_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_multi_device_bench_test.o
+add_metal_batch.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_metal_batch.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/add_metal_batch.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_adaptive_dispatch_test.dir/build.make CMakeFiles/add_adaptive_dispatch_test.dir/add_metal_batch.mm.o
+.PHONY : add_metal_batch.mm.o
+
+add_multi_device_bench_test.o: add_multi_device_bench_test.mm.o
 .PHONY : add_multi_device_bench_test.o
 
-# target to preprocess a source file
-add_multi_device_bench_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_multi_device_bench_test.i
-.PHONY : add_multi_device_bench_test.i
-
-# target to generate assembly for a file
-add_multi_device_bench_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_multi_device_bench_test.s
-.PHONY : add_multi_device_bench_test.s
-
 # target to build an object file
-gemm_adaptive_dispatch_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.o
+add_multi_device_bench_test.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/add_multi_device_bench_test.dir/build.make CMakeFiles/add_multi_device_bench_test.dir/add_multi_device_bench_test.mm.o
+.PHONY : add_multi_device_bench_test.mm.o
+
+gemm_adaptive_dispatch_test.o: gemm_adaptive_dispatch_test.cpp.o
 .PHONY : gemm_adaptive_dispatch_test.o
 
-# target to preprocess a source file
-gemm_adaptive_dispatch_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.i
+# target to build an object file
+gemm_adaptive_dispatch_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.cpp.o
+.PHONY : gemm_adaptive_dispatch_test.cpp.o
+
+gemm_adaptive_dispatch_test.i: gemm_adaptive_dispatch_test.cpp.i
 .PHONY : gemm_adaptive_dispatch_test.i
 
-# target to generate assembly for a file
-gemm_adaptive_dispatch_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.s
+# target to preprocess a source file
+gemm_adaptive_dispatch_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.cpp.i
+.PHONY : gemm_adaptive_dispatch_test.cpp.i
+
+gemm_adaptive_dispatch_test.s: gemm_adaptive_dispatch_test.cpp.s
 .PHONY : gemm_adaptive_dispatch_test.s
 
+# target to generate assembly for a file
+gemm_adaptive_dispatch_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_adaptive_dispatch_test.cpp.s
+.PHONY : gemm_adaptive_dispatch_test.cpp.s
+
+gemm_bench_helpers.o: gemm_bench_helpers.mm.o
+.PHONY : gemm_bench_helpers.o
+
 # target to build an object file
-gemm_metal_batch.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_metal_batch.o
+gemm_bench_helpers.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_cpu.dir/build.make CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_bench_helpers.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_metal.dir/build.make CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_bench_helpers.mm.o
+.PHONY : gemm_bench_helpers.mm.o
+
+gemm_cpu_accel.o: gemm_cpu_accel.mm.o
+.PHONY : gemm_cpu_accel.o
+
+# target to build an object file
+gemm_cpu_accel.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test_main.dir/build.make CMakeFiles/gemm_test_main.dir/gemm_cpu_accel.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_cpu.dir/build.make CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_cpu_accel.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_metal.dir/build.make CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_cpu_accel.mm.o
+.PHONY : gemm_cpu_accel.mm.o
+
+gemm_metal.o: gemm_metal.mm.o
+.PHONY : gemm_metal.o
+
+# target to build an object file
+gemm_metal.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_metal.dir/build.make CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_metal.mm.o
+.PHONY : gemm_metal.mm.o
+
+gemm_metal_batch.o: gemm_metal_batch.mm.o
 .PHONY : gemm_metal_batch.o
 
-# target to preprocess a source file
-gemm_metal_batch.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_metal_batch.i
-.PHONY : gemm_metal_batch.i
+# target to build an object file
+gemm_metal_batch.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_metal_batch.mm.o
+.PHONY : gemm_metal_batch.mm.o
 
-# target to generate assembly for a file
-gemm_metal_batch.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_adaptive_dispatch_test.dir/build.make CMakeFiles/gemm_adaptive_dispatch_test.dir/gemm_metal_batch.s
-.PHONY : gemm_metal_batch.s
+gemm_metal_runner.o: gemm_metal_runner.mm.o
+.PHONY : gemm_metal_runner.o
 
 # target to build an object file
-gemm_multi_device_bench_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test.dir/build.make CMakeFiles/gemm_multi_device_bench_test.dir/gemm_multi_device_bench_test.o
-.PHONY : gemm_multi_device_bench_test.o
+gemm_metal_runner.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test_main.dir/build.make CMakeFiles/gemm_test_main.dir/gemm_metal_runner.mm.o
+.PHONY : gemm_metal_runner.mm.o
 
-# target to preprocess a source file
-gemm_multi_device_bench_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test.dir/build.make CMakeFiles/gemm_multi_device_bench_test.dir/gemm_multi_device_bench_test.i
-.PHONY : gemm_multi_device_bench_test.i
-
-# target to generate assembly for a file
-gemm_multi_device_bench_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test.dir/build.make CMakeFiles/gemm_multi_device_bench_test.dir/gemm_multi_device_bench_test.s
-.PHONY : gemm_multi_device_bench_test.s
+gemm_multi_device_bench_test_cpu.o: gemm_multi_device_bench_test_cpu.mm.o
+.PHONY : gemm_multi_device_bench_test_cpu.o
 
 # target to build an object file
-gemm_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test.dir/build.make CMakeFiles/gemm_test.dir/gemm_test.o
-.PHONY : gemm_test.o
+gemm_multi_device_bench_test_cpu.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_cpu.dir/build.make CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_multi_device_bench_test_cpu.mm.o
+.PHONY : gemm_multi_device_bench_test_cpu.mm.o
 
-# target to preprocess a source file
-gemm_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test.dir/build.make CMakeFiles/gemm_test.dir/gemm_test.i
-.PHONY : gemm_test.i
-
-# target to generate assembly for a file
-gemm_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test.dir/build.make CMakeFiles/gemm_test.dir/gemm_test.s
-.PHONY : gemm_test.s
+gemm_multi_device_bench_test_metal.o: gemm_multi_device_bench_test_metal.mm.o
+.PHONY : gemm_multi_device_bench_test_metal.o
 
 # target to build an object file
-max_load_bench.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/max_load_bench.o
+gemm_multi_device_bench_test_metal.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_metal.dir/build.make CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_multi_device_bench_test_metal.mm.o
+.PHONY : gemm_multi_device_bench_test_metal.mm.o
+
+gemm_test_main.o: gemm_test_main.mm.o
+.PHONY : gemm_test_main.o
+
+# target to build an object file
+gemm_test_main.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test_main.dir/build.make CMakeFiles/gemm_test_main.dir/gemm_test_main.mm.o
+.PHONY : gemm_test_main.mm.o
+
+gemm_utils.o: gemm_utils.mm.o
+.PHONY : gemm_utils.o
+
+# target to build an object file
+gemm_utils.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_test_main.dir/build.make CMakeFiles/gemm_test_main.dir/gemm_utils.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_cpu.dir/build.make CMakeFiles/gemm_multi_device_bench_test_cpu.dir/gemm_utils.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gemm_multi_device_bench_test_metal.dir/build.make CMakeFiles/gemm_multi_device_bench_test_metal.dir/gemm_utils.mm.o
+.PHONY : gemm_utils.mm.o
+
+max_load_bench.o: max_load_bench.cpp.o
 .PHONY : max_load_bench.o
 
-# target to preprocess a source file
-max_load_bench.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/max_load_bench.i
+# target to build an object file
+max_load_bench.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/max_load_bench.cpp.o
+.PHONY : max_load_bench.cpp.o
+
+max_load_bench.i: max_load_bench.cpp.i
 .PHONY : max_load_bench.i
 
-# target to generate assembly for a file
-max_load_bench.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/max_load_bench.s
+# target to preprocess a source file
+max_load_bench.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/max_load_bench.cpp.i
+.PHONY : max_load_bench.cpp.i
+
+max_load_bench.s: max_load_bench.cpp.s
 .PHONY : max_load_bench.s
 
-# target to build an object file
-multiply_adaptive_dispatch_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.o
+# target to generate assembly for a file
+max_load_bench.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/max_load_bench.cpp.s
+.PHONY : max_load_bench.cpp.s
+
+multiply_adaptive_dispatch_test.o: multiply_adaptive_dispatch_test.cpp.o
 .PHONY : multiply_adaptive_dispatch_test.o
 
-# target to preprocess a source file
-multiply_adaptive_dispatch_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.i
+# target to build an object file
+multiply_adaptive_dispatch_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.cpp.o
+.PHONY : multiply_adaptive_dispatch_test.cpp.o
+
+multiply_adaptive_dispatch_test.i: multiply_adaptive_dispatch_test.cpp.i
 .PHONY : multiply_adaptive_dispatch_test.i
 
-# target to generate assembly for a file
-multiply_adaptive_dispatch_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.s
+# target to preprocess a source file
+multiply_adaptive_dispatch_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.cpp.i
+.PHONY : multiply_adaptive_dispatch_test.cpp.i
+
+multiply_adaptive_dispatch_test.s: multiply_adaptive_dispatch_test.cpp.s
 .PHONY : multiply_adaptive_dispatch_test.s
 
-# target to build an object file
-multiply_metal_batch.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_metal_batch.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/multiply_metal_batch.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.o
+# target to generate assembly for a file
+multiply_adaptive_dispatch_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_adaptive_dispatch_test.cpp.s
+.PHONY : multiply_adaptive_dispatch_test.cpp.s
+
+multiply_metal_batch.o: multiply_metal_batch.mm.o
 .PHONY : multiply_metal_batch.o
 
-# target to preprocess a source file
-multiply_metal_batch.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_metal_batch.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/multiply_metal_batch.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.i
-.PHONY : multiply_metal_batch.i
-
-# target to generate assembly for a file
-multiply_metal_batch.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_metal_batch.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/multiply_metal_batch.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.s
-.PHONY : multiply_metal_batch.s
-
 # target to build an object file
-multiply_multi_device_bench_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_multi_device_bench_test.o
+multiply_metal_batch.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_metal_batch.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/max_load_bench.dir/build.make CMakeFiles/max_load_bench.dir/multiply_metal_batch.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_adaptive_dispatch_test.dir/build.make CMakeFiles/multiply_adaptive_dispatch_test.dir/multiply_metal_batch.mm.o
+.PHONY : multiply_metal_batch.mm.o
+
+multiply_multi_device_bench_test.o: multiply_multi_device_bench_test.mm.o
 .PHONY : multiply_multi_device_bench_test.o
 
-# target to preprocess a source file
-multiply_multi_device_bench_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_multi_device_bench_test.i
-.PHONY : multiply_multi_device_bench_test.i
-
-# target to generate assembly for a file
-multiply_multi_device_bench_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_multi_device_bench_test.s
-.PHONY : multiply_multi_device_bench_test.s
-
 # target to build an object file
-relu_metal_batch.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/relu_metal_batch.o
+multiply_multi_device_bench_test.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/multiply_multi_device_bench_test.dir/build.make CMakeFiles/multiply_multi_device_bench_test.dir/multiply_multi_device_bench_test.mm.o
+.PHONY : multiply_multi_device_bench_test.mm.o
+
+relu_metal_batch.o: relu_metal_batch.mm.o
 .PHONY : relu_metal_batch.o
 
-# target to preprocess a source file
-relu_metal_batch.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/relu_metal_batch.i
-.PHONY : relu_metal_batch.i
-
-# target to generate assembly for a file
-relu_metal_batch.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/relu_metal_batch.s
-.PHONY : relu_metal_batch.s
-
 # target to build an object file
-relu_multi_device_bench_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/relu_multi_device_bench_test.dir/build.make CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.o
+relu_metal_batch.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_test.dir/build.make CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/adaptive_dispatch_bench.dir/build.make CMakeFiles/adaptive_dispatch_bench.dir/relu_metal_batch.mm.o
+.PHONY : relu_metal_batch.mm.o
+
+relu_multi_device_bench_test.o: relu_multi_device_bench_test.mm.o
 .PHONY : relu_multi_device_bench_test.o
 
-# target to preprocess a source file
-relu_multi_device_bench_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/relu_multi_device_bench_test.dir/build.make CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.i
-.PHONY : relu_multi_device_bench_test.i
-
-# target to generate assembly for a file
-relu_multi_device_bench_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/relu_multi_device_bench_test.dir/build.make CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.s
-.PHONY : relu_multi_device_bench_test.s
-
 # target to build an object file
-softmax_adaptive_dispatch_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o
+relu_multi_device_bench_test.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/relu_multi_device_bench_test.dir/build.make CMakeFiles/relu_multi_device_bench_test.dir/relu_multi_device_bench_test.mm.o
+.PHONY : relu_multi_device_bench_test.mm.o
+
+softmax_adaptive_dispatch_test.o: softmax_adaptive_dispatch_test.cpp.o
 .PHONY : softmax_adaptive_dispatch_test.o
 
-# target to preprocess a source file
-softmax_adaptive_dispatch_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.i
+# target to build an object file
+softmax_adaptive_dispatch_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o
+.PHONY : softmax_adaptive_dispatch_test.cpp.o
+
+softmax_adaptive_dispatch_test.i: softmax_adaptive_dispatch_test.cpp.i
 .PHONY : softmax_adaptive_dispatch_test.i
 
-# target to generate assembly for a file
-softmax_adaptive_dispatch_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.s
+# target to preprocess a source file
+softmax_adaptive_dispatch_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.i
+.PHONY : softmax_adaptive_dispatch_test.cpp.i
+
+softmax_adaptive_dispatch_test.s: softmax_adaptive_dispatch_test.cpp.s
 .PHONY : softmax_adaptive_dispatch_test.s
 
-# target to build an object file
-softmax_metal_batch.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o
+# target to generate assembly for a file
+softmax_adaptive_dispatch_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.s
+.PHONY : softmax_adaptive_dispatch_test.cpp.s
+
+softmax_metal_batch.o: softmax_metal_batch.mm.o
 .PHONY : softmax_metal_batch.o
 
-# target to preprocess a source file
-softmax_metal_batch.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.i
-.PHONY : softmax_metal_batch.i
-
-# target to generate assembly for a file
-softmax_metal_batch.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.s
-.PHONY : softmax_metal_batch.s
-
 # target to build an object file
-softmax_multi_device_bench_test.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.o
+softmax_metal_batch.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_metal_batch.mm.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o
+.PHONY : softmax_metal_batch.mm.o
+
+softmax_multi_device_bench_test.o: softmax_multi_device_bench_test.mm.o
 .PHONY : softmax_multi_device_bench_test.o
 
-# target to preprocess a source file
-softmax_multi_device_bench_test.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.i
-.PHONY : softmax_multi_device_bench_test.i
-
-# target to generate assembly for a file
-softmax_multi_device_bench_test.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.s
-.PHONY : softmax_multi_device_bench_test.s
+# target to build an object file
+softmax_multi_device_bench_test.mm.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/softmax_multi_device_bench_test.dir/build.make CMakeFiles/softmax_multi_device_bench_test.dir/softmax_multi_device_bench_test.mm.o
+.PHONY : softmax_multi_device_bench_test.mm.o
 
 # Help Target
 help:
@@ -645,6 +782,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... add_kernel_lib"
 	@echo "... gemm_kernel_lib"
@@ -656,8 +797,13 @@ help:
 	@echo "... add_adaptive_dispatch_test"
 	@echo "... add_multi_device_bench_test"
 	@echo "... gemm_adaptive_dispatch_test"
-	@echo "... gemm_multi_device_bench_test"
-	@echo "... gemm_test"
+	@echo "... gemm_multi_device_bench_test_cpu"
+	@echo "... gemm_multi_device_bench_test_metal"
+	@echo "... gemm_test_main"
+	@echo "... gmock"
+	@echo "... gmock_main"
+	@echo "... gtest"
+	@echo "... gtest_main"
 	@echo "... max_load_bench"
 	@echo "... multiply_adaptive_dispatch_test"
 	@echo "... multiply_multi_device_bench_test"
@@ -674,23 +820,19 @@ help:
 	@echo "... add_adaptive_dispatch_test.i"
 	@echo "... add_adaptive_dispatch_test.s"
 	@echo "... add_metal_batch.o"
-	@echo "... add_metal_batch.i"
-	@echo "... add_metal_batch.s"
 	@echo "... add_multi_device_bench_test.o"
-	@echo "... add_multi_device_bench_test.i"
-	@echo "... add_multi_device_bench_test.s"
 	@echo "... gemm_adaptive_dispatch_test.o"
 	@echo "... gemm_adaptive_dispatch_test.i"
 	@echo "... gemm_adaptive_dispatch_test.s"
+	@echo "... gemm_bench_helpers.o"
+	@echo "... gemm_cpu_accel.o"
+	@echo "... gemm_metal.o"
 	@echo "... gemm_metal_batch.o"
-	@echo "... gemm_metal_batch.i"
-	@echo "... gemm_metal_batch.s"
-	@echo "... gemm_multi_device_bench_test.o"
-	@echo "... gemm_multi_device_bench_test.i"
-	@echo "... gemm_multi_device_bench_test.s"
-	@echo "... gemm_test.o"
-	@echo "... gemm_test.i"
-	@echo "... gemm_test.s"
+	@echo "... gemm_metal_runner.o"
+	@echo "... gemm_multi_device_bench_test_cpu.o"
+	@echo "... gemm_multi_device_bench_test_metal.o"
+	@echo "... gemm_test_main.o"
+	@echo "... gemm_utils.o"
 	@echo "... max_load_bench.o"
 	@echo "... max_load_bench.i"
 	@echo "... max_load_bench.s"
@@ -698,26 +840,14 @@ help:
 	@echo "... multiply_adaptive_dispatch_test.i"
 	@echo "... multiply_adaptive_dispatch_test.s"
 	@echo "... multiply_metal_batch.o"
-	@echo "... multiply_metal_batch.i"
-	@echo "... multiply_metal_batch.s"
 	@echo "... multiply_multi_device_bench_test.o"
-	@echo "... multiply_multi_device_bench_test.i"
-	@echo "... multiply_multi_device_bench_test.s"
 	@echo "... relu_metal_batch.o"
-	@echo "... relu_metal_batch.i"
-	@echo "... relu_metal_batch.s"
 	@echo "... relu_multi_device_bench_test.o"
-	@echo "... relu_multi_device_bench_test.i"
-	@echo "... relu_multi_device_bench_test.s"
 	@echo "... softmax_adaptive_dispatch_test.o"
 	@echo "... softmax_adaptive_dispatch_test.i"
 	@echo "... softmax_adaptive_dispatch_test.s"
 	@echo "... softmax_metal_batch.o"
-	@echo "... softmax_metal_batch.i"
-	@echo "... softmax_metal_batch.s"
 	@echo "... softmax_multi_device_bench_test.o"
-	@echo "... softmax_multi_device_bench_test.i"
-	@echo "... softmax_multi_device_bench_test.s"
 .PHONY : help
 
 

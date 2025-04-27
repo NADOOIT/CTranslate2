@@ -72,45 +72,48 @@ include CMakeFiles/softmax_adaptive_dispatch_test.dir/flags.make
 CMakeFiles/softmax_adaptive_dispatch_test.dir/codegen:
 .PHONY : CMakeFiles/softmax_adaptive_dispatch_test.dir/codegen
 
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/flags.make
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o -MF CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o.d -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/flags.make
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o -MF CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o.d -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp
 
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp > CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.i
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp > CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.i
 
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.s
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_adaptive_dispatch_test.cpp -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.s
 
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/flags.make
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o -MF CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o.d -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/flags.make
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o: CMakeFiles/softmax_adaptive_dispatch_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building OBJCXX object CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) -x objective-c++ $(OBJCXX_FLAGS) -MD -MT CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o -MF CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o.d -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm
 
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm > CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.i
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing OBJCXX source to CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) $(OBJCXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm > CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.i
 
-CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.s
+CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling OBJCXX source to assembly CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) $(OBJCXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/softmax_metal_batch.mm -o CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.s
 
 # Object files for target softmax_adaptive_dispatch_test
 softmax_adaptive_dispatch_test_OBJECTS = \
-"CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o" \
-"CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o"
+"CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o" \
+"CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o"
 
 # External object files for target softmax_adaptive_dispatch_test
 softmax_adaptive_dispatch_test_EXTERNAL_OBJECTS =
 
-softmax_adaptive_dispatch_test: CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.o
-softmax_adaptive_dispatch_test: CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.o
+softmax_adaptive_dispatch_test: CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_adaptive_dispatch_test.cpp.o
+softmax_adaptive_dispatch_test: CMakeFiles/softmax_adaptive_dispatch_test.dir/softmax_metal_batch.mm.o
 softmax_adaptive_dispatch_test: CMakeFiles/softmax_adaptive_dispatch_test.dir/build.make
+softmax_adaptive_dispatch_test: lib/libgtest.a
+softmax_adaptive_dispatch_test: lib/libgtest_main.a
+softmax_adaptive_dispatch_test: lib/libgtest.a
 softmax_adaptive_dispatch_test: CMakeFiles/softmax_adaptive_dispatch_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable softmax_adaptive_dispatch_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/softmax_adaptive_dispatch_test.dir/link.txt --verbose=$(VERBOSE)

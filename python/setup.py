@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import pybind11
-from setuptools import Extension, setup
+from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 
 VERSION = "4.5.0"  # Fixed version number matching the installed library
@@ -89,11 +89,20 @@ ext_module = Extension(
 if platform.machine() == "arm64":
     os.environ["ARCHFLAGS"] = "-arch arm64"
 
+def get_long_description():
+    readme_path = Path(__file__).parent / "README.md"
+    if not readme_path.exists():
+        return ""
+    with open(readme_path, encoding="utf-8") as f:
+        return f.read()
+
 setup(
     name="ctranslate2",
     version=VERSION,
     license="MIT",
     description="Fast inference engine for Transformer models",
+    long_description=get_long_description(),
+    long_description_content_type="text/markdown",
     author="OpenNMT",
     author_email="guillaume.klein@systrangroup.com",
     url="https://github.com/OpenNMT/CTranslate2",
@@ -118,6 +127,9 @@ setup(
         "Source": "https://github.com/OpenNMT/CTranslate2",
     },
     python_requires=">=3.7",
+    packages=find_packages(),
+    package_data={"ctranslate2": ["*.so", "*.dll", "*.dylib"]},
+    include_package_data=True,
     setup_requires=[
         "pybind11>=2.6.0",
         "setuptools>=65",
@@ -126,7 +138,7 @@ setup(
         "numpy",
         "pyyaml>=5.3,<7",
     ],
-    packages=["ctranslate2"],
+
     ext_modules=[ext_module],
     cmdclass={"build_ext": CustomBuildExt},
     entry_points={

@@ -72,45 +72,48 @@ include CMakeFiles/adaptive_dispatch_test.dir/flags.make
 CMakeFiles/adaptive_dispatch_test.dir/codegen:
 .PHONY : CMakeFiles/adaptive_dispatch_test.dir/codegen
 
-CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o: CMakeFiles/adaptive_dispatch_test.dir/flags.make
-CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp
-CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o: CMakeFiles/adaptive_dispatch_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o -MF CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o.d -o CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp
+CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o: CMakeFiles/adaptive_dispatch_test.dir/flags.make
+CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp
+CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o: CMakeFiles/adaptive_dispatch_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o -MF CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o.d -o CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp
 
-CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp > CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.i
+CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp > CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.i
 
-CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp -o CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.s
+CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/adaptive_dispatch_test.cpp -o CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.s
 
-CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o: CMakeFiles/adaptive_dispatch_test.dir/flags.make
-CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm
-CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o: CMakeFiles/adaptive_dispatch_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o -MF CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o.d -o CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm
+CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o: CMakeFiles/adaptive_dispatch_test.dir/flags.make
+CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o: /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm
+CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o: CMakeFiles/adaptive_dispatch_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building OBJCXX object CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) -x objective-c++ $(OBJCXX_FLAGS) -MD -MT CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o -MF CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o.d -o CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o -c /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm
 
-CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm > CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.i
+CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing OBJCXX source to CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) $(OBJCXX_FLAGS) -E /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm > CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.i
 
-CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm -o CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.s
+CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling OBJCXX source to assembly CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) $(OBJCXX_FLAGS) -S /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/relu_metal_batch.mm -o CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.s
 
 # Object files for target adaptive_dispatch_test
 adaptive_dispatch_test_OBJECTS = \
-"CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o" \
-"CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o"
+"CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o" \
+"CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o"
 
 # External object files for target adaptive_dispatch_test
 adaptive_dispatch_test_EXTERNAL_OBJECTS =
 
-adaptive_dispatch_test: CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.o
-adaptive_dispatch_test: CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.o
+adaptive_dispatch_test: CMakeFiles/adaptive_dispatch_test.dir/adaptive_dispatch_test.cpp.o
+adaptive_dispatch_test: CMakeFiles/adaptive_dispatch_test.dir/relu_metal_batch.mm.o
 adaptive_dispatch_test: CMakeFiles/adaptive_dispatch_test.dir/build.make
+adaptive_dispatch_test: lib/libgtest.a
+adaptive_dispatch_test: lib/libgtest_main.a
+adaptive_dispatch_test: lib/libgtest.a
 adaptive_dispatch_test: CMakeFiles/adaptive_dispatch_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable adaptive_dispatch_test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/adaptive_dispatch_test.dir/link.txt --verbose=$(VERBOSE)
