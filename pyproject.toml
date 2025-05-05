@@ -19,6 +19,33 @@ classifiers = [
     "Operating System :: MacOS :: MacOS X",
 ]
 
+[tool.cibuildwheel]
+# Build for Python 3.8 to 3.12
+build = [
+    "cp38-*",
+    "cp39-*",
+    "cp310-*",
+    "cp311-*",
+    "cp312-*"
+]
+
+# Specify the platforms you want to build for
+platforms = [
+    "macos-x86_64",
+    "macos-arm64"
+]
+
+# Specify the path to the Python package
+build-dir = "python/dist"
+
+# Optional: Add any additional build settings
+# For example, skip builds that would fail
+[tool.cibuildwheel.overrides]
+filter = [
+    "*-win32",
+    "*-manylinux_i686"
+]
+
 [project.urls]
 "Homepage" = "https://github.com/yourusername/ctranslate2-metal"
 
