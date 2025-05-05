@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.10...3.27)
 
 # Set policy for setting the MSVC runtime library for static MSVC builds
 if(POLICY CMP0091)
@@ -49,6 +49,44 @@ endif()
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
+
+# Resolve libc++ compatibility issues
+if(APPLE)
+  # Detect standard library include path
+  execute_process(COMMAND xcrun -f clang++
+    OUTPUT_VARIABLE CLANG_PATH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  get_filename_component(XCODE_TOOLCHAIN_PATH "${CLANG_PATH}" DIRECTORY)
+  get_filename_component(XCODE_TOOLCHAIN_PATH "${XCODE_TOOLCHAIN_PATH}" DIRECTORY)
+  set(STDLIB_INCLUDE_PATH "${XCODE_TOOLCHAIN_PATH}/include/c++/v1")
+
+  # Add standard library include path first
+  include_directories(BEFORE ${STDLIB_INCLUDE_PATH})
+
+  # Compiler flags will be added after library target is created
+
+  # Add custom definitions to resolve bitset compatibility
+  add_definitions(-DUSE_CUSTOM_BITSET)
+  add_definitions(-D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS)
+  add_definitions(-D_LIBCPP_DISABLE_AVAILABILITY)
+
+  # Add custom bitset include path
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+  # Compiler-specific flags to replace standard bitset
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin -D_LIBCPP_DISABLE_AVAILABILITY -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS")
+
+  # Explicitly replace standard bitset with custom implementation
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include ${CMAKE_CURRENT_SOURCE_DIR}/src/custom_bitset.h")
+
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -stdlib=libc++ -I${STDLIB_INCLUDE_PATH} -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1 -Wno-deprecated-declarations")
+  set(CMAKE_OBJCXX_FLAGS "${CMAKE_OBJCXX_FLAGS} -stdlib=libc++ -I${STDLIB_INCLUDE_PATH} -Wno-deprecated-declarations")
+
+  # Explicitly specify C++ standard to ensure compatibility
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
 # Set CXX flags.
 set(CMAKE_CXX_STANDARD 17)
@@ -333,6 +371,31 @@ elseif(WITH_CUDNN)
   message(FATAL_ERROR "WITH_CUDNN=ON requires WITH_CUDA=ON")
 else()
   add_library(${PROJECT_NAME} ${SOURCES})
+
+  # Add C++17 compiler flags for Apple platforms
+  if(APPLE)
+    # Aggressive compatibility flags for Apple platforms
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+    
+    # Libc++ specific flags
+    add_compile_options(
+      -stdlib=libc++
+      -D_LIBCPP_DISABLE_AVAILABILITY
+      -D_LIBCPP_DISABLE_DEPRECATION_WARNINGS
+      -D_LIBCPP_ENABLE_CXX17_REMOVED_FEATURES=1
+      -D_LIBCPP_NO_DEPRECATED_AVAILABILITY_WARNINGS
+      -Wno-deprecated-declarations
+      -Wno-deprecated
+    )
+    
+    # Ensure full standard library compatibility
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_LIBCPP_DISABLE_AVAILABILITY")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -stdlib=libc++")
+  endif()
 endif()
 
 if (WITH_METAL)

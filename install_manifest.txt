@@ -1,0 +1,8 @@
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/libctranslate2.4.5.1.dylib
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/libctranslate2.4.dylib
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/libctranslate2.dylib
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2Targets.cmake
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2Targets-release.cmake
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2Config.cmake
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/FindNCCL.cmake
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2ConfigVersion.cmake

@@ -49,7 +49,7 @@ namespace ctranslate2 {
       if (!buffer) {
         throw std::runtime_error("Failed to allocate Metal buffer");
       }
-      return (__bridge_retained void*)buffer;
+      return (void*)CFBridgingRetain(buffer);
     }
 
     void MetalDevice::free(void* data) const {
@@ -60,7 +60,7 @@ namespace ctranslate2 {
 
     void* MetalDevice::allocate_stream() const {
       id<MTLCommandBuffer> command_buffer = [_command_queue commandBuffer];
-      return (__bridge_retained void*)command_buffer;
+      return (void*)CFBridgingRetain(command_buffer);
     }
 
     void MetalDevice::free_stream(void* stream) const {

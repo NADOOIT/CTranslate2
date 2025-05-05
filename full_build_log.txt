@@ -1,0 +1,806 @@
++./build_mac.sh:15> export VERBOSE=1
++./build_mac.sh:16> export CMAKE_VERBOSE_MAKEFILE=1
++./build_mac.sh:18> [[ 0 -gt 0 ]]
++./build_mac.sh:40> set -e
++./build_mac.sh:43> command -v cmake
++./build_mac.sh:44> command -v python3
++./build_mac.sh:45> xcode-select -p
++./build_mac.sh:378> main
++main:1> log_info 'Starting CTranslate2 Build'
++log_info:0> echo '[INFO] Starting CTranslate2 Build'
+[INFO] Starting CTranslate2 Build
++main:70> PYTHON_BIN=+main:70> find_python_executable
++find_python_executable:1> local python_candidates=( python3.12 python3.11 python3.10 python3.9 python3 python )
++find_python_executable:10> candidate=python3.12
++find_python_executable:12> local python_bin
++find_python_executable:13> python_bin=+find_python_executable:13> command -v python3.12
++find_python_executable:13> python_bin=/opt/homebrew/bin/python3.12 
++find_python_executable:15> [ -n /opt/homebrew/bin/python3.12 ']'
++find_python_executable:16> echo /opt/homebrew/bin/python3.12
++find_python_executable:17> return 0
++main:70> PYTHON_BIN=/opt/homebrew/bin/python3.12 
++main:71> [ 0 -ne 0 ']'
++main:77> export PYTHON_BIN
++main:80> command -v uv
++main:86> echo $'ð\M-\C-_\M-\C-P\M-\C-M Creating virtual environment...'
+ðŸ Creating virtual environment...
++main:87> USING_PYTHON_VERSION=+main:87> /opt/homebrew/bin/python3.12 -c 'import sys; print(f'\''{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}'\'')'
++main:87> USING_PYTHON_VERSION=3.12.10 
++main:88> echo 'Using CPython 3.12.10'
+Using CPython 3.12.10
++main:91> rm -rf python/testvenv
++main:94> command -v uv
++main:100> uv venv python/testvenv
+Using CPython 3.12.7
+Creating virtual environment at: python/testvenv
+Activate with: source python/testvenv/bin/activate
++main:101> echo 'Activate with: source python/testvenv/bin/activate'
+Activate with: source python/testvenv/bin/activate
++main:104> VENV_PYTHON=python/testvenv/bin/python3 
++main:107> python/testvenv/bin/python3 -m ensurepip --upgrade
+Looking in links: /var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/tmpvhdvuugp
+Processing /var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/tmpvhdvuugp/pip-24.2-py3-none-any.whl
+Installing collected packages: pip
+Successfully installed pip-24.2
++main:110> python/testvenv/bin/python3 -m pip install setuptools wheel
+Collecting setuptools
+  Using cached setuptools-80.3.1-py3-none-any.whl.metadata (6.5 kB)
+Collecting wheel
+  Using cached wheel-0.45.1-py3-none-any.whl.metadata (2.3 kB)
+Using cached setuptools-80.3.1-py3-none-any.whl (1.2 MB)
+Using cached wheel-0.45.1-py3-none-any.whl (72 kB)
+Installing collected packages: wheel, setuptools
+Successfully installed setuptools-80.3.1 wheel-0.45.1
+
+[notice] A new release of pip is available: 24.2 -> 25.1.1
+[notice] To update, run: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/bin/python3 -m pip install --upgrade pip
++main:113> python/testvenv/bin/python3 -m pip install pytest numpy pybind11 pyyaml
+Collecting pytest
+  Using cached pytest-8.3.5-py3-none-any.whl.metadata (7.6 kB)
+Collecting numpy
+  Using cached numpy-2.2.5-cp312-cp312-macosx_14_0_arm64.whl.metadata (62 kB)
+Collecting pybind11
+  Using cached pybind11-2.13.6-py3-none-any.whl.metadata (9.5 kB)
+Collecting pyyaml
+  Using cached PyYAML-6.0.2-cp312-cp312-macosx_11_0_arm64.whl.metadata (2.1 kB)
+Collecting iniconfig (from pytest)
+  Using cached iniconfig-2.1.0-py3-none-any.whl.metadata (2.7 kB)
+Collecting packaging (from pytest)
+  Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pluggy<2,>=1.5 (from pytest)
+  Using cached pluggy-1.5.0-py3-none-any.whl.metadata (4.8 kB)
+Using cached pytest-8.3.5-py3-none-any.whl (343 kB)
+Using cached numpy-2.2.5-cp312-cp312-macosx_14_0_arm64.whl (5.2 MB)
+Using cached pybind11-2.13.6-py3-none-any.whl (243 kB)
+Using cached PyYAML-6.0.2-cp312-cp312-macosx_11_0_arm64.whl (173 kB)
+Using cached pluggy-1.5.0-py3-none-any.whl (20 kB)
+Using cached iniconfig-2.1.0-py3-none-any.whl (6.0 kB)
+Using cached packaging-25.0-py3-none-any.whl (66 kB)
+Installing collected packages: pyyaml, pybind11, pluggy, packaging, numpy, iniconfig, pytest
+Successfully installed iniconfig-2.1.0 numpy-2.2.5 packaging-25.0 pluggy-1.5.0 pybind11-2.13.6 pytest-8.3.5 pyyaml-6.0.2
+
+[notice] A new release of pip is available: 24.2 -> 25.1.1
+[notice] To update, run: /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/bin/python3 -m pip install --upgrade pip
++main:116> python/testvenv/bin/python3 -m pip list
+Package    Version
+---------- -------
+iniconfig  2.1.0
+numpy      2.2.5
+packaging  25.0
+pip        24.2
+pluggy     1.5.0
+pybind11   2.13.6
+pytest     8.3.5
+PyYAML     6.0.2
+setuptools 80.3.1
+wheel      0.45.1
++main:119> [ false '=' true ']'
++main:125> log_info 'Initializing Git Submodules'
++log_info:0> echo '[INFO] Initializing Git Submodules'
+[INFO] Initializing Git Submodules
++main:126> git submodule update --init --recursive
++main:129> setup_third_party_deps
++setup_third_party_deps:1> log_info 'Setting Up Third-Party Dependencies'
++log_info:0> echo '[INFO] Setting Up Third-Party Dependencies'
+[INFO] Setting Up Third-Party Dependencies
++setup_third_party_deps:4> PROJECT_ROOT=+setup_third_party_deps:4> dirname setup_third_party_deps
++setup_third_party_deps:4> PROJECT_ROOT=+setup_third_party_deps:4> cd .
++setup_third_party_deps:4> pwd
++setup_third_party_deps:4> PROJECT_ROOT=/Users/christophbackhaus/Documents/GitHub/CTranslate2 
++setup_third_party_deps:7> mkdir -p /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party
++setup_third_party_deps:10> log_info 'Downloading GoogleTest'
++log_info:0> echo '[INFO] Downloading GoogleTest'
+[INFO] Downloading GoogleTest
++setup_third_party_deps:11> [ ! -d /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest ']'
++setup_third_party_deps:29> log_info 'Creating Unified Third-Party CMakeLists.txt'
++log_info:0> echo '[INFO] Creating Unified Third-Party CMakeLists.txt'
+[INFO] Creating Unified Third-Party CMakeLists.txt
++setup_third_party_deps:30> cat
++setup_third_party_deps:67> mkdir -p /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops
++setup_third_party_deps:70> cat
++setup_third_party_deps:81> cat
++setup_third_party_deps:92> log_info 'Patching CMakeLists.txt'
++log_info:0> echo '[INFO] Patching CMakeLists.txt'
+[INFO] Patching CMakeLists.txt
++setup_third_party_deps:93> xargs -0 sed -i '' 's|third_party/googletest|/Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest|g'
++setup_third_party_deps:93> find /Users/christophbackhaus/Documents/GitHub/CTranslate2 -name CMakeLists.txt -print0
++setup_third_party_deps:96> log_info 'Third-party directory contents:'
++log_info:0> echo '[INFO] Third-party directory contents:'
+[INFO] Third-party directory contents:
++setup_third_party_deps:97> ls -l /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party
+total 152
+-rw-r--r--   1 christophbackhaus  staff  15107 Nov 27 20:05 BS_thread_pool_light.hpp
+-rw-r--r--   1 christophbackhaus  staff   1020 May  5 17:33 CMakeLists.txt
+-rw-r--r--   1 christophbackhaus  staff  15681 Nov 27 20:05 avx512_mathfun.h
+-rw-r--r--   1 christophbackhaus  staff  25183 Nov 27 20:05 avx_mathfun.h
+drwxr-xr-x  21 christophbackhaus  staff    672 May  5 17:33 cpu_features
+drwxr-xr-x  28 christophbackhaus  staff    896 May  5 17:33 cutlass
+drwxr-xr-x  18 christophbackhaus  staff    576 May  5 17:33 cxxopts
+drwxr-xr-x  18 christophbackhaus  staff    576 May  5 17:33 googletest
+-rw-r--r--   1 christophbackhaus  staff   9589 Nov 27 20:05 neon_mathfun.h
+drwxr-xr-x  16 christophbackhaus  staff    512 May  5 17:33 ruy
+drwxr-xr-x  24 christophbackhaus  staff    768 May  5 17:33 spdlog
+drwxr-xr-x  24 christophbackhaus  staff    768 May  5 17:33 thrust
++setup_third_party_deps:100> [ -d /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest ']'
++setup_third_party_deps:101> log_info 'GoogleTest directory present'
++log_info:0> echo '[INFO] GoogleTest directory present'
+[INFO] GoogleTest directory present
++setup_third_party_deps:102> ls -l /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest
+total 88
+-rw-r--r--   1 christophbackhaus  staff  6488 Apr 27 20:53 BUILD.bazel
+-rw-r--r--   1 christophbackhaus  staff   171 May  5 17:33 CMakeLists.txt
+-rw-r--r--   1 christophbackhaus  staff  5688 Apr 27 20:53 CONTRIBUTING.md
+-rw-r--r--   1 christophbackhaus  staff  2261 Apr 27 20:53 CONTRIBUTORS
+-rw-r--r--   1 christophbackhaus  staff  1475 Apr 27 20:53 LICENSE
+-rw-r--r--   1 christophbackhaus  staff  5814 Apr 27 20:53 README.md
+-rw-r--r--   1 christophbackhaus  staff  1159 Apr 27 20:53 WORKSPACE
+drwxr-xr-x   5 christophbackhaus  staff   160 Apr 27 20:53 ci
+drwxr-xr-x  22 christophbackhaus  staff   704 Apr 27 20:53 docs
+drwxr-xr-x   9 christophbackhaus  staff   288 May  5 17:33 googlemock
+drwxr-xr-x  10 christophbackhaus  staff   320 May  5 17:33 googletest
+-rw-r--r--   1 christophbackhaus  staff  1124 Apr 27 20:53 googletest_deps.bzl
++main:132> log_info 'Installing Build Dependencies'
++log_info:0> echo '[INFO] Installing Build Dependencies'
+[INFO] Installing Build Dependencies
++main:133> python3 -m pip install --upgrade pip setuptools wheel
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: pip in /Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages (25.1.1)
+Requirement already satisfied: setuptools in /Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages (80.3.1)
+Requirement already satisfied: wheel in /Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages (0.45.1)
++main:134> python3 -m pip install cmake pybind11 numpy
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: cmake in /Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages (4.0.0)
+Requirement already satisfied: pybind11 in /Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages (2.13.6)
+Requirement already satisfied: numpy in /Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages (1.26.2)
++main:137> BUILD_DIR=/Users/christophbackhaus/Documents/GitHub/CTranslate2/build 
++main:138> mkdir -p /Users/christophbackhaus/Documents/GitHub/CTranslate2/build
++main:139> cd /Users/christophbackhaus/Documents/GitHub/CTranslate2/build
++main:142> log_info 'Configuring CMake'
++log_info:0> echo '[INFO] Configuring CMake'
+[INFO] Configuring CMake
++main:144> export MACOSX_DEPLOYMENT_TARGET=10.15
++main:147> SDK_PATH=+main:147> xcrun --show-sdk-path
++main:147> SDK_PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk 
++main:148> SDK_VERSION=+main:148> xcrun --show-sdk-version
++main:148> SDK_VERSION=15.4 
++main:149> CLANG_CXX_PATH=+main:149> xcrun -f clang++
++main:149> CLANG_CXX_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ 
++main:150> CLANG_C_PATH=+main:150> xcrun -f clang
++main:150> CLANG_C_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang 
++main:151> CLANG_VERSION=+main:151> /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ --version
++main:151> CLANG_VERSION=+main:151> head -n1
++main:151> CLANG_VERSION='Apple clang version 17.0.0 (clang-1700.0.13.3)' 
++main:155> XCODE_TOOLCHAIN_PATH=+main:155> xcrun -f clang++
++main:155> XCODE_TOOLCHAIN_PATH=+main:155> xargs dirname
++main:155> XCODE_TOOLCHAIN_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/.. 
++main:156> STDLIB_INCLUDE_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1 
++main:157> COMPILER_BASE_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../usr/bin 
++main:160> CLANG_C_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang 
++main:161> CLANG_CXX_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ 
++main:164> C_COMPILER_FLAGS='-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=10.15 -arch arm64 -fPIC' 
++main:165> CXX_COMPILER_FLAGS='-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=10.15 -arch arm64 -std=c++17 -stdlib=libc++ -Wno-deprecated-declarations -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1 -fPIC' 
++main:168> echo 'Xcode Toolchain Path: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/..'
+Xcode Toolchain Path: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/..
++main:169> echo 'Standard Library Include Path: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1'
+Standard Library Include Path: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1
++main:170> echo 'Compiler Base Path: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../usr/bin'
+Compiler Base Path: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../usr/bin
++main:173> echo 'SDK Path: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'
+SDK Path: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
++main:174> echo 'SDK Version: 15.4'
+SDK Version: 15.4
++main:175> echo 'Clang Path: '
+Clang Path: 
++main:176> echo 'Clang Version: Apple clang version 17.0.0 (clang-1700.0.13.3)'
+Clang Version: Apple clang version 17.0.0 (clang-1700.0.13.3)
++main:177> LINKER_FLAGS='-Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-undefined,dynamic_lookup -Wl,-dead_strip' 
++main:179> brew --prefix libomp
++main:179> brew --prefix libomp
++main:179> cmake .. '-DCMAKE_BUILD_TYPE=Release' '-DWITH_METAL=ON' '-DCMAKE_C_FLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=10.15 -arch arm64 -fPIC' '-DCMAKE_CXX_FLAGS=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=10.15 -arch arm64 -std=c++17 -stdlib=libc++ -Wno-deprecated-declarations -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1 -fPIC' '-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-undefined,dynamic_lookup -Wl,-dead_strip' '-DCMAKE_EXE_LINKER_FLAGS=-Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-undefined,dynamic_lookup -Wl,-dead_strip' '-DOPENMP_LIBRARIES=/opt/homebrew/opt/libomp/lib/libomp.dylib' '-DOPENMP_INCLUDES=/opt/homebrew/opt/libomp/include' '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' '-DCMAKE_SYSTEM_NAME=Darwin' '-DCMAKE_SYSTEM_PROCESSOR=arm64' '-DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang' '-DCMAKE_CXX_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++' '-DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk' '-DCMAKE_CXX_STANDARD=17' '-DCMAKE_CXX_STANDARD_REQUIRED=ON' '-DCMAKE_CXX_EXTENSIONS=OFF' '-DPYTHON_EXECUTABLE=/opt/homebrew/bin/python3.12' '-DCMAKE_PREFIX_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain' '-DCMAKE_CXX_FLAGS_INIT=-stdlib=libc++'
+Re-run cmake no build system arguments
+-- Build spdlog: 1.10.0
+-- Build type: Release
+-- Configuring done (0.4s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/christophbackhaus/Documents/GitHub/CTranslate2
++main:202> cd ..
++main:205> log_info 'Verifying Build Artifacts'
++log_info:0> echo '[INFO] Verifying Build Artifacts'
+[INFO] Verifying Build Artifacts
++main:206> log_info 'Python extension search path:'
++log_info:0> echo '[INFO] Python extension search path:'
+[INFO] Python extension search path:
++main:207> PYTHON_EXT_PATH=+main:207> find . -name '_ext.cpython-*.so' -print
++main:207> PYTHON_EXT_PATH=+main:207> head -n 1
++main:207> PYTHON_EXT_PATH=./python/Agent/testenv/lib/python3.12/site-packages/ctranslate2/_ext.cpython-312-darwin.so 
++main:208> [ -z ./python/Agent/testenv/lib/python3.12/site-packages/ctranslate2/_ext.cpython-312-darwin.so ']'
++main:211> log_info 'Found Python extension: ./python/Agent/testenv/lib/python3.12/site-packages/ctranslate2/_ext.cpython-312-darwin.so'
++log_info:0> echo '[INFO] Found Python extension: ./python/Agent/testenv/lib/python3.12/site-packages/ctranslate2/_ext.cpython-312-darwin.so'
+[INFO] Found Python extension: ./python/Agent/testenv/lib/python3.12/site-packages/ctranslate2/_ext.cpython-312-darwin.so
++main:212> CORE_LIB_PATH=+main:212> find . -name libctranslate2.dylib -print
++main:212> CORE_LIB_PATH=+main:212> head -n 1
++main:212> CORE_LIB_PATH=./python/Agent/testenv/lib/libctranslate2.dylib 
++main:213> [ -z ./python/Agent/testenv/lib/libctranslate2.dylib ']'
++main:216> log_info 'Found Core library: ./python/Agent/testenv/lib/libctranslate2.dylib'
++log_info:0> echo '[INFO] Found Core library: ./python/Agent/testenv/lib/libctranslate2.dylib'
+[INFO] Found Core library: ./python/Agent/testenv/lib/libctranslate2.dylib
++main:218> log_info $'ð\M-\C-_\M-\C-N\M-\t Build Successful!'
++log_info:0> echo $'[INFO] ð\M-\C-_\M-\C-N\M-\t Build Successful!'
+[INFO] ðŸŽ‰ Build Successful!
++./build_mac.sh:383> echo $'ð\M-\C-_\M-\C-P\M-\C-M Creating virtual environment...'
+ðŸ Creating virtual environment...
++./build_mac.sh:384> uv venv python/testvenv
+Using CPython 3.12.7
+Creating virtual environment at: python/testvenv
+Activate with: source python/testvenv/bin/activate
++./build_mac.sh:385> source python/testvenv/bin/activate
++python/testvenv/bin/activate:26> [ -n '' ']'
++python/testvenv/bin/activate:33> [ -n x ']'
++python/testvenv/bin/activate:37> eval 'SCRIPT_PATH="${(%):-%x}"'
++(eval):1> SCRIPT_PATH=python/testvenv/bin/activate 
++python/testvenv/bin/activate:78> deactivate nondestructive
++deactivate:1> unset -f pydoc
++deactivate:1> true
++deactivate:5> [ -n '' ']'
++deactivate:10> [ -n '' ']'
++deactivate:19> hash -r
++deactivate:21> [ -n '' ']'
++deactivate:27> unset VIRTUAL_ENV
++deactivate:28> unset VIRTUAL_ENV_PROMPT
++deactivate:29> [ ! nondestructive '=' nondestructive ']'
++python/testvenv/bin/activate:80> VIRTUAL_ENV=/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv 
++python/testvenv/bin/activate:81> [ darwin24.0 '=' cygwin ']'
++python/testvenv/bin/activate:81> [ darwin24.0 '=' msys ']'
++python/testvenv/bin/activate:84> export VIRTUAL_ENV
++python/testvenv/bin/activate:86> _OLD_VIRTUAL_PATH=/Applications/Docker.app/Contents/Resources/bin:/opt/homebrew/Caskroom/miniconda/base/condabin:/Users/christophbackhaus/.local/bin:/Users/christophbackhaus/.codeium/windsurf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/christophbackhaus/.cargo/bin:/Users/christophbackhaus/.wasmedge/bin:/Users/christophbackhaus/android-sdk/cmdline-tools/latest/bin:/Users/christophbackhaus/android-sdk/cmdline-tools/latest/bin:/Users/christophbackhaus/Library/Android/sdk/emulator:/Users/christophbackhaus/Library/Android/sdk/platform-tools:/Users/christophbackhaus/development/flutter/bin 
++python/testvenv/bin/activate:87> PATH=/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/bin:/Applications/Docker.app/Contents/Resources/bin:/opt/homebrew/Caskroom/miniconda/base/condabin:/Users/christophbackhaus/.local/bin:/Users/christophbackhaus/.codeium/windsurf/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/christophbackhaus/.cargo/bin:/Users/christophbackhaus/.wasmedge/bin:/Users/christophbackhaus/android-sdk/cmdline-tools/latest/bin:/Users/christophbackhaus/android-sdk/cmdline-tools/latest/bin:/Users/christophbackhaus/Library/Android/sdk/emulator:/Users/christophbackhaus/Library/Android/sdk/platform-tools:/Users/christophbackhaus/development/flutter/bin 
++python/testvenv/bin/activate:88> export PATH
++python/testvenv/bin/activate:92> [ x '!=' x ']'
++python/testvenv/bin/activate:95> VIRTUAL_ENV_PROMPT=+python/testvenv/bin/activate:95> basename /Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv
++python/testvenv/bin/activate:95> VIRTUAL_ENV_PROMPT='(testvenv) ' 
++python/testvenv/bin/activate:97> export VIRTUAL_ENV_PROMPT
++python/testvenv/bin/activate:100> [ -n '' ']'
++python/testvenv/bin/activate:105> [ -z '' ']'
++python/testvenv/bin/activate:106> _OLD_VIRTUAL_PS1='' 
++python/testvenv/bin/activate:107> PS1='(testvenv) ' 
++python/testvenv/bin/activate:108> export PS1
++python/testvenv/bin/activate:112> alias pydoc
++python/testvenv/bin/activate:112> true
++python/testvenv/bin/activate:121> hash -r
++./build_mac.sh:386> uv pip install numpy pytest
+Using Python 3.12.7 environment at: python/testvenv
+Resolved 5 packages in 13ms
+Installed 5 packages in 20ms
+ + iniconfig==2.1.0
+ + numpy==2.2.5
+ + packaging==25.0
+ + pluggy==1.5.0
+ + pytest==8.3.5
++./build_mac.sh:387> uv pip install -e .
+Using Python 3.12.7 environment at: python/testvenv
+Resolved 1 package in 2ms
+Installed 1 package in 2ms
+ + ctranslate2==4.0.0 (from file:///Users/christophbackhaus/Documents/GitHub/CTranslate2)
++./build_mac.sh:392> echo $'ð\M-\C-_\M-\C-S¦ Installing Python dependencies...'
+ðŸ“¦ Installing Python dependencies...
++./build_mac.sh:393> uv pip install -U pip setuptools wheel
+Using Python 3.12.7 environment at: python/testvenv
+Resolved 3 packages in 62ms
+Prepared 3 packages in 0.89ms
+Installed 3 packages in 14ms
+ + pip==25.1.1
+ + setuptools==80.3.1
+ + wheel==0.45.1
++./build_mac.sh:394> uv pip install pybind11 numpy pyyaml
+Using Python 3.12.7 environment at: python/testvenv
+Resolved 3 packages in 2ms
+Installed 2 packages in 3ms
+ + pybind11==2.13.6
+ + pyyaml==6.0.2
++./build_mac.sh:399> echo $'ð\M-\C-_\M-\C-O\M--  Building C++ core...'
+ðŸ­  Building C++ core...
++./build_mac.sh:402> xcrun -f clang
++./build_mac.sh:402> xcrun -f clang++
++./build_mac.sh:402> xcrun --show-sdk-path
++./build_mac.sh:402> cmake /Users/christophbackhaus/Documents/GitHub/CTranslate2 '-DCMAKE_BUILD_TYPE=Release' '-DCMAKE_SYSTEM_NAME=Darwin' '-DCMAKE_SYSTEM_PROCESSOR=arm64' '-DCMAKE_OSX_ARCHITECTURES=arm64' '-DCMAKE_INSTALL_PREFIX=/Users/christophbackhaus/Documents/GitHub/CTranslate2' '-DWITH_METAL=ON' '-DWITH_TESTS=ON' '-DWITH_MKL=OFF' '-DWITH_CUDA=OFF' '-DWITH_OPENMP=ON' '-DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang' '-DCMAKE_CXX_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++' '-DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk' '-DCMAKE_CXX_STANDARD=17' '-DCMAKE_CXX_STANDARD_REQUIRED=ON' '-DPYTHON_EXECUTABLE=/opt/homebrew/bin/python3.12'
+Re-run cmake no build system arguments
+-- Build spdlog: 1.10.0
+-- Build type: Release
+-- Configuring done (0.4s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/christophbackhaus/Documents/GitHub/CTranslate2
++./build_mac.sh:419> sysctl -n hw.ncpu
++./build_mac.sh:419> make -j12
+/opt/homebrew/bin/cmake -S/Users/christophbackhaus/Documents/GitHub/CTranslate2 -B/Users/christophbackhaus/Documents/GitHub/CTranslate2 --check-build-system CMakeFiles/Makefile.cmake 0
+/opt/homebrew/bin/cmake -E cmake_progress_start /Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles /Users/christophbackhaus/Documents/GitHub/CTranslate2//CMakeFiles/progress.marks
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/Makefile2 all
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/ctranslate2.dir/build.make CMakeFiles/ctranslate2.dir/depend
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/depend
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_ops_test.dir/build.make tests/metal/CMakeFiles/metal_ops_test.dir/depend
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_buffer_test.dir/build.make tests/metal/CMakeFiles/metal_buffer_test.dir/depend
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_device_info_test.dir/build.make tests/metal/CMakeFiles/metal_device_info_test.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake "--color="
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_ops_test.dir/DependInfo.cmake "--color="
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_buffer_test.dir/DependInfo.cmake "--color="
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_device_info_test.dir/DependInfo.cmake "--color="
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/DependInfo.cmake "--color="
+Dependencies file "tests/metal/CMakeFiles/metal_buffer_test.dir/metal_buffer_test.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_buffer_test.dir/compiler_depend.internal".
+Dependencies file "tests/metal/CMakeFiles/metal_ops_test.dir/metal_ops_test.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_ops_test.dir/compiler_depend.internal".
+Dependencies file "tests/metal/CMakeFiles/metal_device_info_test.dir/metal_device_info_test.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_device_info_test.dir/compiler_depend.internal".
+Dependencies file "tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/allocator.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/batch_reader.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/buffered_translation_wrapper.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/allocator.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/backend.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/cpu_info.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/cpu_isa.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/kernels.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/parallel.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/cpu/primitives.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/decoding.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gtest
+Dependencies file "CMakeFiles/ctranslate2.dir/src/decoding_utils.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build
+Dependencies file "CMakeFiles/ctranslate2.dir/src/devices.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/dtw.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/encoder.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/env.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/filesystem.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/generator.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target metal_ops_test
+Consolidate compiler generated dependencies of target metal_buffer_test
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_ops_test.dir/build.make tests/metal/CMakeFiles/metal_ops_test.dir/build
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_buffer_test.dir/build.make tests/metal/CMakeFiles/metal_buffer_test.dir/build
+Consolidate compiler generated dependencies of target metal_device_info_test
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/attention.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_device_info_test.dir/build.make tests/metal/CMakeFiles/metal_device_info_test.dir/build
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/attention_layer.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/common.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/decoder.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/flash_attention.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/transformer.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/wav2vec2.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/wav2vec2bert.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/layers/whisper.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/logging.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+make[2]: Nothing to be done for `tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build'.
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/language_model.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/model.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/model_factory.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/model_reader.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/sequence_to_sequence.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/transformer.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/wav2vec2.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/wav2vec2bert.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+make[2]: Nothing to be done for `tests/metal/CMakeFiles/metal_ops_test.dir/build'.
+make[2]: Nothing to be done for `tests/metal/CMakeFiles/metal_device_info_test.dir/build'.
+make[2]: Nothing to be done for `tests/metal/CMakeFiles/metal_buffer_test.dir/build'.
+Dependencies file "CMakeFiles/ctranslate2.dir/src/models/whisper.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+[  2%] Built target gtest
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/depend
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/activation.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/add.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/DependInfo.cmake "--color="
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/alibi_add.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/alibi_add_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+[  7%] Built target metal_buffer_test
+[  7%] Built target metal_ops_test
+[  7%] Built target metal_device_info_test
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/awq/dequantize.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/awq/dequantize_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/awq/gemm.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/awq/gemm_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/awq/gemv.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/awq/gemv_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/bias_add.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target gtest_main
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/bias_add_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/concat.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/concat_split_slide_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/conv1d.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/conv1d_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/cos.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+make[2]: Nothing to be done for `tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build'.
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/dequantize.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/dequantize_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/flash_attention.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/flash_attention_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/gather.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+[  8%] Built target gtest_main
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/gather_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/gelu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/gemm.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/gumbel_max.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/gumbel_max_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/layer_norm.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/layer_norm_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/log.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/matmul.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/mean.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/mean_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/median_filter.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/min_max.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/mul.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/multinomial.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/multinomial_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/nccl_ops.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/nccl_ops_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/quantize.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/quantize_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/relu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/rms_norm.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/rms_norm_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/rotary.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/rotary_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/sigmoid.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/sin.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/slide.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/softmax.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/softmax_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/split.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/sub.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/sum.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/swish.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/tanh.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/tile.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/tile_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/topk.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/topk_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/topp_mask.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/topp_mask_cpu.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/ops/transpose.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/padder.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/profiler.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/random.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/sampling.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/scoring.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/storage_view.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/thread_pool.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/translator.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/types.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/utils.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/vocabulary.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/vocabulary_map.cc.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/metal/metal_allocator.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/metal/metal_device.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/metal/metal_kernels.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Dependencies file "CMakeFiles/ctranslate2.dir/src/metal/metal_utils.mm.o.d" is newer than depends file "/Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/compiler_depend.internal".
+Consolidate compiler generated dependencies of target ctranslate2
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/ctranslate2.dir/build.make CMakeFiles/ctranslate2.dir/build
+make[2]: Nothing to be done for `CMakeFiles/ctranslate2.dir/build'.
+[100%] Built target ctranslate2
+/opt/homebrew/bin/cmake -E cmake_progress_start /Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles 0
++./build_mac.sh:420> make install
+/opt/homebrew/bin/cmake -S/Users/christophbackhaus/Documents/GitHub/CTranslate2 -B/Users/christophbackhaus/Documents/GitHub/CTranslate2 --check-build-system CMakeFiles/Makefile.cmake 0
+/opt/homebrew/bin/cmake -E cmake_progress_start /Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles /Users/christophbackhaus/Documents/GitHub/CTranslate2//CMakeFiles/progress.marks
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/Makefile2 all
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/ctranslate2.dir/build.make CMakeFiles/ctranslate2.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles/ctranslate2.dir/DependInfo.cmake "--color="
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/ctranslate2.dir/build.make CMakeFiles/ctranslate2.dir/build
+make[2]: Nothing to be done for `CMakeFiles/ctranslate2.dir/build'.
+[ 91%] Built target ctranslate2
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake "--color="
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build
+make[2]: Nothing to be done for `tests/third_party/googletest/googletest/CMakeFiles/gtest.dir/build'.
+[ 93%] Built target gtest
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/DependInfo.cmake "--color="
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build.make tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build
+make[2]: Nothing to be done for `tests/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/build'.
+[ 94%] Built target gtest_main
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_ops_test.dir/build.make tests/metal/CMakeFiles/metal_ops_test.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_ops_test.dir/DependInfo.cmake "--color="
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_ops_test.dir/build.make tests/metal/CMakeFiles/metal_ops_test.dir/build
+make[2]: Nothing to be done for `tests/metal/CMakeFiles/metal_ops_test.dir/build'.
+[ 96%] Built target metal_ops_test
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_buffer_test.dir/build.make tests/metal/CMakeFiles/metal_buffer_test.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_buffer_test.dir/DependInfo.cmake "--color="
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_buffer_test.dir/build.make tests/metal/CMakeFiles/metal_buffer_test.dir/build
+make[2]: Nothing to be done for `tests/metal/CMakeFiles/metal_buffer_test.dir/build'.
+[ 98%] Built target metal_buffer_test
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_device_info_test.dir/build.make tests/metal/CMakeFiles/metal_device_info_test.dir/depend
+cd /Users/christophbackhaus/Documents/GitHub/CTranslate2 && /opt/homebrew/bin/cmake -E cmake_depends "Unix Makefiles" /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2 /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal /Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/CMakeFiles/metal_device_info_test.dir/DependInfo.cmake "--color="
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f tests/metal/CMakeFiles/metal_device_info_test.dir/build.make tests/metal/CMakeFiles/metal_device_info_test.dir/build
+make[2]: Nothing to be done for `tests/metal/CMakeFiles/metal_device_info_test.dir/build'.
+[100%] Built target metal_device_info_test
+/opt/homebrew/bin/cmake -E cmake_progress_start /Users/christophbackhaus/Documents/GitHub/CTranslate2/CMakeFiles 0
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/Makefile2 preinstall
+make[1]: Nothing to be done for `preinstall'.
+Install the project...
+/opt/homebrew/bin/cmake -P cmake_install.cmake
+-- Install configuration: "Release"
+-- Installing: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/libctranslate2.4.5.1.dylib
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/libctranslate2.4.dylib
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/libctranslate2.dylib
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2Targets.cmake
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2Targets-release.cmake
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2Config.cmake
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/FindNCCL.cmake
+-- Up-to-date: /Users/christophbackhaus/Documents/GitHub/CTranslate2/lib/cmake/ctranslate2/ctranslate2ConfigVersion.cmake
++./build_mac.sh:421> cd /Users/christophbackhaus/Documents/GitHub/CTranslate2
++./build_mac.sh:426> echo $'ð\M-\C-_\M-\C-P\M-\C-M Building Python extension...'
+ðŸ Building Python extension...
++./build_mac.sh:427> cd python
++./build_mac.sh:428> PYTHONPATH=. MACOSX_DEPLOYMENT_TARGET=10.15 CFLAGS='-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=10.15 -arch arm64 -fPIC' CXXFLAGS='-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=10.15 -arch arm64 -std=c++17 -stdlib=libc++ -Wno-deprecated-declarations -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1 -fPIC' CC=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang CXX=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ /opt/homebrew/bin/python3.12 setup.py build_ext --inplace
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/__init__.py:94: _DeprecatedInstaller: setuptools.installer and fetch_build_eggs are deprecated.
+!!
+
+        ********************************************************************************
+        Requirements should be satisfied by a PEP 517 installer.
+        If you are using pip, you can try `pip install --use-pep517`.
+        ********************************************************************************
+
+!!
+  dist.fetch_build_eggs(dist.setup_requires)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `license` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `license = 'MIT'`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `license` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `license` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `classifiers = ['Development Status :: 5 - Production/Stable', 'Environment :: GPU :: NVIDIA CUDA :: 11.0', 'Intended Audience :: Developers', 'Intended Audience :: Science/Research', 'License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3', 'Programming Language :: Python :: 3 :: Only', 'Programming Language :: Python :: 3.7', 'Programming Language :: Python :: 3.8', 'Programming Language :: Python :: 3.9', 'Programming Language :: Python :: 3.10', 'Programming Language :: Python :: 3.11', 'Programming Language :: Python :: 3.12', 'Topic :: Scientific/Engineering :: Artificial Intelligence']`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `classifiers` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `classifiers` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `urls` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `urls = {'Forum': 'https://forum.opennmt.net', 'Source': 'https://github.com/OpenNMT/CTranslate2'}`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `urls` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `urls` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `scripts` defined outside of `pyproject.toml` is ignored.
+!!
+
+        ********************************************************************************
+        The following seems to be defined outside of `pyproject.toml`:
+
+        `scripts = ['ct2-fairseq-converter=ctranslate2.converters.fairseq:main', 'ct2-marian-converter=ctranslate2.converters.marian:main', 'ct2-openai-gpt2-converter=ctranslate2.converters.openai_gpt2:main', 'ct2-opennmt-py-converter=ctranslate2.converters.opennmt_py:main', 'ct2-opennmt-tf-converter=ctranslate2.converters.opennmt_tf:main', 'ct2-opus-mt-converter=ctranslate2.converters.opus_mt:main', 'ct2-transformers-converter=ctranslate2.converters.transformers:main']`
+
+        According to the spec (see the link below), however, setuptools CANNOT
+        consider this value unless `scripts` is listed as `dynamic`.
+
+        https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+        To prevent this problem, you can list `scripts` under `dynamic` or alternatively
+        remove the `[project]` table from your file and rely entirely on other means of
+        configuration.
+        ********************************************************************************
+
+!!
+  _handle_missing_dynamic(dist, project_table)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/expand.py:128: SetuptoolsWarning: File '/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/README.md' cannot be found
+  for path in _filter_existing_files(_filepaths)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml` (dependencies)
+  corresp(dist, value, root_dir)
+/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `license` overwritten by `pyproject.toml`
+  corresp(dist, value, root_dir)
+running build_ext
+building 'ctranslate2._ext' extension
+clang++ -arch arm64 -I/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/pybind11/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -c ../src/metal/audio_processing.mm -o build/temp.macosx-15.0-arm64-cpython-312/../src/metal/audio_processing.o -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+clang++ -arch arm64 -I/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/pybind11/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -c ../src/metal/metal_allocator.mm -o build/temp.macosx-15.0-arm64-cpython-312/../src/metal/metal_allocator.o -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+clang++ -arch arm64 -I/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/pybind11/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -c ../src/metal/metal_device.mm -o build/temp.macosx-15.0-arm64-cpython-312/../src/metal/metal_device.o -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+clang++ -arch arm64 -I/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/pybind11/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -c ../src/metal/metal_kernels.mm -o build/temp.macosx-15.0-arm64-cpython-312/../src/metal/metal_kernels.o -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+clang++ -arch arm64 -I/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/pybind11/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -c ../src/metal/metal_utils.mm -o build/temp.macosx-15.0-arm64-cpython-312/../src/metal/metal_utils.o -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+clang++ -arch arm64 -I/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/testvenv/lib/python3.12/site-packages/pybind11/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include -I/opt/homebrew/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/include/python3.12 -c ../src/metal/speaker_manager.mm -o build/temp.macosx-15.0-arm64-cpython-312/../src/metal/speaker_manager.o -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:226:51: error: no template named 'basic_streambuf'; did you mean '::std::basic_streambuf'?
+  226 | class _LIBCPP_TEMPLATE_VIS basic_filebuf : public basic_streambuf<_CharT, _Traits> {
+      |                                                   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/streambuf:131:28: note: '::std::basic_streambuf' declared here
+  131 | class _LIBCPP_TEMPLATE_VIS basic_streambuf {
+      |                            ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:255:40: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  255 |   basic_filebuf* open(const char* __s, ios_base::openmode __mode);
+      |                                        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:259:51: error: unknown type name 'string'; did you mean '::std::string'?
+  259 |   _LIBCPP_HIDE_FROM_ABI basic_filebuf* open(const string& __s, ios_base::openmode __mode);
+      |                                                   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/string.h:45:7: note: '::std::string' declared here
+   45 | using string = basic_string<char>;
+      |       ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:259:64: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  259 |   _LIBCPP_HIDE_FROM_ABI basic_filebuf* open(const string& __s, ios_base::openmode __mode);
+      |                                                                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:263:14: error: use of undeclared identifier 'filesystem'; did you mean '::std::filesystem'?
+  263 |   open(const filesystem::path& __p, ios_base::openmode __mode) {
+      |              ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/u8path.h:30:1: note: '::std::filesystem' declared here
+   30 | _LIBCPP_BEGIN_NAMESPACE_FILESYSTEM
+      | ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config:605:80: note: expanded from macro '_LIBCPP_BEGIN_NAMESPACE_FILESYSTEM'
+  605 |                                              inline namespace __fs { namespace filesystem {
+      |                                                                                ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:263:37: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  263 |   open(const filesystem::path& __p, ios_base::openmode __mode) {
+      |                                     ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:267:57: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  267 |   _LIBCPP_HIDE_FROM_ABI basic_filebuf* __open(int __fd, ios_base::openmode __mode);
+      |                                                         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:282:67: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  282 |   _LIBCPP_HIDE_FROM_ABI inline static const char* __make_mdstring(ios_base::openmode __mode) _NOEXCEPT;
+      |                                                                   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:292:3: error: no template named 'basic_streambuf'; did you mean '::std::basic_streambuf'?
+  292 |   basic_streambuf<char_type, traits_type>* setbuf(char_type* __s, streamsize __n) override;
+      |   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/streambuf:131:28: note: '::std::basic_streambuf' declared here
+  131 | class _LIBCPP_TEMPLATE_VIS basic_streambuf {
+      |                            ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:292:67: error: unknown type name 'streamsize'; did you mean '::std::streamsize'?
+  292 |   basic_streambuf<char_type, traits_type>* setbuf(char_type* __s, streamsize __n) override;
+      |                                                                   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:247:19: note: '::std::streamsize' declared here
+  247 | typedef ptrdiff_t streamsize;
+      |                   ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:294:27: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  294 |   seekoff(off_type __off, ios_base::seekdir __way, ios_base::openmode __wch = ios_base::in | ios_base::out) override;
+      |                           ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:294:52: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  294 |   seekoff(off_type __off, ios_base::seekdir __way, ios_base::openmode __wch = ios_base::in | ios_base::out) override;
+      |                                                    ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:295:35: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  295 |   pos_type seekpos(pos_type __sp, ios_base::openmode __wch = ios_base::in | ios_base::out) override;
+      |                                   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:297:20: error: unknown type name 'locale'; did you mean '::std::locale'?
+  297 |   void imbue(const locale& __loc) override;
+      |                    ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__locale:56:33: note: '::std::locale' declared here
+   56 | class _LIBCPP_EXPORTED_FROM_ABI locale {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:308:9: error: no template named 'codecvt'; did you mean '::std::codecvt'?
+  308 |   const codecvt<char_type, char, state_type>* __cv_;
+      |         ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__locale:747:28: note: '::std::codecvt' declared here
+  747 | class _LIBCPP_TEMPLATE_VIS codecvt;
+      |                            ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:311:3: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  311 |   ios_base::openmode __om_;
+      |   ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:314:16: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  314 |   static const ios_base::openmode __no_io_operations = ios_base::trunc;
+      |                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:314:56: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  314 |   static const ios_base::openmode __no_io_operations = ios_base::trunc;
+      |                                                        ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+In file included from ../src/metal/speaker_manager.mm:21:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:316:16: error: use of undeclared identifier 'ios_base'; did you mean '::std::ios_base'?
+  316 |   static const ios_base::openmode __use_unbuffered_io = ios_base::ate;
+      |                ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios:249:33: note: '::std::ios_base' declared here
+  249 | class _LIBCPP_EXPORTED_FROM_ABI ios_base {
+      |                                 ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+error: command '/usr/bin/clang++' failed with exit code 1
++./build_mac.sh:429> echo 'Python build failed'
+Python build failed
++./build_mac.sh:430> echo 'Python executable details:'
+Python executable details:
++./build_mac.sh:431> ls -l /opt/homebrew/bin/python3.12
+lrwxr-xr-x@ 1 christophbackhaus  admin  44 Apr 27 18:57 /opt/homebrew/bin/python3.12 -> ../Cellar/python@3.12/3.12.10/bin/python3.12
++./build_mac.sh:432> echo 'Setup script details:'
+Setup script details:
++./build_mac.sh:433> ls -l setup.py
+-rw-r--r--  1 christophbackhaus  staff  9999 May  4 19:13 setup.py
++./build_mac.sh:434> die 'Python extension build failed'
++die:0> log_error 'Python extension build failed'
++log_error:0> echo '[ERROR] Python extension build failed'
+[ERROR] Python extension build failed
++die:0> exit 1

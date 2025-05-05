@@ -1,0 +1,7 @@
+LICENSE
+README.md
+pyproject.toml
+src/ctranslate2.egg-info/PKG-INFO
+src/ctranslate2.egg-info/SOURCES.txt
+src/ctranslate2.egg-info/dependency_links.txt
+src/ctranslate2.egg-info/top_level.txt

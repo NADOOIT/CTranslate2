@@ -1,0 +1,15 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/third_party/spdlog/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/third_party/googletest/googletest/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/third_party/cmake_install.cmake",
+		"/Users/christophbackhaus/Documents/GitHub/CTranslate2/tests/metal/ops/third_party/googletest/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

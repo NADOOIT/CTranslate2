@@ -100,10 +100,10 @@ clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/sit
 clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_allocator.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_allocator.o -std=c++17 -mmacosx-version-min=10.14
 clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_device.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_device.o -std=c++17 -mmacosx-version-min=10.14
 ../src/metal/metal_device.mm:52:15: warning: '__bridge_retained' casts have no effect when not using ARC [-Warc-bridge-casts-disallowed-in-nonarc]
-   52 |       return (__bridge_retained void*)buffer;
+   52 |       return (void*)CFBridgingRetain(buffer);
       |               ^~~~~~~~~~~~~~~~~
 ../src/metal/metal_device.mm:63:15: warning: '__bridge_retained' casts have no effect when not using ARC [-Warc-bridge-casts-disallowed-in-nonarc]
-   63 |       return (__bridge_retained void*)command_buffer;
+   63 |       return (void*)CFBridgingRetain(command_buffer);
       |               ^~~~~~~~~~~~~~~~~
 2 warnings generated.
 clang++ -arch arm64 -I/Users/christophbackhaus/Library/Python/3.9/lib/python/site-packages/pybind11/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c ../src/metal/metal_kernels.mm -o build/temp.macosx-10.9-universal2-cpython-39/../src/metal/metal_kernels.o -std=c++17 -mmacosx-version-min=10.14

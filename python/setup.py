@@ -1,24 +1,65 @@
 import os
+import sys
+import subprocess
+import sysconfig
 import platform
 import subprocess
-import sys
 from pathlib import Path
 
-import pybind11
+# Ensure we're using the virtual environment's Python
+venv_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'python', 'testvenv'))
+if os.path.exists(venv_path):
+    # Modify Python path to use virtual environment
+    venv_site_packages = os.path.join(venv_path, 'lib', f'python{sys.version_info.major}.{sys.version_info.minor}', 'site-packages')
+    sys.path.insert(0, venv_site_packages)
+    
+    # Set environment variables to ensure correct Python is used
+    os.environ['VIRTUAL_ENV'] = venv_path
+    os.environ['PATH'] = os.path.join(venv_path, 'bin') + ':' + os.environ.get('PATH', '')
+
+# Ensure pybind11 is available
+try:
+    import pybind11
+except ImportError:
+    subprocess.check_call([sys.executable, '-m', 'uv', 'pip', 'install', 'pybind11'])
+    import pybind11
+
+# Add custom bitset header path
+CUSTOM_BITSET_INCLUDE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
+
+# Add custom bitset header path
+CUSTOM_BITSET_INCLUDE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 class custom_build_ext(build_ext):
     def build_extensions(self):
         # .mm-Dateien wie .cpp behandeln
         if '.mm' not in self.compiler.src_extensions:
             self.compiler.src_extensions.append('.mm')
+        
+        # Detect standard library include path
+        xcode_toolchain_path = subprocess.check_output(["xcrun", "-f", "clang++"]).decode().strip()
+        xcode_toolchain_path = os.path.dirname(os.path.dirname(xcode_toolchain_path))
+        stdlib_include_path = os.path.join(xcode_toolchain_path, "include", "c++", "v1")
+        
         original_compile = self.compiler._compile
         def _compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+            # Add libc++ and standard library include path
+            extra_postargs = list(extra_postargs) + [
+                "-stdlib=libc++", 
+                f"-I{stdlib_include_path}", 
+                "-D_LIBCPP_DISABLE_AVAILABILITY=1", 
+                "-D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1"
+            ]
+            
             if src.endswith('.mm'):
                 # Verwende clang++ explizit für .mm
                 self.compiler.set_executable('compiler_so', 'clang++')
+            
             return original_compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
+        
         self.compiler._compile = _compile
         super().build_extensions()
 
@@ -36,6 +77,11 @@ def build_cpp_lib():
     build_dir = root_dir / "build"
     build_dir.mkdir(exist_ok=True)
     
+    # Detect standard library include path
+    xcode_toolchain_path = subprocess.check_output(["xcrun", "-f", "clang++"]).decode().strip()
+    xcode_toolchain_path = os.path.dirname(os.path.dirname(xcode_toolchain_path))
+    stdlib_include_path = os.path.join(xcode_toolchain_path, "include", "c++", "v1")
+
     cmake_args = [
         "-DCMAKE_BUILD_TYPE=Release",
         "-DWITH_METAL=ON",
@@ -44,15 +90,16 @@ def build_cpp_lib():
         "-DWITH_CUDA=OFF",
         "-DWITH_CUDNN=OFF",
         "-DBUILD_TESTS=OFF",
-        "-DCMAKE_CXX_FLAGS=-std=c++17",
-        "-DCMAKE_OBJCXX_FLAGS=-ObjC++ -std=c++17 -framework Metal -framework Foundation",
+        f"-DCMAKE_CXX_FLAGS=-std=c++17 -stdlib=libc++ -I{stdlib_include_path} -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1",
+        f"-DCMAKE_OBJCXX_FLAGS=-ObjC++ -std=c++17 -stdlib=libc++ -I{stdlib_include_path} -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1 -framework Metal -framework Foundation",
         "-DCMAKE_EXE_LINKER_FLAGS=-framework Metal -framework Foundation",
         "-DOpenMP_C_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
         "-DOpenMP_CXX_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
         "-DOpenMP_C_LIB_NAMES=omp",
         "-DOpenMP_CXX_LIB_NAMES=omp",
         "-DOpenMP_omp_LIBRARY=/opt/homebrew/opt/libomp/lib/libomp.dylib",
-        f"-DCMAKE_INSTALL_PREFIX={sys.prefix}"
+        f"-DCMAKE_INSTALL_PREFIX={sys.prefix}",
+        f"-DCMAKE_PREFIX_PATH={xcode_toolchain_path}"
     ]
     
     subprocess.check_call(["cmake", "-S", str(root_dir), "-B", str(build_dir)] + cmake_args)
@@ -121,8 +168,6 @@ ext_module = Extension(
             "metal_device.mm",
             "metal_kernels.mm",
             "metal_utils.mm",
-            "speaker_manager.mm",
-            "speaker_profile.mm",
             "utils.mm",
         ]
     ],

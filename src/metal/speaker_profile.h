@@ -64,8 +64,24 @@ class SpeakerProfile {
 public:
     SpeakerProfile(const SpeakerProfile&) = delete;
     SpeakerProfile& operator=(const SpeakerProfile&) = delete;
-    SpeakerProfile(SpeakerProfile&&) = default;
-    SpeakerProfile& operator=(SpeakerProfile&&) = default;
+    SpeakerProfile(SpeakerProfile&& other) noexcept
+        : _id(std::move(other._id)),
+          _fingerprint(std::move(other._fingerprint)),
+          _weights(std::move(other._weights)),
+          _version(other._version),
+          _metrics(std::move(other._metrics)),
+          _processing_state(std::move(other._processing_state)) {}
+    SpeakerProfile& operator=(SpeakerProfile&& other) noexcept {
+        if (this != &other) {
+            _id = std::move(other._id);
+            _fingerprint = std::move(other._fingerprint);
+            _weights = std::move(other._weights);
+            _version = other._version;
+            _metrics = std::move(other._metrics);
+            _processing_state = std::move(other._processing_state);
+        }
+        return *this;
+    }
     SpeakerProfile() = default;
     explicit SpeakerProfile(const std::string& id);
     
@@ -129,12 +145,20 @@ public:
             HIGH_QUALITY      // Minimal compression, best quality
         };
         
-        Mode mode = Mode::BALANCED;
-        bool use_profile_prediction = true;    // Use profile for better compression
-        bool store_fingerprints = true;        // Store voice fingerprints for reconstruction
-        uint8_t silence_bits = 2;              // Bits used for silence
-        uint8_t speech_bits = 8;               // Bits used for speech
-        float quality_threshold = 0.95f;       // Quality threshold for compression
+        Mode mode;
+        bool use_profile_prediction;
+        bool store_fingerprints;
+        uint8_t silence_bits;
+        uint8_t speech_bits;
+        float quality_threshold;
+
+        SmartCompressionConfig() :
+            mode(Mode::BALANCED),
+            use_profile_prediction(true),
+            store_fingerprints(true),
+            silence_bits(2),
+            speech_bits(8),
+            quality_threshold(0.95f) {}
     };
     
     struct CompressedAudioFile {

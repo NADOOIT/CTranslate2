@@ -10,7 +10,10 @@ int main() {
             return 1;
         }
         std::cout << "[MetalBufferTest] Metal-Device Name: " << [[device name] UTF8String] << std::endl;
-        NSUInteger maxBufferLength = [device maxBufferLength];
+        NSUInteger maxBufferLength = 0;
+if (@available(macOS 10.14, *)) {
+    maxBufferLength = [device maxBufferLength];
+}
         std::cout << "[MetalBufferTest] Max Buffer Length: " << maxBufferLength << std::endl;
 
         NSUInteger bufferSize = 1024;
