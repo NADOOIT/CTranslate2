@@ -57,3 +57,14 @@ namespace ctranslate2 {
 
   }  // namespace metal
 }  // namespace ctranslate2
+
+namespace ctranslate2 {
+  template<>
+  Allocator& get_allocator<Device::METAL>() {
+    // prefer_neural_engine defaults to true in the MetalDevice constructor
+    static metal::MetalDevice metal_device_instance;
+    static metal::MetalAllocator metal_allocator(metal_device_instance);
+    return metal_allocator;
+  }
+}
+

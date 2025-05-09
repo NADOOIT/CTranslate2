@@ -1,517 +1,514 @@
 #include <algorithm>
 #include "test_utils.h"
 #include "ctranslate2/layers/attention.h"
-#include "ctranslate2/ops/ops.h"
 
-TEST(OpTest, Transpose1D) {
-  StorageView x({4}, std::vector<float>{1, 2, 3, 4});
-  StorageView y;
-  ops::Transpose()(x, y);
-  expect_storage_eq(y, x);
-}
-
-TEST(OpTest, Squeeze) {
-  StorageView x({2, 1, 3}, DataType::FLOAT32);
-  StorageView y;
-  ops::Squeeze({1})(x, y);
-  assert_vector_eq(y.shape(), {2, 3});
-  EXPECT_EQ(y.data<float>(), x.data<float>());
-  y.release();
-  EXPECT_THROW(ops::Squeeze({0})(x, y), std::invalid_argument);
-}
-
-TEST(OpTest, Unsqueeze) {
-  StorageView x({2, 3}, DataType::FLOAT32);
-  StorageView y;
-  ops::Unsqueeze({1})(x, y);
-  assert_vector_eq(y.shape(), {2, 1, 3});
-  EXPECT_EQ(y.data<float>(), x.data<float>());
-  StorageView z;
-  ops::Unsqueeze({0})(y, z);
-  assert_vector_eq(z.shape(), {1, 2, 1, 3});
-  EXPECT_EQ(z.data<float>(), y.data<float>());
-}
-
-TEST(OpTest, SplitNoCopyInvalidArgument) {
-  ASSERT_RAISES(ops::Split(1, /*no_copy=*/true), std::invalid_argument);
-}
-
-TEST(OpDeviceTest, SplitInvalidSize) {
-  StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8});
-  StorageView a, b;
-  ASSERT_RAISES(ops::Split(0, {3, 2})(x, a, b), std::invalid_argument);
-}
-
-TEST(OpDeviceTest, SplitInvalidNumSplits) {
-  StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8});
-  StorageView a, b, c;
-  ASSERT_RAISES(ops::Split(0, {3, 1})(x, a, b, c), std::invalid_argument);
-}
-
-TEST(OpDeviceTest, SplitInvalidNumOutputs) {
-  StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8});
-  StorageView a, b, c;
-  ASSERT_RAISES(ops::Split(0)(x, a, b, c), std::invalid_argument);
-}
-
-TEST(OpDeviceTest, GatherInPlaceStrictlyIncreasing) {
-  StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
-  void* data_ptr = data.buffer();
-  StorageView ids({2}, std::vector<int32_t>{1, 2});
-  StorageView expected({2, 2}, std::vector<float>{2, 2, 3, 3});
-  ops::Gather(0)(data, ids);
-  expect_storage_eq(data, expected);
-  EXPECT_EQ(data.buffer(), data_ptr);
-}
-
-TEST(OpDeviceTest, GatherInPlaceIncreasing) {
-  StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
-  void* data_ptr = data.buffer();
-  StorageView ids({3}, std::vector<int32_t>{0, 0, 1});
-  StorageView expected({3, 2}, std::vector<float>{1, 1, 1, 1, 2, 2});
-  ops::Gather(0)(data, ids);
-  expect_storage_eq(data, expected);
-  EXPECT_NE(data.buffer(), data_ptr);
-}
-
-TEST(OpDeviceTest, GatherInPlaceDecreasing) {
-  StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
-  void* data_ptr = data.buffer();
-  StorageView ids({2}, std::vector<int32_t>{1, 0});
-  StorageView expected({2, 2}, std::vector<float>{2, 2, 1, 1});
-  ops::Gather(0)(data, ids);
-  expect_storage_eq(data, expected);
-  EXPECT_NE(data.buffer(), data_ptr);
-}
-
-TEST(OpDeviceTest, GatherInPlaceLarger) {
-  StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
-  void* data_ptr = data.buffer();
-  StorageView ids({5}, std::vector<int32_t>{0, 1, 2, 3, 3});
-  StorageView expected({5, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4, 4, 4});
-  ops::Gather(0)(data, ids);
-  expect_storage_eq(data, expected);
-  EXPECT_NE(data.buffer(), data_ptr);
-}
-
-TEST(OpTest, GemmInt16) {
-  if (!mayiuse_int16(Device::CPU))
-    return;
-  StorageView a({64, 64}, static_cast<int16_t>(1));
-  StorageView b(a);
-  StorageView y({64, 64}, static_cast<int32_t>(2));
-  StorageView expected({64, 64}, static_cast<int32_t>(130));
-  ops::Gemm op(2.0, 1.0, false, true);
-  op(a, b, y);
-  expect_storage_eq(y, expected);
-};
-
-TEST(OpTest, QuantizeINT16) {
-  StorageView scale;
-  StorageView input({4}, std::vector<float>{0.1f, -0.5f, 2.0f, 0.0f});
-  StorageView expected({4}, std::vector<int16_t>{100, -500, 2000, 0});
-  StorageView output(expected.dtype());
-  StorageView reverse(input.dtype());
-  ops::Quantize()(input, output, scale);
-  expect_storage_eq(output, expected);
-  ops::Dequantize()(output, scale, reverse);
-  expect_storage_eq(reverse, input);
-}
-
-TEST(OpTest, MedianFilter) {
-  StorageView x({2, 8}, std::vector<float>{
-      0.2556743323802948, 0.8028775453567505, 0.3514494299888611, 0.3542254865169525,
-      0.5881291031837463, 0.1458204835653305, 0.6845740675926208, 0.543143630027771,
-      0.9039326310157776, 0.38000917434692383, 0.9094009399414062, 0.4063926637172699,
-      0.7943458557128906, 0.289182186126709, 0.9932224750518799, 0.01137143187224865});
-  StorageView expected({2, 8}, std::vector<float>{
-      0.3514494299888611, 0.3542254865169525, 0.3542254865169525, 0.3542254865169525,
-      0.3542254865169525, 0.543143630027771, 0.5881291031837463, 0.543143630027771,
-      0.9039326310157776, 0.4063926637172699, 0.7943458557128906, 0.4063926637172699,
-      0.7943458557128906, 0.4063926637172699, 0.7943458557128906, 0.289182186126709});
-  StorageView y;
-  ops::MedianFilter(5)(x, y);
-  expect_storage_eq(y, expected);
-}
-
-class OpDeviceTest : public ::testing::TestWithParam<Device> {
+class OpDeviceTest : public ::testing::TestWithParam<ctranslate2::Device> {
 };
 
 class OpDeviceFPTest : public ::testing::TestWithParam<FloatType> {
 };
 
+TEST(OpTest, Transpose1D) {
+  ctranslate2::StorageView x({4}, std::vector<float>{1, 2, 3, 4});
+  ctranslate2::StorageView y;
+  ctranslate2::ops::Transpose()(x, y);
+  expect_storage_eq(y, x);
+}
+
+TEST(OpTest, Squeeze) {
+  ctranslate2::StorageView x({2, 1, 3}, ctranslate2::DataType::FLOAT32);
+  ctranslate2::StorageView y;
+  ctranslate2::ops::Squeeze({1})(x, y);
+  assert_vector_eq(y.shape(), {2, 3});
+  EXPECT_EQ(y.data<float>(), x.data<float>());
+  y.release();
+  EXPECT_THROW(ctranslate2::ops::Squeeze({0})(x, y), std::invalid_argument);
+}
+
+TEST(OpTest, Unsqueeze) {
+  ctranslate2::StorageView x({2, 3}, ctranslate2::DataType::FLOAT32);
+  ctranslate2::StorageView y;
+  ctranslate2::ops::Unsqueeze({1})(x, y);
+  assert_vector_eq(y.shape(), {2, 1, 3});
+  EXPECT_EQ(y.data<float>(), x.data<float>());
+  ctranslate2::StorageView z;
+  ctranslate2::ops::Unsqueeze({0})(y, z);
+  assert_vector_eq(z.shape(), {1, 2, 1, 3});
+  EXPECT_EQ(z.data<float>(), y.data<float>());
+  ASSERT_RAISES(ctranslate2::ops::Split(1, /*no_copy=*/true), std::invalid_argument);
+}
+
+TEST_P(OpDeviceTest, SplitInvalidSize) {
+  ctranslate2::StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8});
+  ctranslate2::StorageView a, b;
+  ASSERT_RAISES(ctranslate2::ops::Split(0, {3, 2})(x, a, b), std::invalid_argument);
+}
+
+TEST_P(OpDeviceTest, SplitInvalidNumSplits) {
+  ctranslate2::StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8});
+  ctranslate2::StorageView a, b, c;
+  ASSERT_RAISES(ctranslate2::ops::Split(0, {3, 1})(x, a, b, c), std::invalid_argument);
+}
+
+TEST_P(OpDeviceTest, SplitInvalidNumOutputs) {
+  ctranslate2::StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8});
+  ctranslate2::StorageView a, b, c;
+  ASSERT_RAISES(ctranslate2::ops::Split(0)(x, a, b, c), std::invalid_argument);
+}
+
+TEST_P(OpDeviceTest, GatherInPlaceStrictlyIncreasing) {
+  ctranslate2::StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
+  void* data_ptr = data.buffer();
+  ctranslate2::StorageView ids({2}, std::vector<int32_t>{1, 2});
+  ctranslate2::StorageView expected({2, 2}, std::vector<float>{2, 2, 3, 3});
+  ctranslate2::ops::Gather(0)(data, ids);
+  expect_storage_eq(data, expected);
+  EXPECT_EQ(data.buffer(), data_ptr);
+}
+
+TEST_P(OpDeviceTest, GatherInPlaceIncreasing) {
+  ctranslate2::StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
+  void* data_ptr = data.buffer();
+  ctranslate2::StorageView ids({3}, std::vector<int32_t>{0, 0, 1});
+  ctranslate2::StorageView expected({3, 2}, std::vector<float>{1, 1, 1, 1, 2, 2});
+  ctranslate2::ops::Gather(0)(data, ids);
+  expect_storage_eq(data, expected);
+  EXPECT_NE(data.buffer(), data_ptr);
+}
+
+TEST_P(OpDeviceTest, GatherInPlaceDecreasing) {
+  ctranslate2::StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
+  void* data_ptr = data.buffer();
+  ctranslate2::StorageView ids({2}, std::vector<int32_t>{1, 0});
+  ctranslate2::StorageView expected({2, 2}, std::vector<float>{2, 2, 1, 1});
+  ctranslate2::ops::Gather(0)(data, ids);
+  expect_storage_eq(data, expected);
+  EXPECT_NE(data.buffer(), data_ptr);
+}
+
+TEST_P(OpDeviceTest, GatherInPlaceLarger) {
+  ctranslate2::StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4});
+  void* data_ptr = data.buffer();
+  ctranslate2::StorageView ids({5}, std::vector<int32_t>{0, 1, 2, 3, 3});
+  ctranslate2::StorageView expected({5, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4, 4, 4});
+  ctranslate2::ops::Gather(0)(data, ids);
+  expect_storage_eq(data, expected);
+  EXPECT_NE(data.buffer(), data_ptr);
+}
+
+TEST(OpTest, GemmInt16) {
+  if (!mayiuse_int16(ctranslate2::Device::CPU))
+    return;
+  ctranslate2::StorageView a({64, 64}, static_cast<int16_t>(1));
+  ctranslate2::StorageView b(a);
+  ctranslate2::StorageView y({64, 64}, static_cast<int32_t>(2));
+  ctranslate2::StorageView expected({64, 64}, static_cast<int32_t>(130));
+  ctranslate2::ops::Gemm op(2.0, 1.0, false, true);
+  op(a, b, y);
+  expect_storage_eq(y, expected);
+};
+
+TEST(OpTest, QuantizeINT16) {
+  ctranslate2::StorageView scale;
+  ctranslate2::StorageView input({4}, std::vector<float>{0.1f, -0.5f, 2.0f, 0.0f});
+  ctranslate2::StorageView expected({4}, std::vector<int16_t>{100, -500, 2000, 0});
+  ctranslate2::StorageView output(expected.dtype());
+  ctranslate2::StorageView reverse(input.dtype());
+  ctranslate2::ops::Quantize()(input, output, scale);
+  expect_storage_eq(output, expected);
+  ctranslate2::ops::Dequantize()(output, scale, reverse);
+  expect_storage_eq(reverse, input);
+}
+
+TEST(OpTest, MedianFilter) {
+  ctranslate2::StorageView x({2, 8}, std::vector<float>{
+      0.2556743323802948, 0.8028775453567505, 0.3514494299888611, 0.3542254865169525,
+      0.5881291031837463, 0.1458204835653305, 0.6845740675926208, 0.543143630027771,
+      0.9039326310157776, 0.38000917434692383, 0.9094009399414062, 0.4063926637172699,
+      0.7943458557128906, 0.289182186126709, 0.9932224750518799, 0.01137143187224865});
+  ctranslate2::StorageView expected({2, 8}, std::vector<float>{
+      0.3514494299888611, 0.3542254865169525, 0.3542254865169525, 0.3542254865169525,
+      0.3542254865169525, 0.543143630027771, 0.5881291031837463, 0.543143630027771,
+      0.9039326310157776, 0.4063926637172699, 0.7943458557128906, 0.4063926637172699,
+      0.7943458557128906, 0.4063926637172699, 0.7943458557128906, 0.289182186126709});
+  ctranslate2::StorageView y;
+  ctranslate2::ops::MedianFilter(5)(x, y);
+  expect_storage_eq(y, expected);
+}
+
+
 
 TEST_P(OpDeviceTest, Add) {
-  Device device = GetParam();
-  StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b({4}, std::vector<float>{2, 3, 4, 5}, device);
-  StorageView expected({4}, std::vector<float>{3, 5, 7, 9}, device);
-  StorageView c(a.device());
-  ops::Add()(a, b, c);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b({4}, std::vector<float>{2, 3, 4, 5}, device);
+  ctranslate2::StorageView expected({4}, std::vector<float>{3, 5, 7, 9}, device);
+  ctranslate2::StorageView c(a.device());
+  ctranslate2::ops::Add()(a, b, c);
   expect_storage_eq(c, expected);
 }
 
 TEST_P(OpDeviceTest, AddScalar) {
-  Device device = GetParam();
-  StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b(static_cast<float>(3));
-  StorageView expected({4}, std::vector<float>{4, 5, 6, 7}, device);
-  StorageView c(a.device());
-  ops::Add()(a, b, c);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b(static_cast<float>(3));
+  ctranslate2::StorageView expected({4}, std::vector<float>{4, 5, 6, 7}, device);
+  ctranslate2::StorageView c(a.device());
+  ctranslate2::ops::Add()(a, b, c);
   expect_storage_eq(c, expected);
 }
 
 TEST_P(OpDeviceTest, Mul) {
-  Device device = GetParam();
-  StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b({4}, std::vector<float>{2, 3, 4, 5}, device);
-  StorageView expected({4}, std::vector<float>{2, 6, 12, 20}, device);
-  StorageView c(a.device());
-  ops::Mul()(a, b, c);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b({4}, std::vector<float>{2, 3, 4, 5}, device);
+  ctranslate2::StorageView expected({4}, std::vector<float>{2, 6, 12, 20}, device);
+  ctranslate2::StorageView c(a.device());
+  ctranslate2::ops::Mul()(a, b, c);
   expect_storage_eq(c, expected);
 }
 
 TEST_P(OpDeviceTest, MulScalar) {
-  Device device = GetParam();
-  StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b(static_cast<float>(3));
-  StorageView expected({4}, std::vector<float>{3, 6, 9, 12}, device);
-  StorageView c(a.device());
-  ops::Mul()(a, b, c);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b(static_cast<float>(3));
+  ctranslate2::StorageView expected({4}, std::vector<float>{3, 6, 9, 12}, device);
+  ctranslate2::StorageView c(a.device());
+  ctranslate2::ops::Mul()(a, b, c);
   expect_storage_eq(c, expected);
 }
 
 TEST_P(OpDeviceTest, Sub) {
-  Device device = GetParam();
-  StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b({4}, std::vector<float>{2, 3, 4, 5}, device);
-  StorageView expected({4}, std::vector<float>{-1, -1, -1, -1}, device);
-  StorageView c(a.device());
-  ops::Sub()(a, b, c);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b({4}, std::vector<float>{2, 3, 4, 5}, device);
+  ctranslate2::StorageView expected({4}, std::vector<float>{-1, -1, -1, -1}, device);
+  ctranslate2::StorageView c(a.device());
+  ctranslate2::ops::Sub()(a, b, c);
   expect_storage_eq(c, expected);
 }
 
 TEST_P(OpDeviceTest, TileFirstDim) {
-  Device device = GetParam();
-  StorageView input({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView expected_output({4, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView output(device);
-  ops::Tile(0, 2)(input, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView input({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView expected_output({4, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Tile(0, 2)(input, output);
   expect_storage_eq(output, expected_output);
 }
 
 TEST_P(OpDeviceTest, TileLastDim) {
-  Device device = GetParam();
-  StorageView input({2, 2}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView expected_output({2, 4}, std::vector<float>{1, 2, 1, 2, 3, 4, 3, 4}, device);
-  StorageView output(device);
-  ops::Tile(1, 2)(input, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView input({2, 2}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView expected_output({2, 4}, std::vector<float>{1, 2, 1, 2, 3, 4, 3, 4}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Tile(1, 2)(input, output);
   expect_storage_eq(output, expected_output);
 }
 
 TEST_P(OpDeviceTest, TileMiddleDim) {
-  Device device = GetParam();
-  StorageView input({2, 1, 3}, std::vector<float>{1, 2, 3, 4, 5, 6}, device);
-  StorageView expected_output({2, 3, 3}, std::vector<float>{1, 2, 3, 1, 2, 3, 1, 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6}, device);
-  StorageView output(device);
-  ops::Tile(1, 3)(input, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView input({2, 1, 3}, std::vector<float>{1, 2, 3, 4, 5, 6}, device);
+  ctranslate2::StorageView expected_output({2, 3, 3}, std::vector<float>{1, 2, 3, 1, 2, 3, 1, 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Tile(1, 3)(input, output);
   expect_storage_eq(output, expected_output);
 }
 
 TEST_P(OpDeviceTest, ConcatEmpty) {
-  Device device = GetParam();
-  StorageView a({2, 1, 2}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b({2, 0, 2}, DataType::FLOAT32, device);
-  StorageView x(device);
-  ops::Concat(1)({&a, &b}, x);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 1, 2}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b({2, 0, 2}, ctranslate2::DataType::FLOAT32, device);
+  ctranslate2::StorageView x(device);
+  ctranslate2::ops::Concat(1)({&a, &b}, x);
   expect_storage_eq(x, a);
 }
 
 TEST_P(OpDeviceTest, ConcatSplitBatch) {
-  Device device = GetParam();
-  StorageView a({2, 2}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView b({1, 2}, std::vector<float>{5, 6}, device);
-  StorageView c({3, 2}, std::vector<float>{1, 2, 3, 4, 5, 6}, device);
-  StorageView x(device);
-  ops::Concat(0)({&a, &b}, x);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 2}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView b({1, 2}, std::vector<float>{5, 6}, device);
+  ctranslate2::StorageView c({3, 2}, std::vector<float>{1, 2, 3, 4, 5, 6}, device);
+  ctranslate2::StorageView x(device);
+  ctranslate2::ops::Concat(0)({&a, &b}, x);
   expect_storage_eq(x, c);
-  StorageView y(device);
-  StorageView z(device);
-  std::vector<StorageView*> out{&y, &z};
-  ops::Split(0, {2, 1})(c, out);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  std::vector<ctranslate2::StorageView*> out{&y, &z};
+  ctranslate2::ops::Split(0, {2, 1})(c, out);
   expect_storage_eq(y, a);
   expect_storage_eq(z, b);
 }
 
 TEST_P(OpDeviceTest, ConcatSplitTime) {
-  Device device = GetParam();
-  StorageView a({2, 2, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4}, device);
-  StorageView b({2, 1, 2}, std::vector<float>{5, 5, 6, 6}, device);
-  StorageView c({2, 3, 2}, std::vector<float>{1, 1, 2, 2, 5, 5, 3, 3, 4, 4, 6, 6}, device);
-  StorageView x(device);
-  ops::Concat(1)({&a, &b}, x);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 2, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4}, device);
+  ctranslate2::StorageView b({2, 1, 2}, std::vector<float>{5, 5, 6, 6}, device);
+  ctranslate2::StorageView c({2, 3, 2}, std::vector<float>{1, 1, 2, 2, 5, 5, 3, 3, 4, 4, 6, 6}, device);
+  ctranslate2::StorageView x(device);
+  ctranslate2::ops::Concat(1)({&a, &b}, x);
   expect_storage_eq(x, c);
-  StorageView y(device);
-  StorageView z(device);
-  std::vector<StorageView*> out{&y, &z};
-  ops::Split(1, {2, 1})(c, out);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  std::vector<ctranslate2::StorageView*> out{&y, &z};
+  ctranslate2::ops::Split(1, {2, 1})(c, out);
   expect_storage_eq(y, a);
   expect_storage_eq(z, b);
 }
 
 TEST_P(OpDeviceTest, ConcatSplitDepth) {
-  Device device = GetParam();
-  StorageView a({2, 1}, std::vector<float>{1, 4}, device);
-  StorageView b({2, 2}, std::vector<float>{2, 3, 5, 6}, device);
-  StorageView c({2, 3}, std::vector<float>{1, 2, 3, 4, 5, 6}, device);
-  StorageView x(device);
-  ops::Concat(-1)({&a, &b}, x);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 1}, std::vector<float>{1, 4}, device);
+  ctranslate2::StorageView b({2, 2}, std::vector<float>{2, 3, 5, 6}, device);
+  ctranslate2::StorageView c({2, 3}, std::vector<float>{1, 2, 3, 4, 5, 6}, device);
+  ctranslate2::StorageView x(device);
+  ctranslate2::ops::Concat(-1)({&a, &b}, x);
   expect_storage_eq(x, c);
-  StorageView y(device);
-  StorageView z(device);
-  std::vector<StorageView*> out{&y, &z};
-  ops::Split(-1, {1, 2})(c, out);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  std::vector<ctranslate2::StorageView*> out{&y, &z};
+  ctranslate2::ops::Split(-1, {1, 2})(c, out);
   expect_storage_eq(y, a);
   expect_storage_eq(z, b);
 }
 
 TEST_P(OpDeviceTest, ConcatSplitDepth3) {
-  Device device = GetParam();
-  StorageView a({2, 2}, std::vector<float>{1, 2, 6, 7}, device);
-  StorageView b({2, 1}, std::vector<float>{3, 8}, device);
-  StorageView c({2, 2}, std::vector<float>{4, 5, 9, 10}, device);
-  StorageView d({2, 5}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, device);
-  StorageView x(device);
-  ops::Concat(-1)({&a, &b, &c}, x);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 2}, std::vector<float>{1, 2, 6, 7}, device);
+  ctranslate2::StorageView b({2, 1}, std::vector<float>{3, 8}, device);
+  ctranslate2::StorageView c({2, 2}, std::vector<float>{4, 5, 9, 10}, device);
+  ctranslate2::StorageView d({2, 5}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, device);
+  ctranslate2::StorageView x(device);
+  ctranslate2::ops::Concat(-1)({&a, &b, &c}, x);
   expect_storage_eq(x, d);
-  StorageView w(device);
-  StorageView y(device);
-  StorageView z(device);
-  std::vector<StorageView*> out{&w, &y, &z};
-  ops::Split(-1, {2, 1, 2})(d, out);
+  ctranslate2::StorageView w(device);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  std::vector<ctranslate2::StorageView*> out{&w, &y, &z};
+  ctranslate2::ops::Split(-1, {2, 1, 2})(d, out);
   expect_storage_eq(w, a);
   expect_storage_eq(y, b);
   expect_storage_eq(z, c);
 }
 
 TEST_P(OpDeviceTest, ConcatSplitDepthEqualParts) {
-  Device device = GetParam();
-  StorageView a({2, 2}, std::vector<float>{1, 2, 5, 6}, device);
-  StorageView b({2, 2}, std::vector<float>{3, 4, 7, 8}, device);
-  StorageView c({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView x(device);
-  ops::Concat(-1)({&a, &b}, x);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 2}, std::vector<float>{1, 2, 5, 6}, device);
+  ctranslate2::StorageView b({2, 2}, std::vector<float>{3, 4, 7, 8}, device);
+  ctranslate2::StorageView c({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView x(device);
+  ctranslate2::ops::Concat(-1)({&a, &b}, x);
   expect_storage_eq(x, c);
-  StorageView y(device);
-  StorageView z(device);
-  std::vector<StorageView*> out{&y, &z};
-  ops::Split(-1)(c, out);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  std::vector<ctranslate2::StorageView*> out{&y, &z};
+  ctranslate2::ops::Split(-1)(c, out);
   expect_storage_eq(y, a);
   expect_storage_eq(z, b);
 }
 
 TEST_P(OpDeviceTest, SplitNoCopy) {
-  Device device = GetParam();
-  StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView y(device);
-  StorageView z(device);
-  ops::Split(0, {3, 1}, /*no_copy=*/true)(x, y, z);
-  assert_vector_eq(y.shape(), Shape{3, 2});
-  assert_vector_eq(z.shape(), Shape{1, 2});
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  ctranslate2::ops::Split(0, {3, 1}, /*no_copy=*/true)(x, y, z);
+  assert_vector_eq(y.shape(), ctranslate2::Shape{3, 2});
+  assert_vector_eq(z.shape(), ctranslate2::Shape{1, 2});
   EXPECT_EQ(y.data<float>(), x.data<float>());
   EXPECT_EQ(z.data<float>(), x.data<float>() + 3 * 2);
 }
 
 TEST_P(OpDeviceTest, SplitNoCopyEqualParts) {
-  Device device = GetParam();
-  StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView y(device);
-  StorageView z(device);
-  ops::Split(0, /*no_copy=*/true)(x, y, z);
-  assert_vector_eq(y.shape(), Shape{2, 2});
-  assert_vector_eq(z.shape(), Shape{2, 2});
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView y(device);
+  ctranslate2::StorageView z(device);
+  ctranslate2::ops::Split(0, /*no_copy=*/true)(x, y, z);
+  assert_vector_eq(y.shape(), ctranslate2::Shape{2, 2});
+  assert_vector_eq(z.shape(), ctranslate2::Shape{2, 2});
   EXPECT_EQ(y.data<float>(), x.data<float>());
   EXPECT_EQ(z.data<float>(), x.data<float>() + 4);
 }
 
 TEST_P(OpDeviceTest, Mean) {
-  const Device device = GetParam();
-  const StorageView input({2, 3, 2}, std::vector<float>{
+  const ctranslate2::Device device = GetParam();
+  const ctranslate2::StorageView input({2, 3, 2}, std::vector<float>{
       1, 2, 3, 4, 5, 6,
       7, 8, 9, 10, 11, 12
     }, device);
-  StorageView output(device);
+  ctranslate2::StorageView output(device);
 
   {
-    ops::Mean(0)(input, output);
-    const StorageView expected({3, 2}, std::vector<float>{4, 5, 6, 7, 8, 9}, device);
+    ctranslate2::ops::Mean(0)(input, output);
+    const ctranslate2::StorageView expected({3, 2}, std::vector<float>{4, 5, 6, 7, 8, 9}, device);
     expect_storage_eq(output, expected);
   }
 
   {
-    ops::Mean(1)(input, output);
-    const StorageView expected({2, 2}, std::vector<float>{3, 4, 9, 10}, device);
+    ctranslate2::ops::Mean(1)(input, output);
+    const ctranslate2::StorageView expected({2, 2}, std::vector<float>{3, 4, 9, 10}, device);
     expect_storage_eq(output, expected);
   }
 
   {
-    ops::Mean(-1)(input, output);
-    const StorageView expected({2, 3}, std::vector<float>{1.5, 3.5, 5.5, 7.5, 9.5, 11.5}, device);
+    ctranslate2::ops::Mean(-1)(input, output);
+    const ctranslate2::StorageView expected({2, 3}, std::vector<float>{1.5, 3.5, 5.5, 7.5, 9.5, 11.5}, device);
     expect_storage_eq(output, expected);
   }
 }
 
 TEST_P(OpDeviceTest, GatherData1D) {
-  Device device = GetParam();
-  StorageView data({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView ids({2}, std::vector<int32_t>{1, 3}, device);
-  StorageView expected({2}, std::vector<float>{2, 4}, device);
-  StorageView output(device);
-  ops::Gather(0)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView ids({2}, std::vector<int32_t>{1, 3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{2, 4}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(0)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherData1DIndex2D) {
-  Device device = GetParam();
-  StorageView data({4}, std::vector<float>{1, 2, 3, 4}, device);
-  StorageView ids({2, 3}, std::vector<int32_t>{1, 3, 1, 1, 2, 0}, device);
-  StorageView expected({2, 3}, std::vector<float>{2, 4, 2, 2, 3, 1}, device);
-  StorageView output(device);
-  ops::Gather(0)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({4}, std::vector<float>{1, 2, 3, 4}, device);
+  ctranslate2::StorageView ids({2, 3}, std::vector<int32_t>{1, 3, 1, 1, 2, 0}, device);
+  ctranslate2::StorageView expected({2, 3}, std::vector<float>{2, 4, 2, 2, 3, 1}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(0)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherData2D) {
-  Device device = GetParam();
-  StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4}, device);
-  StorageView ids({2}, std::vector<int32_t>{1, 3}, device);
-  StorageView expected({2, 2}, std::vector<float>{2, 2, 4, 4}, device);
-  StorageView output(device);
-  ops::Gather(0)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4}, device);
+  ctranslate2::StorageView ids({2}, std::vector<int32_t>{1, 3}, device);
+  ctranslate2::StorageView expected({2, 2}, std::vector<float>{2, 2, 4, 4}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(0)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherData3D) {
-  Device device = GetParam();
-  StorageView data({2, 3, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, device);
-  StorageView ids({2}, std::vector<int32_t>{1, 1}, device);
-  StorageView expected({2, 3, 2}, std::vector<float>{7, 8, 9, 10, 11, 12, 7, 8, 9, 10, 11, 12}, device);
-  StorageView output(device);
-  ops::Gather(0)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({2, 3, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, device);
+  ctranslate2::StorageView ids({2}, std::vector<int32_t>{1, 1}, device);
+  ctranslate2::StorageView expected({2, 3, 2}, std::vector<float>{7, 8, 9, 10, 11, 12, 7, 8, 9, 10, 11, 12}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(0)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherData2DIndex2D) {
-  Device device = GetParam();
-  StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4}, device);
-  StorageView ids({2, 3}, std::vector<int32_t>{1, 3, 3, 2, 1, 0}, device);
-  StorageView expected({2, 3, 2}, std::vector<float>{2, 2, 4, 4, 4, 4, 3, 3, 2, 2, 1, 1}, device);
-  StorageView output(device);
-  ops::Gather(0)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({4, 2}, std::vector<float>{1, 1, 2, 2, 3, 3, 4, 4}, device);
+  ctranslate2::StorageView ids({2, 3}, std::vector<int32_t>{1, 3, 3, 2, 1, 0}, device);
+  ctranslate2::StorageView expected({2, 3, 2}, std::vector<float>{2, 2, 4, 4, 4, 4, 3, 3, 2, 2, 1, 1}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(0)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherInDepthWith1DInput) {
-  Device device = GetParam();
-  StorageView data({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView ids({2}, std::vector<int32_t>{1, 3}, device);
-  StorageView expected({2}, std::vector<float>{2, 8}, device);
-  StorageView output(device);
-  ops::Gather(-1, 1)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView ids({2}, std::vector<int32_t>{1, 3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{2, 8}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(-1, 1)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherInDepthWith2DInput) {
-  Device device = GetParam();
-  StorageView data({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView ids({2, 2}, std::vector<int32_t>{1, 2, 0, 3}, device);
-  StorageView expected({2, 2}, std::vector<float>{2, 3, 5, 8}, device);
-  StorageView output(device);
-  ops::Gather(-1, 1)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({2, 4}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView ids({2, 2}, std::vector<int32_t>{1, 2, 0, 3}, device);
+  ctranslate2::StorageView expected({2, 2}, std::vector<float>{2, 3, 5, 8}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(-1, 1)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, GatherInTime) {
-  Device device = GetParam();
-  StorageView data({2, 3, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, device);
-  StorageView ids({2, 2}, std::vector<int32_t>{1, 1, 2, 0}, device);
-  StorageView expected({2, 2, 2}, std::vector<float>{3, 4, 3, 4, 11, 12, 7, 8}, device);
-  StorageView output(device);
-  ops::Gather(1, 1)(data, ids, output);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView data({2, 3, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, device);
+  ctranslate2::StorageView ids({2, 2}, std::vector<int32_t>{1, 1, 2, 0}, device);
+  ctranslate2::StorageView expected({2, 2, 2}, std::vector<float>{3, 4, 3, 4, 11, 12, 7, 8}, device);
+  ctranslate2::StorageView output(device);
+  ctranslate2::ops::Gather(1, 1)(data, ids, output);
   expect_storage_eq(output, expected);
 }
 
 TEST_P(OpDeviceTest, Transpose2D) {
-  Device device = GetParam();
-  StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView expected({2, 4}, std::vector<float>{1, 3, 5, 7, 2, 4, 6, 8}, device);
-  StorageView y(device);
-  ops::Transpose()(x, y);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView x({4, 2}, std::vector<float>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView expected({2, 4}, std::vector<float>{1, 3, 5, 7, 2, 4, 6, 8}, device);
+  ctranslate2::StorageView y(device);
+  ctranslate2::ops::Transpose()(x, y);
   expect_storage_eq(y, expected);
   y.release();
-  ops::Transpose({1, 0})(x, y);
+  ctranslate2::ops::Transpose({1, 0})(x, y);
   expect_storage_eq(y, expected);
   y.release();
-  ops::Transpose({0, 1})(x, y);
+  ctranslate2::ops::Transpose({0, 1})(x, y);
   expect_storage_eq(y, x);
 }
 
 TEST_P(OpDeviceTest, Transpose2DInt16) {
-  Device device = GetParam();
-  StorageView x({4, 2}, std::vector<int16_t>{1, 2, 3, 4, 5, 6, 7, 8}, device);
-  StorageView expected({2, 4}, std::vector<int16_t>{1, 3, 5, 7, 2, 4, 6, 8}, device);
-  StorageView y(x.dtype(), x.device());
-  ops::Transpose()(x, y);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView x({4, 2}, std::vector<int16_t>{1, 2, 3, 4, 5, 6, 7, 8}, device);
+  ctranslate2::StorageView expected({2, 4}, std::vector<int16_t>{1, 3, 5, 7, 2, 4, 6, 8}, device);
+  ctranslate2::StorageView y(x.dtype(), x.device());
+  ctranslate2::ops::Transpose()(x, y);
   expect_storage_eq(y, expected);
 }
 
 TEST_P(OpDeviceTest, Transpose3D) {
-  Device device = GetParam();
-  StorageView x({3, 2, 3},
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView x({3, 2, 3},
                 std::vector<float>{1, 2, 3, 1, 2, 3, 4, 5, 6, 1, 2, 3, 7, 8, 9, 1, 2, 3}, device);
-  StorageView expected({2, 3, 3},
+  ctranslate2::StorageView expected({2, 3, 3},
                        std::vector<float>{1, 4, 7, 2, 5, 8, 3, 6, 9, 1, 1, 1, 2, 2, 2, 3, 3, 3}, device);
-  StorageView y(x.dtype(), x.device());
-  ops::Transpose({1, 2, 0})(x, y);
+  ctranslate2::StorageView y(x.dtype(), x.device());
+  ctranslate2::ops::Transpose({1, 2, 0})(x, y);
   expect_storage_eq(y, expected);
 }
 
 TEST_P(OpDeviceTest, Transpose3DReverse) {
-  Device device = GetParam();
-  StorageView x({3, 2, 3},
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView x({3, 2, 3},
                 std::vector<float>{1, 2, 3, 1, 2, 3, 4, 5, 6, 1, 2, 3, 7, 8, 9, 1, 2, 3}, device);
-  StorageView expected({3, 2, 3},
+  ctranslate2::StorageView expected({3, 2, 3},
                        std::vector<float>{1, 4, 7, 1, 1, 1, 2, 5, 8, 2, 2, 2, 3, 6, 9, 3, 3, 3}, device);
-  StorageView y(x.dtype(), x.device());
-  ops::Transpose()(x, y);
+  ctranslate2::StorageView y(x.dtype(), x.device());
+  ctranslate2::ops::Transpose()(x, y);
   expect_storage_eq(y, expected);
 }
 
 TEST_P(OpDeviceFPTest, Gemm) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView a(
+  ctranslate2::StorageView a(
     {4, 4}, std::vector<float>{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, device);
-  StorageView b(a);
-  StorageView y({4, 4}, 2.f, device);
-  StorageView expected(
+  ctranslate2::StorageView b(a);
+  ctranslate2::StorageView y({4, 4}, 2.f, device);
+  ctranslate2::StorageView expected(
     {4, 4}, std::vector<float>{3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3}, device);
-  ops::Gemm op(1.0, 1.0, false, false);
+  ctranslate2::ops::Gemm op(1.0, 1.0, false, false);
   y = y.to(dtype);
   op(a.to(dtype), b.to(dtype), y);
   expect_storage_eq(y.to_float32(), expected, error);
 };
 
 TEST_P(OpDeviceTest, GemmInt8) {
-  Device device = GetParam();
+  ctranslate2::Device device = GetParam();
   if (!mayiuse_int8(device))
     return;
-  StorageView a({3, 8}, std::vector<int8_t>{
+  ctranslate2::StorageView a({3, 8}, std::vector<int8_t>{
       -31, 14, -39, 36, 17, 4, -10, 15,
       -58, 8, 0, -26, -18, -42, -3, -21,
       -27, -63, -51, -4, -37, -63,  2, -4}, device);
-  StorageView b({8, 4}, std::vector<int8_t>{
+  ctranslate2::StorageView b({8, 4}, std::vector<int8_t>{
       42, -59, -28, 50,
       56, -17, 14, -57,
       -15, 37, 37, 63,
@@ -520,152 +517,152 @@ TEST_P(OpDeviceTest, GemmInt8) {
       54, 16, -11, -31,
       32, -17, -10, -58,
       45, -17, 58, -44}, device);
-  StorageView c(DataType::INT32, device);
-  StorageView expected({3, 4}, std::vector<int32_t>{
+  ctranslate2::StorageView c(ctranslate2::DataType::INT32, device);
+  ctranslate2::StorageView expected({3, 4}, std::vector<int32_t>{
       -1205, 2249, -1269, -4226,
       -3697, 1272, 2436, -1676,
       -5560, -1767, -668, 6}, device);
-  ops::Gemm op(1.0, 0.0, false, false);
+  ctranslate2::ops::Gemm op(1.0, 0.0, false, false);
   op(a, b, c);
   expect_storage_eq(c, expected);
 };
 
 TEST_P(OpDeviceFPTest, TopK) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
   const int k = 3;
-  StorageView input({2, 6}, std::vector<float>{0.1, -0.5, 2.0, 0.0, 0.2, 0.6, 1.0, 1.1, 0.2, 0.3, -0.2, 0.0}, device);
-  StorageView expected_values({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
-  StorageView expected_indices({2, 3}, std::vector<int32_t>{2, 5, 4, 1, 0, 3}, device);
-  StorageView values(dtype, device);
-  StorageView indices(expected_indices.dtype(), device);
-  ops::TopK op(k);
+  ctranslate2::StorageView input({2, 6}, std::vector<float>{0.1, -0.5, 2.0, 0.0, 0.2, 0.6, 1.0, 1.1, 0.2, 0.3, -0.2, 0.0}, device);
+  ctranslate2::StorageView expected_values({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
+  ctranslate2::StorageView expected_indices({2, 3}, std::vector<int32_t>{2, 5, 4, 1, 0, 3}, device);
+  ctranslate2::StorageView values(dtype, device);
+  ctranslate2::StorageView indices(expected_indices.dtype(), device);
+  ctranslate2::ops::TopK op(k);
   op(input.to(dtype), values, indices);
   expect_storage_eq(values.to_float32(), expected_values, error);
   expect_storage_eq(indices, expected_indices);
 }
 
 TEST_P(OpDeviceTest, TopKVariableDepth) {
-  Device device = GetParam();
+  ctranslate2::Device device = GetParam();
   const int k = 3;
-  ops::TopK op(k);
-  StorageView input({2, 6}, std::vector<float>{0.1, -0.5, 2.0, 0.0, 0.2, 0.6, 1.0, 1.1, 0.2, 0.3, -0.2, 0.0}, device);
-  StorageView expected_values({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
-  StorageView expected_indices({2, 3}, std::vector<int32_t>{2, 5, 4, 1, 0, 3}, device);
-  StorageView values(expected_values.dtype(), device);
-  StorageView indices(expected_indices.dtype(), device);
+  ctranslate2::ops::TopK op(k);
+  ctranslate2::StorageView input({2, 6}, std::vector<float>{0.1, -0.5, 2.0, 0.0, 0.2, 0.6, 1.0, 1.1, 0.2, 0.3, -0.2, 0.0}, device);
+  ctranslate2::StorageView expected_values({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
+  ctranslate2::StorageView expected_indices({2, 3}, std::vector<int32_t>{2, 5, 4, 1, 0, 3}, device);
+  ctranslate2::StorageView values(expected_values.dtype(), device);
+  ctranslate2::StorageView indices(expected_indices.dtype(), device);
   op(input, values, indices);
   expect_storage_eq(values, expected_values);
   expect_storage_eq(indices, expected_indices);
-  StorageView input2({2, 4}, std::vector<float>{0.1, 2.0, 0.2, 0.6, 1.0, 1.1, 0.2, 0.3}, device);
-  StorageView expected_values2({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
-  StorageView expected_indices2({2, 3}, std::vector<int32_t>{1, 3, 2, 1, 0, 3}, device);
+  ctranslate2::StorageView input2({2, 4}, std::vector<float>{0.1, 2.0, 0.2, 0.6, 1.0, 1.1, 0.2, 0.3}, device);
+  ctranslate2::StorageView expected_values2({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
+  ctranslate2::StorageView expected_indices2({2, 3}, std::vector<int32_t>{1, 3, 2, 1, 0, 3}, device);
   op(input2, values, indices);
   expect_storage_eq(values, expected_values2);
   expect_storage_eq(indices, expected_indices2);
 }
 
 TEST_P(OpDeviceTest, TopKChangeK) {
-  const Device device = GetParam();
-  const StorageView input({2, 6},
+  const ctranslate2::Device device = GetParam();
+  const ctranslate2::StorageView input({2, 6},
                           std::vector<float>{
                             0.1, -0.5, 2.0, 0.0, 0.2, 0.6,
                             1.0, 1.1, 0.2, 0.3, -0.2, 0.0
                           },
                           device);
 
-  const StorageView expected_values_k2({2, 2}, std::vector<float>{2.0, 0.6, 1.1, 1.0}, device);
-  const StorageView expected_indices_k2({2, 2}, std::vector<int32_t>{2, 5, 1, 0}, device);
-  StorageView values_k2(expected_values_k2.dtype(), device);
-  StorageView indices_k2(expected_indices_k2.dtype(), device);
-  ops::TopK(2)(input, values_k2, indices_k2);
+  const ctranslate2::StorageView expected_values_k2({2, 2}, std::vector<float>{2.0, 0.6, 1.1, 1.0}, device);
+  const ctranslate2::StorageView expected_indices_k2({2, 2}, std::vector<int32_t>{2, 5, 1, 0}, device);
+  ctranslate2::StorageView values_k2(expected_values_k2.dtype(), device);
+  ctranslate2::StorageView indices_k2(expected_indices_k2.dtype(), device);
+  ctranslate2::ops::TopK(2)(input, values_k2, indices_k2);
   expect_storage_eq(values_k2, expected_values_k2);
   expect_storage_eq(indices_k2, expected_indices_k2);
 
-  const StorageView expected_values_k3({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
-  const StorageView expected_indices_k3({2, 3}, std::vector<int32_t>{2, 5, 4, 1, 0, 3}, device);
-  StorageView values_k3(expected_values_k3.dtype(), device);
-  StorageView indices_k3(expected_indices_k3.dtype(), device);
-  ops::TopK(3)(input, values_k3, indices_k3);
+  const ctranslate2::StorageView expected_values_k3({2, 3}, std::vector<float>{2.0, 0.6, 0.2, 1.1, 1.0, 0.3}, device);
+  const ctranslate2::StorageView expected_indices_k3({2, 3}, std::vector<int32_t>{2, 5, 4, 1, 0, 3}, device);
+  ctranslate2::StorageView values_k3(expected_values_k3.dtype(), device);
+  ctranslate2::StorageView indices_k3(expected_indices_k3.dtype(), device);
+  ctranslate2::ops::TopK(3)(input, values_k3, indices_k3);
   expect_storage_eq(values_k3, expected_values_k3);
   expect_storage_eq(indices_k3, expected_indices_k3);
 }
 
 TEST_P(OpDeviceFPTest, TopPMask) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
   constexpr float inf = std::numeric_limits<float>::infinity();
 
-  StorageView x = StorageView({2, 5}, std::vector<float>{
+  ctranslate2::StorageView x = ctranslate2::StorageView({2, 5}, std::vector<float>{
       -0.2, 3.0, 1.2, -1.1, 0.0,
       4.6, 3.3, 0.2, -1.6, 1.0}, device).to(dtype);
-  StorageView expected = StorageView({2, 5}, std::vector<float>{
+  ctranslate2::StorageView expected = ctranslate2::StorageView({2, 5}, std::vector<float>{
       -0.2, 3.0, 1.2, -inf, 0.0,
       4.6, 3.3, -inf, -inf, 1.0}, device);
-  StorageView y(dtype, device);
+  ctranslate2::StorageView y(dtype, device);
 
-  ops::TopPMask(0.97)(x, y);
+  ctranslate2::ops::TopPMask(0.97)(x, y);
 
   expect_storage_eq(y.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, SoftMax) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView x = StorageView({2, 5}, std::vector<float>{
+  ctranslate2::StorageView x = ctranslate2::StorageView({2, 5}, std::vector<float>{
       -0.2, 3.0, 1.2, -1.1, 0.0,
       4.6, 3.3, 0.2, -1.6, 1.0}, device).to(dtype);
-  StorageView expected({2, 5}, std::vector<float>{
+  ctranslate2::StorageView expected({2, 5}, std::vector<float>{
       0.032035, 0.785904, 0.129909, 0.013025, 0.039128,
       0.760941, 0.207381, 0.009342, 0.001544, 0.020792}, device);
-  StorageView y(dtype, device);
-  ops::SoftMax()(x, y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::SoftMax()(x, y);
   expect_storage_eq(y.to_float32(), expected, error);
-  ops::SoftMax()(x);
+  ctranslate2::ops::SoftMax()(x);
   expect_storage_eq(x.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, LogSoftMax) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView x = StorageView({2, 10}, std::vector<float>{
+  ctranslate2::StorageView x = ctranslate2::StorageView({2, 10}, std::vector<float>{
       -0.2, 3.0, 1.2, -1.1, 0.0, 0.2, -3.0, -1.2, 1.1, 0.0,
       4.6, 3.3, 0.2, -1.6, 1.0, -4.6, -3.3, -0.2, 1.6, -1.0}, device).to(dtype);
-  StorageView expected({2, 10}, std::vector<float>{
+  ctranslate2::StorageView expected({2, 10}, std::vector<float>{
       -3.638294, -0.438294, -2.238294, -4.538294, -3.438294, -3.238294, -6.438294, -4.638294, -2.338294, -3.438294,
       -0.319434, -1.619434, -4.719434, -6.519434, -3.919434, -9.519434, -8.219434, -5.119434, -3.319434, -5.919434}, device);
-  StorageView y(dtype, device);
-  ops::LogSoftMax()(x, y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::LogSoftMax()(x, y);
   expect_storage_eq(y.to_float32(), expected, error * 10);
-  ops::LogSoftMax()(x);
+  ctranslate2::ops::LogSoftMax()(x);
   expect_storage_eq(x.to_float32(), expected, error * 10);
 }
 
 TEST_P(OpDeviceFPTest, MaskedSoftMax) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView x({2, 5}, std::vector<float>{
+  ctranslate2::StorageView x({2, 5}, std::vector<float>{
       -0.2, 3.0, 1.2, -1.1, 0.0,
       4.6, 3.3, 0.2, -1.6, 1.0}, device);
-  StorageView lengths({2}, std::vector<int32_t>{3, 4}, device);
-  StorageView expected({2, 5}, std::vector<float>{
+  ctranslate2::StorageView lengths({2}, std::vector<int32_t>{3, 4}, device);
+  ctranslate2::StorageView expected({2, 5}, std::vector<float>{
       0.033797, 0.829145, 0.137056,        0, 0,
       0.777098, 0.211783, 0.009540, 0.001577, 0}, device);
-  StorageView y(dtype, device);
-  ops::SoftMax()(x.to(dtype), lengths, y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::SoftMax()(x.to(dtype), lengths, y);
   expect_storage_eq(y.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, MaskedSoftMaxTriangular) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView x({2, 2, 3, 3}, std::vector<float>{
+  ctranslate2::StorageView x({2, 2, 3, 3}, std::vector<float>{
       0.08784354, 0.67030656, 0.8866086,
       0.08053982, 0.9826797, 0.7965635,
       0.48865926, 0.8635745, 0.21703207,
@@ -679,9 +676,9 @@ TEST_P(OpDeviceFPTest, MaskedSoftMaxTriangular) {
       0.7321733, 0.48709297, 0.35727918,
       0.8421174, 0.9135181, 0.77135813
     }, device);
-  StorageView lengths({2}, std::vector<int32_t>{3, 2}, device);
-  StorageView mask = layers::MultiHeadAttention::prepare_length_mask(lengths, 2, 3, true);
-  StorageView expected({2, 2, 3, 3}, std::vector<float>{
+  ctranslate2::StorageView lengths({2}, std::vector<int32_t>{3, 2}, device);
+  ctranslate2::StorageView mask = ctranslate2::layers::MultiHeadAttention::prepare_length_mask(lengths, 2, 3, true);
+  ctranslate2::StorageView expected({2, 2, 3, 3}, std::vector<float>{
       1, 0, 0,
       0.28861094, 0.71138906, 0,
       0.310848, 0.45224282, 0.23690917,
@@ -695,137 +692,137 @@ TEST_P(OpDeviceFPTest, MaskedSoftMaxTriangular) {
       0.56096524, 0.43903476, 0,
       0.48215744, 0.5178426, 0
     }, device);
-  StorageView y(dtype, device);
-  ops::SoftMax()(x.to(dtype), mask, y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::SoftMax()(x.to(dtype), mask, y);
   expect_storage_eq(y.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, LayerNorm) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView gamma({5}, std::vector<float>{0.2, 2.1, 1.1, -0.6, 0.7}, device);
-  StorageView beta({5}, std::vector<float>{-6.6, -5.7, 0.01, 2.0, 0}, device);
-  StorageView x({2, 5}, std::vector<float>{
+  ctranslate2::StorageView gamma({5}, std::vector<float>{0.2, 2.1, 1.1, -0.6, 0.7}, device);
+  ctranslate2::StorageView beta({5}, std::vector<float>{-6.6, -5.7, 0.01, 2.0, 0}, device);
+  ctranslate2::StorageView x({2, 5}, std::vector<float>{
       -0.2, 3.0, 1.2, -1.1, 0.0,
       4.6, 3.3, 0.2, -1.6, 1.0}, device);
-  StorageView expected({2, 5}, std::vector<float>{
+  ctranslate2::StorageView expected({2, 5}, std::vector<float>{
       -6.710264, -2.107929, 0.492053, 2.712477, -0.286970,
       -6.319339, -3.988876, -0.637330, 2.841982, -0.158437}, device);
-  StorageView y(dtype, device);
-  ops::LayerNorm()(beta.to(dtype), gamma.to(dtype), x.to(dtype), y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::LayerNorm()(beta.to(dtype), gamma.to(dtype), x.to(dtype), y);
   expect_storage_eq(y.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, LayerNormAxis) {
-  const Device device = GetParam().device;
-  if (device == Device::CUDA) {
+  const ctranslate2::Device device = GetParam().device;
+  if (device == ctranslate2::Device::CUDA) {
     GTEST_SKIP() << "Generalized LayerNorm is not implemented on GPU";
   }
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView x({2, 3, 2}, std::vector<float>{
+  ctranslate2::StorageView x({2, 3, 2}, std::vector<float>{
       0.08830845355987549, 0.7807812690734863,
       0.34740084409713745, 0.8272842764854431,
       0.3155772089958191, 0.21066278219223022,
       0.02693861722946167, 0.6299145221710205,
       0.05086874961853027, 0.6894713640213013,
       0.7736693620681763, 0.4071813225746155}, device);
-  StorageView expected({2, 3, 2}, std::vector<float>{
+  ctranslate2::StorageView expected({2, 3, 2}, std::vector<float>{
       -1.4052178859710693, 0.6225495338439941,
       0.8405286073684692, 0.7884179353713989,
       0.5646895170211792, -1.410967469215393,
       -0.7413559556007385, 0.4476976990699768,
       -0.6722954511642456, 0.9379060864448547,
       1.4136513471603394, -1.3856042623519897}, device);
-  StorageView y(dtype, device);
-  ops::LayerNorm(1, 0)(x.to(dtype), y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::LayerNorm(1, 0)(x.to(dtype), y);
   expect_storage_eq(y.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, RMSNorm) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView gamma({5}, std::vector<float>{0.2, 2.1, 1.1, -0.6, 0.7}, device);
-  StorageView x({2, 5}, std::vector<float>{
+  ctranslate2::StorageView gamma({5}, std::vector<float>{0.2, 2.1, 1.1, -0.6, 0.7}, device);
+  ctranslate2::StorageView x({2, 5}, std::vector<float>{
       -0.2, 3.0, 1.2, -1.1, 0.0,
       4.6, 3.3, 0.2, -1.6, 1.0}, device);
-  StorageView expected({2, 5}, std::vector<float>{
+  ctranslate2::StorageView expected({2, 5}, std::vector<float>{
       -0.0262, 4.1202, 0.8633, 0.4316, 0.0000,
       0.3445, 2.5953, 0.0824, 0.3595, 0.2622}, device);
-  StorageView y(dtype, device);
-  ops::RMSNorm()(gamma.to(dtype), x.to(dtype), y);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::ops::RMSNorm()(gamma.to(dtype), x.to(dtype), y);
   expect_storage_eq(y.to_float32(), expected, error * 10);
 }
 
 TEST_P(OpDeviceTest, QuantizeINT8) {
-  Device device = GetParam();
-  StorageView a({2, 4}, std::vector<float>{-10, -3, 5, 2, 5, 21, -3, 0}, device);
-  StorageView scale(DataType::FLOAT32, device);
-  StorageView qa(DataType::INT8, device);
-  StorageView expected_scale({2}, std::vector<float>{12.7, 6.047619}, device);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 4}, std::vector<float>{-10, -3, 5, 2, 5, 21, -3, 0}, device);
+  ctranslate2::StorageView scale(ctranslate2::DataType::FLOAT32, device);
+  ctranslate2::StorageView qa(ctranslate2::DataType::INT8, device);
+  ctranslate2::StorageView expected_scale({2}, std::vector<float>{12.7, 6.047619}, device);
 
   // With rounding before cast.
   {
-    StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 64, 25, 30, 127, -18, 0});
-    ops::Quantize(ops::Quantize::ScaleType::GLOBAL, false, true)(a, qa, scale);
+    ctranslate2::StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 64, 25, 30, 127, -18, 0});
+    ctranslate2::ops::Quantize(ctranslate2::ops::Quantize::ScaleType::GLOBAL, false, true)(a, qa, scale);
     expect_storage_eq(scale, expected_scale);
     expect_storage_eq(qa, expected_qa);
   }
 
   // With rounding before cast and shift to uint8.
   {
-    StorageView expected_qa(a.shape(), std::vector<int8_t>{1, 90, -64, -103, -98, -1, 110, -128});
-    ops::Quantize(ops::Quantize::ScaleType::GLOBAL, true, true)(a, qa, scale);
+    ctranslate2::StorageView expected_qa(a.shape(), std::vector<int8_t>{1, 90, -64, -103, -98, -1, 110, -128});
+    ctranslate2::ops::Quantize(ctranslate2::ops::Quantize::ScaleType::GLOBAL, true, true)(a, qa, scale);
     expect_storage_eq(scale, expected_scale);
     expect_storage_eq(qa, expected_qa);
   }
 
   // Without rounding before cast (legacy behavior).
   {
-    StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 63, 25, 30, 127, -18, 0});
-    ops::Quantize(ops::Quantize::ScaleType::GLOBAL, false, false)(a, qa, scale);
+    ctranslate2::StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 63, 25, 30, 127, -18, 0});
+    ctranslate2::ops::Quantize(ctranslate2::ops::Quantize::ScaleType::GLOBAL, false, false)(a, qa, scale);
     expect_storage_eq(scale, expected_scale);
     expect_storage_eq(qa, expected_qa);
   }
 }
 
 TEST_P(OpDeviceTest, QuantizeINT8ZeroRow) {
-  Device device = GetParam();
-  StorageView a({2, 4}, std::vector<float>{-10, -3, 5, 2, 0, 0, 0, 0}, device);
-  StorageView scale(DataType::FLOAT32, device);
-  StorageView qa(DataType::INT8, device);
-  StorageView expected_scale({2}, std::vector<float>{12.7, 1}, device);
+  ctranslate2::Device device = GetParam();
+  ctranslate2::StorageView a({2, 4}, std::vector<float>{-10, -3, 5, 2, 0, 0, 0, 0}, device);
+  ctranslate2::StorageView scale(ctranslate2::DataType::FLOAT32, device);
+  ctranslate2::StorageView qa(ctranslate2::DataType::INT8, device);
+  ctranslate2::StorageView expected_scale({2}, std::vector<float>{12.7, 1}, device);
 
   // With rounding before cast.
   {
-    StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 64, 25, 0, 0, 0, 0});
-    ops::Quantize(ops::Quantize::ScaleType::GLOBAL, false, true)(a, qa, scale);
+    ctranslate2::StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 64, 25, 0, 0, 0, 0});
+    ctranslate2::ops::Quantize(ctranslate2::ops::Quantize::ScaleType::GLOBAL, false, true)(a, qa, scale);
     expect_storage_eq(scale, expected_scale);
     expect_storage_eq(qa, expected_qa);
   }
 
   // Without rounding before cast (legacy behavior).
   {
-    StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 63, 25, 0, 0, 0, 0});
-    ops::Quantize(ops::Quantize::ScaleType::GLOBAL, false, false)(a, qa, scale);
+    ctranslate2::StorageView expected_qa(a.shape(), std::vector<int8_t>{-127, -38, 63, 25, 0, 0, 0, 0});
+    ctranslate2::ops::Quantize(ctranslate2::ops::Quantize::ScaleType::GLOBAL, false, false)(a, qa, scale);
     expect_storage_eq(scale, expected_scale);
     expect_storage_eq(qa, expected_qa);
   }
 }
 
 TEST_P(OpDeviceFPTest, Multinomial) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
-  StorageView input({2, 4}, std::vector<float>{0.2, 0.1, 0.6, 0.1, 0.7, 0.2, 0.0, 0.1}, device);
-  StorageView output(DataType::INT32, device);
-  StorageView counts(input.shape(), int32_t(0));
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
+  ctranslate2::StorageView input({2, 4}, std::vector<float>{0.2, 0.1, 0.6, 0.1, 0.7, 0.2, 0.0, 0.1}, device);
+  ctranslate2::StorageView output(ctranslate2::DataType::INT32, device);
+  ctranslate2::StorageView counts(input.shape(), int32_t(0));
 
-  constexpr dim_t num_draws = 5000;
-  for (dim_t i = 0; i < num_draws; ++i) {
-    ops::Multinomial(1)(input.to(dtype), output);
-    for (dim_t b = 0; b < output.dim(0); ++b)
+  constexpr ctranslate2::dim_t num_draws = 5000;
+  for (ctranslate2::dim_t i = 0; i < num_draws; ++i) {
+    ctranslate2::ops::Multinomial(1)(input.to(dtype), output);
+    for (ctranslate2::dim_t b = 0; b < output.dim(0); ++b)
       counts.at<int32_t>({b, output.scalar_at<int32_t>({b, 0})}) += 1;
   }
 
@@ -834,164 +831,162 @@ TEST_P(OpDeviceFPTest, Multinomial) {
   for (auto& frequency : frequencies)
     frequency /= num_draws;
 
-  expect_storage_eq(StorageView(input.shape(), frequencies), input, 0.05);
+  expect_storage_eq(ctranslate2::StorageView(input.shape(), frequencies), input, 0.05);
 }
 
 TEST_P(OpDeviceFPTest, ReLU) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView input({2, 5}, std::vector<float>{-1, 1, 2, -2, 2, 4, -3, 0, -1, -3}, device);
-  StorageView expected({2, 5}, std::vector<float>{0, 1, 2, 0, 2, 4, 0, 0, 0, 0}, device);
-  StorageView output(dtype, device);
-  ops::ReLU()(input.to(dtype), output);
+  ctranslate2::StorageView input({2, 5}, std::vector<float>{-1, 1, 2, -2, 2, 4, -3, 0, -1, -3}, device);
+  ctranslate2::StorageView expected({2, 5}, std::vector<float>{0, 1, 2, 0, 2, 4, 0, 0, 0, 0}, device);
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::ReLU()(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, GELU) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
-  StorageView expected({2}, std::vector<float>{0.11585195362567902, -0.1258406937122345}, device);
-  StorageView output(dtype, device);
-  ops::GELU()(input.to(dtype), output);
+  ctranslate2::StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{0.11585195362567902, -0.1258406937122345}, device);
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::GELU()(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, GELUTanh) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
-  StorageView expected({2}, std::vector<float>{0.11585142463445663, -0.1260710209608078}, device);
-  StorageView output(dtype, device);
-  const ops::GELU gelu_op(ops::GELU::Approximation::Tanh);
+  ctranslate2::StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{0.11585142463445663, -0.1260710209608078}, device);
+  ctranslate2::StorageView output(dtype, device);
+  const ctranslate2::ops::GELU gelu_op(ctranslate2::ops::GELU::Approximation::Tanh);
   gelu_op(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, GELUSigmoid) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
-  StorageView expected({2}, std::vector<float>{0.11685754358768463, -0.128212109208107}, device);
-  StorageView output(dtype, device);
-  const ops::GELU gelu_op(ops::GELU::Approximation::Sigmoid);
+  ctranslate2::StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{0.11685754358768463, -0.128212109208107}, device);
+  ctranslate2::StorageView output(dtype, device);
+  const ctranslate2::ops::GELU gelu_op(ctranslate2::ops::GELU::Approximation::Sigmoid);
   gelu_op(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, Sigmoid) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
-  StorageView expected({2}, std::vector<float>{0.54983395, 0.21416503}, device);
-  StorageView output(dtype, device);
-  ops::Sigmoid()(input.to(dtype), output);
+  ctranslate2::StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{0.54983395, 0.21416503}, device);
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Sigmoid()(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, Swish) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
-  StorageView expected({2}, std::vector<float>{0.10996679, -0.27841452}, device);
-  StorageView output(dtype, device);
-  ops::Swish()(input.to(dtype), output);
+  ctranslate2::StorageView input({2}, std::vector<float>{0.2, -1.3}, device);
+  ctranslate2::StorageView expected({2}, std::vector<float>{0.10996679, -0.27841452}, device);
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Swish()(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, Tanh) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  StorageView x({1, 5}, std::vector<float>{-2, -1.5, 0, 1.5, 2}, device);
-  StorageView y(dtype, device);
-  StorageView expected({1, 5},
+  ctranslate2::StorageView x({1, 5}, std::vector<float>{-2, -1.5, 0, 1.5, 2}, device);
+  ctranslate2::StorageView y(dtype, device);
+  ctranslate2::StorageView expected({1, 5},
                        std::vector<float>{-0.96402758, -0.90514825, 0., 0.90514825, 0.96402758},
                        device);
-  ops::Tanh()(x.to(dtype), y);
+  ctranslate2::ops::Tanh()(x.to(dtype), y);
   expect_storage_eq(y.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, Log) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
   std::vector<float > input_vec({0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4});
   std::vector<float > expected_vec;
   expected_vec.reserve(input_vec.size());
   std::transform(input_vec.begin(), input_vec.end(), std::back_inserter(expected_vec),
           [](const float& i){return std::log(i);});
-  StorageView input({2, 4}, input_vec, device);
-  StorageView expected({2, 4}, expected_vec, device);
-  StorageView output(dtype, device);
-  ops::Log()(input.to(dtype), output);
+  ctranslate2::StorageView input({2, 4}, input_vec, device);
+  ctranslate2::StorageView expected({2, 4}, expected_vec, device);
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Log()(input.to(dtype), output);
   expect_storage_eq(output.to_float32(), expected, error);
 }
 
 TEST_P(OpDeviceFPTest, LogLimits) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
 
-  StorageView values({2}, std::vector<float>{0.f, -1.f}, device);
+  ctranslate2::StorageView values({2}, std::vector<float>{0.f, -1.f}, device);
   values = values.to(dtype);
-  ops::Log()(values, values);
+  ctranslate2::ops::Log()(values, values);
   values = values.to_float32();
 
   EXPECT_EQ(values.scalar_at<float>({0}), -std::numeric_limits<float>::infinity());
   EXPECT_TRUE(std::isnan(values.scalar_at<float>({1})));
 }
 
-template <typename T, typename Ops, typename Func>
-void TestMinMax(Device device, const Ops& ops, const Func& func){
-  {
-    std::vector<T > input_vec1({0, 1, 1.5, 2, 2.5, 3, 3.5, 4});
-    std::vector<T > input_vec2({0, -1, 1.5, -2, 2.5, -3, -3.5, 4});
-    std::vector<T > output_vec;
-    output_vec.reserve(input_vec1.size());
-    std::transform(input_vec1.begin(), input_vec1.end(), input_vec2.begin(),std::back_inserter(output_vec),
-            [&func](const T& left, const T& right){return func(left, right);});
-    StorageView input1({2, 4}, input_vec1, device);
-    StorageView input2({2, 4}, input_vec2, device);
-    StorageView expected({2, 4}, output_vec, device);
-    StorageView output(device);
-    ops(input1, input2, output);
-    expect_storage_eq(output, expected);
+template <typename T, typename OpType, typename Func>
+void TestMinMax(ctranslate2::Device device, const OpType& op_to_test, const Func& func){
+  const ctranslate2::DataType dtype = ctranslate2::DataType::FLOAT32;
+  ctranslate2::StorageView input1({2, 5}, std::vector<T>{-1, 1, 2, -2, 2, 4, -3, 0, -1, -3}, device);
+  ctranslate2::StorageView input2({2, 5}, std::vector<T>{1, 2, -3, 0, -1, -3, -1, 2, 4, -3}, device);
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::StorageView expected_output(input1.shape(), std::vector<T>{}, device);
+
+  T compare_val = 2;
+  ctranslate2::StorageView expected_output_val(input1.shape(), std::vector<T>{}, device);
+
+  std::vector<T> in1 = input1.to_vector<T>();
+  std::vector<T> in2 = input2.to_vector<T>();
+  std::vector<T> out(expected_output.size());
+  std::vector<T> out_val(expected_output_val.size());
+
+  for(size_t i=0; i < in1.size(); ++i){
+    out[i] = func(in1[i], in2[i]);
+    out_val[i] = func(in1[i], compare_val);
   }
-  {
-    std::vector<T > input_vec({0, 1, 1.5, 2, 2.5, 3, 3.5, 4});
-    T compare_val = 3;
-    std::vector<T > output_vec;
-    output_vec.reserve(input_vec.size());
-    std::transform(input_vec.begin(), input_vec.end(), std::back_inserter(output_vec),
-            [&compare_val, &func](const T& left){return func(left, compare_val);});
-    StorageView input({2, 4}, input_vec, device);
-    StorageView expected({2, 4}, output_vec, device);
-    StorageView output(device);
-    ops(input, StorageView(compare_val), output);
-    expect_storage_eq(output, expected);
-  }
+  expected_output.copy_from(ctranslate2::StorageView(expected_output.shape(), out, device));
+  expected_output_val.copy_from(ctranslate2::StorageView(expected_output_val.shape(), out_val, device));
+
+  op_to_test(input1.to(dtype), input2.to(dtype), output);
+  expect_storage_eq(output, expected_output);
+
+  // Test with scalar value
+  op_to_test(input1.to(dtype), ctranslate2::StorageView(compare_val), output);
+  expect_storage_eq(output, expected_output_val);
+
+  // Test with CPU scalar value on device
+  op_to_test(input1.to(dtype), ctranslate2::StorageView(compare_val, ctranslate2::Device::CPU), output);
+  expect_storage_eq(output, expected_output_val);
 }
 
 TEST_P(OpDeviceTest, Min) {
-  Device device = GetParam();
-  auto ops = ops::Min();
-  TestMinMax<float>(device, ops, [](float left, float right){
-    return left > right? right : left;
-  });
+  ctranslate2::ops::Min min_op;
+  TestMinMax<float>(GetParam(), min_op, [](float a, float b){return std::min(a,b);});
 }
 
 TEST_P(OpDeviceTest, Max) {
-  Device device = GetParam();
-  auto ops = ops::Max();
-  TestMinMax<float>(device, ops, [](float left, float right){
-    return left > right? left : right;
-  });
+  ctranslate2::ops::Max max_op;
+  TestMinMax<float>(GetParam(), max_op, [](float a, float b){return std::max(a,b);});
 }
 
 #ifndef CT2_WITH_CUDNN
@@ -1000,32 +995,32 @@ TEST_P(OpDeviceTest, Max) {
 #  define GUARD_CONV1D_GPU_TEST do {} while (0)
 #endif
 
-static const StorageView conv_input({2, 2, 3}, std::vector<float>{
+static const ctranslate2::StorageView conv_input({2, 2, 3}, std::vector<float>{
     0.5728129f, 0.8784890f, 0.2029965f, 0.3689166f, 0.6570600f, 0.9202735f,
     0.7081605f, 0.3570334f, 0.9339380f, 0.8162224f, 0.0597404f, 0.4628246f});
 
-static const StorageView conv_weight({4, 2, 2}, std::vector<float>{
+static const ctranslate2::StorageView conv_weight({4, 2, 2}, std::vector<float>{
     0.4969918f, 0.3711241f, 0.1489926f, -0.3010672f,
     -0.2055028f, 0.2540314f, 0.3566069f, -0.1201057f,
     -0.0737700f, -0.0630847f, -0.2370351f, -0.0451550f,
     0.0186623f, 0.3600836f, -0.2889268f, -0.4857445f});
 
-static const StorageView conv_bias({4}, std::vector<float>{
+static const ctranslate2::StorageView conv_bias({4}, std::vector<float>{
     0.4631361f, -0.1047785f, 0.1047658f, -0.3157263f});
 
 TEST_P(OpDeviceFPTest, Conv1D) {
-  const Device device = GetParam().device;
-  if (device == Device::CUDA)
+  const ctranslate2::Device device = GetParam().device;
+  if (device == ctranslate2::Device::CUDA)
     GUARD_CONV1D_GPU_TEST;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  const StorageView expected({2, 4, 2}, std::vector<float>{
+  const ctranslate2::StorageView expected({2, 4, 2}, std::vector<float>{
       0.9309945f, 0.7959076f, 0.0533122f, -0.1099610f,
       -0.1100256f, -0.1701476f, -0.4144599f, -0.8630960f,
       1.0512151f, 0.8567453f, 0.1242856f, 0.0248157f,
       -0.1661695f, -0.0155492f, -0.4387956f, -0.2148425f});
-  StorageView output(dtype, device);
-  ops::Conv1D()(conv_input.to(device).to(dtype),
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Conv1D()(conv_input.to(device).to(dtype),
                 conv_weight.to(device).to(dtype),
                 conv_bias.to(device).to(dtype),
                 output);
@@ -1034,18 +1029,18 @@ TEST_P(OpDeviceFPTest, Conv1D) {
 }
 
 TEST_P(OpDeviceFPTest, Conv1DNoBias) {
-  const Device device = GetParam().device;
-  if (device == Device::CUDA)
+  const ctranslate2::Device device = GetParam().device;
+  if (device == ctranslate2::Device::CUDA)
     GUARD_CONV1D_GPU_TEST;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  const StorageView expected({2, 4, 2}, std::vector<float>{
+  const ctranslate2::StorageView expected({2, 4, 2}, std::vector<float>{
       0.4678584f, 0.3327716f, 0.1580907f, -0.005182412f,
       -0.2147914f, -0.2749133f, -0.09873369f, -0.5473697f,
       0.5880789f, 0.3936091f, 0.2290641f, 0.1295942f,
       -0.2709353f, -0.120315f, -0.1230693f, 0.1008837f});
-  StorageView output(dtype, device);
-  ops::Conv1D()(conv_input.to(device).to(dtype),
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Conv1D()(conv_input.to(device).to(dtype),
                 conv_weight.to(device).to(dtype),
                 output);
   EXPECT_EQ(output.dtype(), dtype);
@@ -1053,12 +1048,12 @@ TEST_P(OpDeviceFPTest, Conv1DNoBias) {
 }
 
 TEST_P(OpDeviceFPTest, Conv1DPadding) {
-  const Device device = GetParam().device;
-  if (device == Device::CUDA)
+  const ctranslate2::Device device = GetParam().device;
+  if (device == ctranslate2::Device::CUDA)
     GUARD_CONV1D_GPU_TEST;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  const StorageView expected({2, 4, 4}, std::vector<float>{
+  const ctranslate2::StorageView expected({2, 4, 4}, std::vector<float>{
       0.5646521f, 0.9309945f, 0.7959076f, 0.7011377f,
       -0.0035750f, 0.0533122f, -0.1099610f, 0.1816810f,
       0.0519716f, -0.1100256f, -0.1701476f, -0.1283464f,
@@ -1067,8 +1062,8 @@ TEST_P(OpDeviceFPTest, Conv1DPadding) {
       -0.0229165f, 0.1242856f, 0.0248157f, -0.1316590f,
       0.0232352f, -0.1661695f, -0.0155492f, -0.0738365f,
       -0.4572049f, -0.4387956f, -0.2148425f, -0.4320193f});
-  StorageView output(dtype, device);
-  ops::Conv1D(1, 1)(conv_input.to(device).to(dtype),
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Conv1D(1, 1)(conv_input.to(device).to(dtype),
                     conv_weight.to(device).to(dtype),
                     conv_bias.to(device).to(dtype),
                     output);
@@ -1077,16 +1072,16 @@ TEST_P(OpDeviceFPTest, Conv1DPadding) {
 }
 
 TEST_P(OpDeviceFPTest, Conv1DStride) {
-  const Device device = GetParam().device;
-  if (device == Device::CUDA)
+  const ctranslate2::Device device = GetParam().device;
+  if (device == ctranslate2::Device::CUDA)
     GUARD_CONV1D_GPU_TEST;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  const StorageView expected({2, 4, 1}, std::vector<float>{
+  const ctranslate2::StorageView expected({2, 4, 1}, std::vector<float>{
       0.9309945f, 0.0533122f, -0.1100256f, -0.4144599f,
       1.0512151f, 0.1242856f, -0.1661695f, -0.4387956f});
-  StorageView output(dtype, device);
-  ops::Conv1D(2)(conv_input.to(device).to(dtype),
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Conv1D(2)(conv_input.to(device).to(dtype),
                  conv_weight.to(device).to(dtype),
                  conv_bias.to(device).to(dtype),
                  output);
@@ -1095,18 +1090,18 @@ TEST_P(OpDeviceFPTest, Conv1DStride) {
 }
 
 TEST_P(OpDeviceFPTest, Conv1DPaddingAndStride) {
-  const Device device = GetParam().device;
-  if (device == Device::CUDA)
+  const ctranslate2::Device device = GetParam().device;
+  if (device == ctranslate2::Device::CUDA)
     GUARD_CONV1D_GPU_TEST;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
-  const StorageView expected({2, 4, 2}, std::vector<float>{
+  const ctranslate2::StorageView expected({2, 4, 2}, std::vector<float>{
       0.5646521f, 0.7959076f, -0.0035750f, -0.1099610f,
       0.0519716f, -0.1701476f, -0.2886650f, -0.8630960f,
       0.4802138f, 0.8567453f, -0.0229165f, 0.0248157f,
       0.0232352f, -0.0155492f, -0.4572049f, -0.2148425f});
-  StorageView output(dtype, device);
-  ops::Conv1D(2, 1)(conv_input.to(device).to(dtype),
+  ctranslate2::StorageView output(dtype, device);
+  ctranslate2::ops::Conv1D(2, 1)(conv_input.to(device).to(dtype),
                     conv_weight.to(device).to(dtype),
                     conv_bias.to(device).to(dtype),
                     output);
@@ -1115,24 +1110,24 @@ TEST_P(OpDeviceFPTest, Conv1DPaddingAndStride) {
 }
 
 TEST_P(OpDeviceFPTest, Conv1DGroupNoBias) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
     const float error = GetParam().error;
-    const StorageView expected({2, 2, 2}, std::vector<float>{
+    const ctranslate2::StorageView expected({2, 2, 2}, std::vector<float>{
             -0.475623f, -0.601933f, 0.165541f, 0.050849f, -0.566024f,
             -0.592437f, 0.121356f, 0.232157f});
-    const StorageView conv_input({2, 4, 4}, std::vector<float>{
+    const ctranslate2::StorageView conv_input({2, 4, 4}, std::vector<float>{
             0.547210f, 0.634821f, 0.571043f, 0.443073f, 0.220554f, 0.478427f,
             0.836031f, 0.476906f, 0.288942f, 0.393840f, 0.077658f, 0.236493f,
             0.759209f, 0.826134f, 0.728944f, 0.130438f, 0.355182f, 0.884368f,
             0.494477f, 0.004999f, 0.306053f, 0.764639f, 0.903179f, 0.440537f,
             0.040332f, 0.533495f, 0.428653f, 0.311188f, 0.951956f, 0.785873f,
             0.443364f, 0.065968f});
-    const StorageView conv_weight({2, 2, 3}, std::vector<float>{
+    const ctranslate2::StorageView conv_weight({2, 2, 3}, std::vector<float>{
             -0.326986f, -0.378711f, -0.120962f, 0.125665f, -0.312741f, 0.161123f,
             0.226274f, 0.340959f, -0.127573f, 0.094374f, -0.164143f, 0.054516f});
-    StorageView output(dtype, device);
-    ops::Conv1D(1, 0, 1, 2)(conv_input.to(device).to(dtype),
+    ctranslate2::StorageView output(dtype, device);
+    ctranslate2::ops::Conv1D(1, 0, 1, 2)(conv_input.to(device).to(dtype),
                             conv_weight.to(device).to(dtype),
                             output);
     EXPECT_EQ(output.dtype(), dtype);
@@ -1143,15 +1138,15 @@ TEST_P(OpDeviceFPTest, Conv1DGroupNoBiasQuantized) {
 #ifdef CT2_WITH_DNNL
     GTEST_SKIP() << "Quantized convolution is not implemented for DNNL.";
 #endif
-    const Device device = GetParam().device;
-    if (device != Device::CPU)
+    const ctranslate2::Device device = GetParam().device;
+    if (device != ctranslate2::Device::CPU)
         GTEST_SKIP() << "Grouped quantized convolution is not implemented for CUDA.";
-    const DataType dtype = GetParam().dtype;
+    const ctranslate2::DataType dtype = GetParam().dtype;
     const float error = std::max(GetParam().error, float(3e-3));
-    const StorageView expected({2, 2, 2}, std::vector<float>{
+    const ctranslate2::StorageView expected({2, 2, 2}, std::vector<float>{
             -0.475623f, -0.601933f, 0.165541f, 0.050849f, -0.566024f,
             -0.592437f, 0.121356f, 0.232157f});
-    const StorageView conv_input({2, 4, 4}, std::vector<float>{
+    const ctranslate2::StorageView conv_input({2, 4, 4}, std::vector<float>{
             0.547210f, 0.634821f, 0.571043f, 0.443073f, 0.220554f, 0.478427f,
             0.836031f, 0.476906f, 0.288942f, 0.393840f, 0.077658f, 0.236493f,
             0.759209f, 0.826134f, 0.728944f, 0.130438f, 0.355182f, 0.884368f,
@@ -1161,11 +1156,11 @@ TEST_P(OpDeviceFPTest, Conv1DGroupNoBiasQuantized) {
     // These weights correspond to the ones in Conv1DGroupNoBias
     // Hence expected output is same (with quantization error)
     // Therefore we use error = 3e-3
-    const StorageView conv_weight({2, 2, 3}, std::vector<int8_t>{
+    const ctranslate2::StorageView conv_weight({2, 2, 3}, std::vector<int8_t>{
             -110, -127,  -41,   42, -105,   54, 84,  127,  -48,   35,  -61,   20});
-    const StorageView conv_qscale({2}, std::vector<float> {335.34806224, 372.47880244});
-    StorageView output(dtype, device);
-    ops::Conv1D(1, 0, 1, 2)(conv_input.to(device).to(dtype),
+    const ctranslate2::StorageView conv_qscale({2}, std::vector<float> {335.34806224, 372.47880244});
+    ctranslate2::StorageView output(dtype, device);
+    ctranslate2::ops::Conv1D(1, 0, 1, 2)(conv_input.to(device).to(dtype),
                             conv_weight.to(device),
                             output,
                             &conv_qscale);
@@ -1174,18 +1169,18 @@ TEST_P(OpDeviceFPTest, Conv1DGroupNoBiasQuantized) {
 }
 
 TEST_P(OpDeviceFPTest, Conv1DGroup) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
     const float error = GetParam().error;
-    const StorageView expected({2, 2, 2}, std::vector<float>{
+    const ctranslate2::StorageView expected({2, 2, 2}, std::vector<float>{
             0.142335f, 0.103515f, 0.735452f, 0.755268f, 0.109328f, 0.007098f, 0.791004f, 0.537695f});
-    const StorageView conv_input({2, 4, 4}, std::vector<float>{
+    const ctranslate2::StorageView conv_input({2, 4, 4}, std::vector<float>{
             0.769843f, 0.147572f, 0.195656f, 0.823936f, 0.363211f, 0.584773f, 0.315626f, 0.929829f, 0.724258f, 0.853388f, 0.756254f, 0.791604f, 0.463644f, 0.285105f, 0.952018f, 0.660709f, 0.557387f, 0.147298f, 0.473786f, 0.566577f, 0.255724f, 0.488177f, 0.534283f, 0.678067f, 0.760340f, 0.024571f, 0.559195f, 0.978376f, 0.473044f, 0.351244f, 0.824801f, 0.077629f});
-    const StorageView conv_weight({2, 2, 3}, std::vector<float>{
+    const ctranslate2::StorageView conv_weight({2, 2, 3}, std::vector<float>{
             0.345985f, -0.071498f, 0.200554f, 0.185144f, -0.015271f, 0.014293f, 0.006771f, -0.078667f, -0.065937f, 0.382823f, 0.276695f, 0.352038f});
-    const StorageView conv_bias({2}, std::vector<float>{-0.215535f, 0.256019f});
-    StorageView output(dtype, device);
-    ops::Conv1D(1, 0, 1, 2)(conv_input.to(device).to(dtype),
+    const ctranslate2::StorageView conv_bias({2}, std::vector<float>{-0.215535f, 0.256019f});
+    ctranslate2::StorageView output(dtype, device);
+    ctranslate2::ops::Conv1D(1, 0, 1, 2)(conv_input.to(device).to(dtype),
                             conv_weight.to(device).to(dtype),
                             conv_bias.to(device).to(dtype),
                             output);
@@ -1193,15 +1188,15 @@ TEST_P(OpDeviceFPTest, Conv1DGroup) {
     expect_storage_eq(output.to_float32(), expected, error);
 }
 
-INSTANTIATE_TEST_SUITE_P(CPU, OpDeviceTest, ::testing::Values(Device::CPU));
-INSTANTIATE_TEST_SUITE_P(CPU, OpDeviceFPTest,
-                         ::testing::Values(FloatType{Device::CPU, DataType::FLOAT32, 1e-5}),
+INSTANTIATE_TEST_SUITE_P(OpsDeviceTestSuite, OpDeviceTest, ::testing::Values(ctranslate2::Device::METAL));
+INSTANTIATE_TEST_SUITE_P(Metal, OpDeviceFPTest,
+                         ::testing::Values(FloatType{ctranslate2::Device::CPU, ctranslate2::DataType::FLOAT32, 1e-5}),
                          fp_test_name);
 #ifdef CT2_WITH_CUDA
-INSTANTIATE_TEST_SUITE_P(CUDA, OpDeviceTest, ::testing::Values(Device::CUDA));
+INSTANTIATE_TEST_SUITE_P(CUDA, OpDeviceTest, ::testing::Values(ctranslate2::Device::CUDA));
 INSTANTIATE_TEST_SUITE_P(CUDA, OpDeviceFPTest,
-                         ::testing::Values(FloatType{Device::CUDA, DataType::FLOAT32, 1e-5},
-                                           FloatType{Device::CUDA, DataType::FLOAT16, 1e-2},
-                                           FloatType{Device::CUDA, DataType::BFLOAT16, 1e-2}),
+                         ::testing::Values(FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::FLOAT32, 1e-5},
+                                           FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::FLOAT16, 1e-2},
+                                           FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::BFLOAT16, 1e-2}),
                          fp_test_name);
 #endif

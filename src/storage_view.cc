@@ -1,5 +1,9 @@
 #include "ctranslate2/storage_view.h"
 
+#ifdef CT2_WITH_METAL
+#  include "metal/ops_move_stub.mm" // For StorageView::copy_to -> ops::Move::compute
+#endif
+
 #include "ctranslate2/primitives.h"
 
 #include "dispatch.h"

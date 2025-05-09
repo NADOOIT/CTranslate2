@@ -87,6 +87,7 @@ namespace ctranslate2 {
       id<MTLDevice> getDevice() const { return _metal_device; }
       id<MTLCommandQueue> getCommandQueue() const { return _command_queue; }
       id<MTLLibrary> getLibrary() const { return _library; }
+      id<MTLComputePipelineState> getAttentionPipeline() const { return _attention_pipeline; } // Added getter
 
     private:
       void create_command_queue();

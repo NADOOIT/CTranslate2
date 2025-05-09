@@ -6,6 +6,7 @@ if(POLICY CMP0091)
 endif()
 
 project(ctranslate2)
+enable_testing()
 
 # Read version from version.py
 file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/python/ctranslate2/version.py VERSION_FILE)
@@ -23,9 +24,9 @@ endif()
 string(REPLACE "." ";" CTRANSLATE2_VERSION_LIST ${CTRANSLATE2_VERSION})
 list(GET CTRANSLATE2_VERSION_LIST 0 CTRANSLATE2_MAJOR_VERSION)
 
-option(WITH_MKL "Compile with Intel MKL backend" ON)
+option(WITH_MKL "Compile with Intel MKL backend" OFF)
 option(WITH_DNNL "Compile with DNNL backend" OFF)
-option(WITH_ACCELERATE "Compile with Accelerate backend" OFF)
+option(WITH_ACCELERATE "Compile with Accelerate backend" ON)
 option(WITH_OPENBLAS "Compile with OpenBLAS backend" OFF)
 option(WITH_RUY "Compile with Ruy backend" OFF)
 option(WITH_CUDA "Compile with CUDA backend" OFF)
@@ -107,6 +108,7 @@ if(APPLE)
 endif()
 
 find_package(Threads REQUIRED)
+find_package(Eigen3 REQUIRED)
 add_subdirectory(third_party/spdlog EXCLUDE_FROM_ALL)
 
 set(PRIVATE_INCLUDE_DIRECTORIES
@@ -132,7 +134,7 @@ set(SOURCES
   src/cpu/primitives.cc
   src/decoding.cc
   src/decoding_utils.cc
-  src/devices.cc
+  src/devices.mm
   src/dtw.cc
   src/encoder.cc
   src/env.cc
@@ -238,9 +240,27 @@ set(SOURCES
 if(WITH_METAL)
   list(APPEND SOURCES
     src/metal/metal_device.mm
+    src/metal/primitives.mm
     src/metal/metal_utils.mm
     src/metal/metal_allocator.mm
     src/metal/metal_kernels.mm
+    src/metal/attention.mm
+    src/metal/ops_gemm_stub.mm
+    src/metal/ops_add_stub.mm
+    src/metal/ops_concat_stub.mm
+    src/metal/ops_conv1d_stub.mm
+    src/metal/ops_gather_stub.mm
+    src/metal/ops_rotary_stub.mm
+    src/metal/ops_biasadd_stub.mm
+    src/metal/ops_dequantize_stub.mm
+    src/metal/ops_multinomial_stub.mm
+    src/metal/ops_topk_stub.mm
+    src/metal/ops_split_stub.mm
+    src/metal/ops_dequantize_awq_stub.mm
+    src/metal/ops_flash_attention_stub.mm
+    src/metal/ops_mean_stub.mm
+    src/metal/ops_slide_stub.mm
+    src/metal/ops_tile_stub.mm
   )
   
   list(APPEND LIBRARIES
@@ -371,6 +391,7 @@ elseif(WITH_CUDNN)
   message(FATAL_ERROR "WITH_CUDNN=ON requires WITH_CUDA=ON")
 else()
   add_library(${PROJECT_NAME} ${SOURCES})
+  target_include_directories(${PROJECT_NAME} PUBLIC ${EIGEN3_INCLUDE_DIR})
 
   # Add C++17 compiler flags for Apple platforms
   if(APPLE)
@@ -415,14 +436,44 @@ if (WITH_METAL)
     PRIVATE
     WITH_METAL
   )
+
+  # Compile Metal shaders
+  set(METAL_SHADER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/metal/metal_kernels.metal")
+  set(DEFAULT_METALLIB_FILE "${CMAKE_CURRENT_BINARY_DIR}/default.metallib")
+  set(METAL_AIR_FILE "${CMAKE_CURRENT_BINARY_DIR}/metal_kernels.air") # Define AIR file path
+
+  add_custom_command(
+    OUTPUT ${DEFAULT_METALLIB_FILE}
+    COMMAND xcrun -sdk macosx metal -c ${METAL_SHADER_FILE} -o ${METAL_AIR_FILE}
+    COMMAND xcrun -sdk macosx metallib ${METAL_AIR_FILE} -o ${DEFAULT_METALLIB_FILE}
+    DEPENDS ${METAL_SHADER_FILE}
+    COMMENT "Compiling Metal Shaders (metal_kernels.metal) into default.metallib"
+  )
+
+  add_custom_target(MetalLib ALL DEPENDS ${DEFAULT_METALLIB_FILE})
+  add_dependencies(${PROJECT_NAME} MetalLib)
+
+  install(FILES ${DEFAULT_METALLIB_FILE}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT RuntimeLibraries
+  )
+
+  # Install Metal headers
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/metal/"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ctranslate2
+    FILES_MATCHING PATTERN "*.h"
+  )
 endif()
 
 include(GenerateExportHeader)
 generate_export_header(${PROJECT_NAME})
-set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION ${CTRANSLATE2_VERSION})
-set_property(TARGET ${PROJECT_NAME} PROPERTY SOVERSION ${CTRANSLATE2_MAJOR_VERSION})
-set_property(TARGET ${PROJECT_NAME} PROPERTY
-  INTERFACE_${PROJECT_NAME}_MAJOR_VERSION ${CTRANSLATE2_MAJOR_VERSION})
+
+if(WITH_METAL)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC CT2_WITH_METAL)
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${CTRANSLATE2_VERSION} SOVERSION ${CTRANSLATE2_MAJOR_VERSION})
 set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY
   COMPATIBLE_INTERFACE_STRING ${PROJECT_NAME}_MAJOR_VERSION
 )

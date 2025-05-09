@@ -11,6 +11,8 @@ namespace ctranslate2 {
       explicit MetalAllocator(MetalDevice& device);
       ~MetalAllocator() override = default;
 
+      const MetalDevice& device() const { return _device; }
+
       void* allocate(std::size_t size, int device_index = -1) override;
       void free(void* data, int device_index = -1) override;
       void clear_cache() override;

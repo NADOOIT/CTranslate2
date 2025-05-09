@@ -8,7 +8,7 @@
 #include "test_utils.h"
 
 static std::string
-path_to_test_name(::testing::TestParamInfo<std::pair<std::string, DataType>> param_info) {
+path_to_test_name(::testing::TestParamInfo<std::pair<std::string, ctranslate2::DataType>> param_info) {
   std::string name = param_info.param.first;
   std::replace(name.begin(), name.end(), '/', '_');
   std::replace(name.begin(), name.end(), '-', '_');
@@ -22,12 +22,12 @@ static std::string beam_to_test_name(::testing::TestParamInfo<size_t> param_info
     return "BeamSearch";
 }
 
-static void check_weights_dtype(const std::unordered_map<std::string, StorageView>& variables,
-                                DataType expected_dtype) {
+static void check_weights_dtype(const std::unordered_map<std::string, ctranslate2::StorageView>& variables,
+                                ctranslate2::DataType expected_dtype) {
   for (const auto& variable : variables) {
     const auto& name = variable.first;
     const auto& value = variable.second;
-    if (ends_with(name, "weight")) {
+    if (ctranslate2::ends_with(name, "weight")) {
       EXPECT_EQ(value.dtype(), expected_dtype) << "Expected type " << dtype_name(expected_dtype)
                                                << " for weight " << name << ", got "
                                                << dtype_name(value.dtype()) << " instead";
@@ -35,49 +35,49 @@ static void check_weights_dtype(const std::unordered_map<std::string, StorageVie
   }
 }
 
-static DataType dtype_with_fallback(DataType dtype, Device device) {
+static ctranslate2::DataType dtype_with_fallback(ctranslate2::DataType dtype, ctranslate2::Device device) {
   const bool support_int8 = mayiuse_int8(device);
   const bool support_int16 = mayiuse_int16(device);
-  if (dtype == DataType::INT16 && !support_int16)
-    return support_int8 ? DataType::INT8 : DataType::FLOAT32;
-  if (dtype == DataType::INT8 && !support_int8)
-    return support_int16 ? DataType::INT16 : DataType::FLOAT32;
+  if (dtype == ctranslate2::DataType::INT16 && !support_int16)
+    return support_int8 ? ctranslate2::DataType::INT8 : ctranslate2::DataType::FLOAT32;
+  if (dtype == ctranslate2::DataType::INT8 && !support_int8)
+    return support_int16 ? ctranslate2::DataType::INT16 : ctranslate2::DataType::FLOAT32;
   return dtype;
 }
 
 
 // Test that we can load and translate with different versions of the same model.
-class ModelVariantTest : public ::testing::TestWithParam<std::pair<std::string, DataType>> {
+class ModelVariantTest : public ::testing::TestWithParam<std::pair<std::string, ctranslate2::DataType>> {
 };
 
 TEST_P(ModelVariantTest, Transliteration) {
   auto params = GetParam();
   const std::string model_path = get_data_dir() + "/models/" + params.first;
-  const DataType model_dtype = params.second;
-  const Device device = Device::CPU;
+  const ctranslate2::DataType model_dtype = params.second;
+  const ctranslate2::Device device = ctranslate2::Device::CPU;
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   std::vector<std::string> expected = {"a", "t", "z", "m", "o", "n"};
 
-  std::vector<std::pair<ComputeType, DataType>> type_params;
-  type_params.emplace_back(ComputeType::DEFAULT, dtype_with_fallback(model_dtype, device));
-  type_params.emplace_back(ComputeType::FLOAT32, DataType::FLOAT32);
+  std::vector<std::pair<ctranslate2::ComputeType, ctranslate2::DataType>> type_params;
+  type_params.emplace_back(ctranslate2::ComputeType::DEFAULT, dtype_with_fallback(model_dtype, device));
+  type_params.emplace_back(ctranslate2::ComputeType::FLOAT32, ctranslate2::DataType::FLOAT32);
   if (mayiuse_int16(device))
-    type_params.emplace_back(ComputeType::INT16, DataType::INT16);
+    type_params.emplace_back(ctranslate2::ComputeType::INT16, ctranslate2::DataType::INT16);
   if (mayiuse_int8(device)) {
-    type_params.emplace_back(ComputeType::INT8, DataType::INT8);
-    type_params.emplace_back(ComputeType::AUTO, DataType::INT8);
+    type_params.emplace_back(ctranslate2::ComputeType::INT8, ctranslate2::DataType::INT8);
+    type_params.emplace_back(ctranslate2::ComputeType::AUTO, ctranslate2::DataType::INT8);
   } else if (mayiuse_int16(device)) {
-    type_params.emplace_back(ComputeType::AUTO, DataType::INT16);
+    type_params.emplace_back(ctranslate2::ComputeType::AUTO, ctranslate2::DataType::INT16);
   } else {
-    type_params.emplace_back(ComputeType::AUTO, DataType::FLOAT32);
+    type_params.emplace_back(ctranslate2::ComputeType::AUTO, ctranslate2::DataType::FLOAT32);
   }
 
   for (const auto& types : type_params) {
-    const ComputeType compute_type = types.first;
-    const DataType expected_type = types.second;
-    const auto model = models::Model::load(model_path, device, 0, compute_type);
+    const ctranslate2::ComputeType compute_type = types.first;
+    const ctranslate2::DataType expected_type = types.second;
+    const auto model = ctranslate2::models::Model::load(model_path, device, 0, compute_type);
     check_weights_dtype(model->get_variables(), expected_type);
-    Translator translator(model);
+    ctranslate2::Translator translator(model);
     auto result = translator.translate_batch({input})[0];
     EXPECT_EQ(result.output(), expected);
   }
@@ -87,11 +87,11 @@ INSTANTIATE_TEST_SUITE_P(
   TranslatorTest,
   ModelVariantTest,
   ::testing::Values(
-    std::make_pair("v1/aren-transliteration", DataType::FLOAT32),
-    std::make_pair("v1/aren-transliteration-i16", DataType::INT16),
-    std::make_pair("v2/aren-transliteration", DataType::FLOAT32),
-    std::make_pair("v2/aren-transliteration-i16", DataType::INT16),
-    std::make_pair("v2/aren-transliteration-i8", DataType::INT8)
+    std::make_pair("v1/aren-transliteration", ctranslate2::DataType::FLOAT32),
+    std::make_pair("v1/aren-transliteration-i16", ctranslate2::DataType::INT16),
+    std::make_pair("v2/aren-transliteration", ctranslate2::DataType::FLOAT32),
+    std::make_pair("v2/aren-transliteration-i16", ctranslate2::DataType::INT16),
+    std::make_pair("v2/aren-transliteration-i8", ctranslate2::DataType::INT8)
     ),
   path_to_test_name);
 
@@ -99,13 +99,13 @@ INSTANTIATE_TEST_SUITE_P(
 class SearchVariantTest : public ::testing::TestWithParam<size_t> {
 };
 
-static Translator default_translator(Device device = Device::CPU) {
-  return Translator(default_model_dir(), device);
+static ctranslate2::Translator default_translator(ctranslate2::Device device = ctranslate2::Device::CPU) {
+  return ctranslate2::Translator(default_model_dir(), device);
 }
 
 TEST_P(SearchVariantTest, SetMaxDecodingLength) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = GetParam();
   options.max_decoding_length = 3;
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -114,8 +114,8 @@ TEST_P(SearchVariantTest, SetMaxDecodingLength) {
 }
 
 TEST_P(SearchVariantTest, SetMinDecodingLength) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = GetParam();
   options.min_decoding_length = 8;
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -124,8 +124,8 @@ TEST_P(SearchVariantTest, SetMinDecodingLength) {
 }
 
 TEST_P(SearchVariantTest, SetMaxInputLength) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = GetParam();
   options.max_input_length = 3;
   options.return_attention = true;
@@ -147,8 +147,8 @@ TEST_P(SearchVariantTest, SetMaxInputLength) {
 
 TEST_P(SearchVariantTest, ReturnAllHypotheses) {
   auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.num_hypotheses = beam_size;
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -158,8 +158,8 @@ TEST_P(SearchVariantTest, ReturnAllHypotheses) {
 
 TEST_P(SearchVariantTest, ReturnAttention) {
   auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.num_hypotheses = beam_size;
   options.return_attention = true;
@@ -173,7 +173,7 @@ TEST_P(SearchVariantTest, ReturnAttention) {
   };  // (target_length, source_length)
   const auto results = translator.translate_batch(inputs, options);
   for (size_t i = 0; i < inputs.size(); ++i) {
-    const TranslationResult& result = results[i];
+    const ctranslate2::TranslationResult& result = results[i];
     const auto& expected_shape = expected_shapes[i];
     ASSERT_TRUE(result.has_attention());
     const auto& attention = result.attention;
@@ -187,8 +187,8 @@ TEST_P(SearchVariantTest, ReturnAttention) {
 
 TEST_P(SearchVariantTest, ReturnAttentionWithPrefix) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.num_hypotheses = beam_size;
   options.return_attention = true;
@@ -205,8 +205,8 @@ TEST_P(SearchVariantTest, ReturnAttentionWithPrefix) {
 
 TEST_P(SearchVariantTest, ReturnEndToken) {
   auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.return_end_token = true;
   const std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -217,8 +217,8 @@ TEST_P(SearchVariantTest, ReturnEndToken) {
 
 TEST_P(SearchVariantTest, TranslateWithPrefix) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.num_hypotheses = beam_size;
   options.return_attention = true;
@@ -236,8 +236,8 @@ TEST_P(SearchVariantTest, TranslateWithPrefix) {
 }
 
 TEST_P(SearchVariantTest, TranslateBatch) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.return_scores = true;
   options.beam_size = GetParam();
   std::vector<std::vector<std::string>> inputs = {
@@ -255,8 +255,8 @@ TEST_P(SearchVariantTest, TranslateBatch) {
 
 TEST_P(SearchVariantTest, SuppressSequences) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.suppress_sequences = {{"o"}, {"t", "z", "m"}};
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -267,8 +267,8 @@ TEST_P(SearchVariantTest, SuppressSequences) {
 
 TEST_P(SearchVariantTest, SuppressSequenceOOV) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.suppress_sequences = {{"o"}, {"t", "oovtoken", "m"}};
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -277,8 +277,8 @@ TEST_P(SearchVariantTest, SuppressSequenceOOV) {
 
 TEST_P(SearchVariantTest, EndToken) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.end_token = "m";
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -289,8 +289,8 @@ TEST_P(SearchVariantTest, EndToken) {
 
 TEST_P(SearchVariantTest, EndTokenOOV) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.end_token = "oovtoken";
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
@@ -299,8 +299,8 @@ TEST_P(SearchVariantTest, EndTokenOOV) {
 
 TEST_P(SearchVariantTest, ReplaceUnknowns) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.num_hypotheses = beam_size;
   options.replace_unknowns = true;
@@ -313,8 +313,8 @@ TEST_P(SearchVariantTest, ReplaceUnknowns) {
 
 TEST_P(SearchVariantTest, RepetitionPenalty) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.repetition_penalty = 100;  // Force the decoding to produce unique symbols.
   const auto result = translator.translate_batch({{"ن", "ن", "ن", "ن", "ن"}}, options)[0];
@@ -325,13 +325,13 @@ TEST_P(SearchVariantTest, RepetitionPenalty) {
 
 TEST_P(SearchVariantTest, NoRepeatNgram) {
   const auto beam_size = GetParam();
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = beam_size;
   options.no_repeat_ngram_size = 3;
   const std::vector<std::string> input(50, "ن");
   const auto result = translator.translate_batch({input}, options)[0];
-  const auto output = join_string(result.output());
+  const auto output = ctranslate2::join_string(result.output());
 
   std::unordered_set<std::string> ngrams;
   for (size_t i = 0; i < output.size() - options.no_repeat_ngram_size; ++i)
@@ -341,9 +341,9 @@ TEST_P(SearchVariantTest, NoRepeatNgram) {
 }
 
 static void check_normalized_score(const std::vector<std::string>& input,
-                                   TranslationOptions options,
+                                   ctranslate2::TranslationOptions options,
                                    bool output_has_eos = true) {
-  Translator translator = default_translator();
+  ctranslate2::Translator translator = default_translator();
   options.return_scores = true;
   options.length_penalty = 0;
   const auto score = translator.translate_batch({input}, options)[0].scores[0];
@@ -359,13 +359,13 @@ static void check_normalized_score(const std::vector<std::string>& input,
 }
 
 TEST_P(SearchVariantTest, NormalizeScores) {
-  TranslationOptions options;
+  ctranslate2::TranslationOptions options;
   options.beam_size = GetParam();
   check_normalized_score({"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"}, options);
 }
 
 TEST_P(SearchVariantTest, NormalizeScoresNoEos) {
-  TranslationOptions options;
+  ctranslate2::TranslationOptions options;
   options.beam_size = GetParam();
   options.max_decoding_length = 6;
   check_normalized_score({"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"}, options, false);
@@ -379,13 +379,13 @@ INSTANTIATE_TEST_SUITE_P(
   beam_to_test_name);
 
 TEST(TranslatorTest, TranslateEmptyBatch) {
-  Translator translator = default_translator();
+  ctranslate2::Translator translator = default_translator();
   std::vector<std::vector<std::string>> inputs;
   auto results = translator.translate_batch(inputs);
   EXPECT_TRUE(results.empty());
 }
 
-static void check_empty_result(const TranslationResult& result,
+static void check_empty_result(const ctranslate2::TranslationResult& result,
                                size_t num_hypotheses = 1,
                                bool with_attention = false,
                                bool with_score = false) {
@@ -409,7 +409,7 @@ static void check_empty_result(const TranslationResult& result,
 }
 
 TEST(TranslatorTest, TranslateBatchWithEmptySource) {
-  Translator translator = default_translator();
+  ctranslate2::Translator translator = default_translator();
   std::vector<std::vector<std::string>> inputs = {
     {}, {"آ", "ز", "ا"}, {}, {"آ", "ت", "ز", "م", "و", "ن"}, {}};
   auto results = translator.translate_batch(inputs);
@@ -422,7 +422,7 @@ TEST(TranslatorTest, TranslateBatchWithEmptySource) {
 }
 
 TEST(TranslatorTest, TranslateBatchWithOnlyEmptySource) {
-  Translator translator = default_translator();
+  ctranslate2::Translator translator = default_translator();
   std::vector<std::vector<std::string>> inputs{{}, {}};
   auto results = translator.translate_batch(inputs);
   EXPECT_EQ(results.size(), 2);
@@ -431,15 +431,15 @@ TEST(TranslatorTest, TranslateBatchWithOnlyEmptySource) {
 }
 
 TEST(TranslatorTest, TranslateEmptySourceWithoutScore) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.return_scores = false;
   EXPECT_FALSE(translator.translate_batch({{}}, options)[0].has_scores());
 }
 
 TEST(TranslatorTest, TranslateBatchWithHardPrefixAndEmpty) {
-  Translator translator = default_translator();
-  const TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  const ctranslate2::TranslationOptions options;
   const std::vector<std::vector<std::string>> input = {
     {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"},
     {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"},
@@ -463,8 +463,8 @@ TEST(TranslatorTest, TranslateBatchWithHardPrefixAndEmpty) {
 TEST(TranslatorTest, TranslateBatchWithStronglyBiasedPrefix) {
   // This test should produce the same results as TranslateBatchWithHardPrefixAndEmpty
   // because prefix_bias_beta is set to 0.99, which is almost equivalent to using a hard prefix.
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.prefix_bias_beta = 0.99;
   options.beam_size = 2;
   const std::vector<std::vector<std::string>> input = {
@@ -485,8 +485,8 @@ TEST(TranslatorTest, TranslateBatchWithStronglyBiasedPrefix) {
 }
 
 TEST(TranslatorTest, TranslateBatchWithWeaklyBiasedPrefix) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.prefix_bias_beta = 0.01;
   options.beam_size = 2;
   const std::vector<std::vector<std::string>> input = {
@@ -512,27 +512,27 @@ class BiasedDecodingDeviceFPTest : public ::testing::TestWithParam<FloatType> {
 };
 
 TEST_P(BiasedDecodingDeviceFPTest, OneBatchOneBeam) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
-    const dim_t vocab_size = 2;
-    const dim_t batch_size = 1;
-    const dim_t beam_size = 1;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
+    const ctranslate2::dim_t vocab_size = 2;
+    const ctranslate2::dim_t batch_size = 1;
+    const ctranslate2::dim_t beam_size = 1;
     const float prefix_bias_beta = 0.35;
 
-    StorageView logits({batch_size * beam_size, 1, vocab_size},
+    ctranslate2::StorageView logits({batch_size * beam_size, 1, vocab_size},
                        std::vector<float>{4, 6});
-    StorageView softmax;
-    ops::SoftMax()(logits, softmax);
+    ctranslate2::StorageView softmax;
+    ctranslate2::ops::SoftMax()(logits, softmax);
     std::vector<float> expected_log_probs_vec = {
       std::log((1-prefix_bias_beta) * softmax.at<float>(0) + prefix_bias_beta),
       std::log((1-prefix_bias_beta) * softmax.at<float>(1)),
     };
-    StorageView expected_log_probs(logits.shape(), expected_log_probs_vec, device);
+    ctranslate2::StorageView expected_log_probs(logits.shape(), expected_log_probs_vec, device);
 
-    StorageView log_probs(device, dtype);
+    ctranslate2::StorageView log_probs(device, dtype);
     const size_t step = 0;
     const std::vector<std::vector<bool>> beams_diverged_from_prefix = {{false}};
-    const std::vector<dim_t> batch_offset = {0};
+    const std::vector<ctranslate2::dim_t> batch_offset = {0};
     const std::vector<std::vector<size_t>> prefix_ids = {{0}};
     ctranslate2::BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
     biased_decoder.decode(batch_size,
@@ -546,21 +546,21 @@ TEST_P(BiasedDecodingDeviceFPTest, OneBatchOneBeam) {
 }
 
 TEST_P(BiasedDecodingDeviceFPTest, TwoBatchesTwoBeams) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
-    const dim_t vocab_size = 2;
-    const dim_t batch_size = 2;
-    const dim_t beam_size = 2;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
+    const ctranslate2::dim_t vocab_size = 2;
+    const ctranslate2::dim_t batch_size = 2;
+    const ctranslate2::dim_t beam_size = 2;
     const float prefix_bias_beta = 0.35;
 
-    StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{
+    ctranslate2::StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{
         4, 6,  // batch1 beam1
         7, 3,  // batch1 beam2
         1, 9,  // batch2 beam1
         8, 2   // batch2 beam2
     });
-    StorageView softmax;
-    ops::SoftMax()(logits, softmax);
+    ctranslate2::StorageView softmax;
+    ctranslate2::ops::SoftMax()(logits, softmax);
     const std::vector<std::vector<size_t>> prefix_ids = {
       {0},  // bias batch 1 towards token0
       {1}}; // bias batch 2 towards token1
@@ -578,13 +578,13 @@ TEST_P(BiasedDecodingDeviceFPTest, TwoBatchesTwoBeams) {
       std::log((1-prefix_bias_beta) * softmax.at<float>(6)),
       std::log((1-prefix_bias_beta) * softmax.at<float>(7) + prefix_bias_beta),
     };
-    StorageView expected_log_probs(logits.shape(), expected_log_probs_vec, device);
+    ctranslate2::StorageView expected_log_probs(logits.shape(), expected_log_probs_vec, device);
 
-    StorageView log_probs(dtype, device);
+    ctranslate2::StorageView log_probs(dtype, device);
     const size_t step = 0;
     const std::vector<std::vector<bool>> beams_diverged_from_prefix = {{false, false}, {false, false}};
-    const std::vector<dim_t> batch_offset = {0, 1};
-    BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
+    const std::vector<ctranslate2::dim_t> batch_offset = {0, 1};
+    ctranslate2::BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
     biased_decoder.decode(batch_size,
                           step,
                           batch_offset,
@@ -596,23 +596,23 @@ TEST_P(BiasedDecodingDeviceFPTest, TwoBatchesTwoBeams) {
 }
 
 TEST_P(BiasedDecodingDeviceFPTest, BeamDiverged) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
-    const dim_t vocab_size = 2;
-    const dim_t batch_size = 1;
-    const dim_t beam_size = 1;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
+    const ctranslate2::dim_t vocab_size = 2;
+    const ctranslate2::dim_t batch_size = 1;
+    const ctranslate2::dim_t beam_size = 1;
     const float prefix_bias_beta = 0.35;
 
-    StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6}, device);
-    StorageView expected_log_probs(device);
-    ops::LogSoftMax()(logits, expected_log_probs);
+    ctranslate2::StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6}, device);
+    ctranslate2::StorageView expected_log_probs(device);
+    ctranslate2::ops::LogSoftMax()(logits, expected_log_probs);
 
-    StorageView log_probs(dtype, device);
+    ctranslate2::StorageView log_probs(dtype, device);
     const size_t step = 0;
     const std::vector<std::vector<bool>> beams_diverged_from_prefix = {{true}};
-    const std::vector<dim_t> batch_offset = {0};
+    const std::vector<ctranslate2::dim_t> batch_offset = {0};
     const std::vector<std::vector<size_t>> prefix_ids = {{0}};
-    BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
+    ctranslate2::BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
     biased_decoder.decode(batch_size,
                           step,
                           batch_offset,
@@ -624,23 +624,23 @@ TEST_P(BiasedDecodingDeviceFPTest, BeamDiverged) {
 }
 
 TEST_P(BiasedDecodingDeviceFPTest, TimeStepPastPrefix) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
-    const dim_t vocab_size = 2;
-    const dim_t batch_size = 1;
-    const dim_t beam_size = 1;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
+    const ctranslate2::dim_t vocab_size = 2;
+    const ctranslate2::dim_t batch_size = 1;
+    const ctranslate2::dim_t beam_size = 1;
     const float prefix_bias_beta = 0.35;
 
-    StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6}, device);
-    StorageView expected_log_probs(device);
-    ops::LogSoftMax()(logits, expected_log_probs);
+    ctranslate2::StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6}, device);
+    ctranslate2::StorageView expected_log_probs(device);
+    ctranslate2::ops::LogSoftMax()(logits, expected_log_probs);
 
-    StorageView log_probs(dtype, device);
+    ctranslate2::StorageView log_probs(dtype, device);
     const size_t step = 1;
     const std::vector<std::vector<bool>> beams_diverged_from_prefix = {{false}};
-    const std::vector<dim_t> batch_offset = {0};
+    const std::vector<ctranslate2::dim_t> batch_offset = {0};
     const std::vector<std::vector<size_t>> prefix_ids = {{0}};
-    BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
+    ctranslate2::BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
     biased_decoder.decode(batch_size,
                           step,
                           batch_offset,
@@ -652,28 +652,28 @@ TEST_P(BiasedDecodingDeviceFPTest, TimeStepPastPrefix) {
 }
 
 TEST_P(BiasedDecodingDeviceFPTest, NonZeroTimestepBias) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
-    const dim_t vocab_size = 2;
-    const dim_t batch_size = 1;
-    const dim_t beam_size = 1;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
+    const ctranslate2::dim_t vocab_size = 2;
+    const ctranslate2::dim_t batch_size = 1;
+    const ctranslate2::dim_t beam_size = 1;
     const float prefix_bias_beta = 0.35;
 
-    StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6});
-    StorageView softmax;
-    ops::SoftMax()(logits, softmax);
+    ctranslate2::StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6});
+    ctranslate2::StorageView softmax;
+    ctranslate2::ops::SoftMax()(logits, softmax);
     std::vector<float> expected_log_probs_vec = {
       std::log((1-prefix_bias_beta) * softmax.at<float>(0)),
       std::log((1-prefix_bias_beta) * softmax.at<float>(1) + prefix_bias_beta),
     };
-    StorageView expected_log_probs(logits.shape(), expected_log_probs_vec, device);
+    ctranslate2::StorageView expected_log_probs(logits.shape(), expected_log_probs_vec, device);
 
-    StorageView log_probs(dtype, device);
+    ctranslate2::StorageView log_probs(dtype, device);
     const size_t step = 1;
     const std::vector<std::vector<bool>> beams_diverged_from_prefix = {{false}};
-    const std::vector<dim_t> batch_offset = {0};
+    const std::vector<ctranslate2::dim_t> batch_offset = {0};
     const std::vector<std::vector<size_t>> prefix_ids = {{0, 1, 0}};
-    BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
+    ctranslate2::BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
     biased_decoder.decode(batch_size,
                           step,
                           batch_offset,
@@ -685,23 +685,23 @@ TEST_P(BiasedDecodingDeviceFPTest, NonZeroTimestepBias) {
 }
 
 TEST_P(BiasedDecodingDeviceFPTest, NonZeroTimestepDiverge) {
-    const Device device = GetParam().device;
-    const DataType dtype = GetParam().dtype;
-    const dim_t vocab_size = 2;
-    const dim_t batch_size = 1;
-    const dim_t beam_size = 1;
+    const ctranslate2::Device device = GetParam().device;
+    const ctranslate2::DataType dtype = GetParam().dtype;
+    const ctranslate2::dim_t vocab_size = 2;
+    const ctranslate2::dim_t batch_size = 1;
+    const ctranslate2::dim_t beam_size = 1;
     const float prefix_bias_beta = 0.35;
 
-    StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6}, device);
-    StorageView expected_log_probs(device);
-    ops::LogSoftMax()(logits, expected_log_probs);
+    ctranslate2::StorageView logits({batch_size * beam_size, 1, vocab_size}, std::vector<float>{4, 6}, device);
+    ctranslate2::StorageView expected_log_probs(device);
+    ctranslate2::ops::LogSoftMax()(logits, expected_log_probs);
 
-    StorageView log_probs(dtype, device);
+    ctranslate2::StorageView log_probs(dtype, device);
     const size_t step = 1;
     const std::vector<std::vector<bool>> beams_diverged_from_prefix = {{true}};
-    const std::vector<dim_t> batch_offset = {0};
+    const std::vector<ctranslate2::dim_t> batch_offset = {0};
     const std::vector<std::vector<size_t>> prefix_ids = {{0, 1, 0}};
-    BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
+    ctranslate2::BiasedDecoder biased_decoder(prefix_bias_beta, prefix_ids);
     biased_decoder.decode(batch_size,
                           step,
                           batch_offset,
@@ -713,12 +713,12 @@ TEST_P(BiasedDecodingDeviceFPTest, NonZeroTimestepDiverge) {
 }
 
 INSTANTIATE_TEST_SUITE_P(CPU, BiasedDecodingDeviceFPTest,
-                         ::testing::Values(FloatType{Device::CPU, DataType::FLOAT32}),
+                         ::testing::Values(FloatType{ctranslate2::Device::CPU, ctranslate2::DataType::FLOAT32}),
                          fp_test_name);
 #ifdef CT2_WITH_CUDA
 INSTANTIATE_TEST_SUITE_P(CUDA, BiasedDecodingDeviceFPTest,
-                         ::testing::Values(FloatType{Device::CUDA, DataType::FLOAT32},
-                                           FloatType{Device::CUDA, DataType::FLOAT16}),
+                         ::testing::Values(FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::FLOAT32},
+                                           FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::FLOAT16}),
                          fp_test_name);
 #endif
 
@@ -726,8 +726,8 @@ TEST(TranslatorTest, TranslatePrefixWithLargeBeam) {
   // Related to issue https://github.com/OpenNMT/CTranslate2/issues/277
   // This is an example where </s> appears in the topk of the first unconstrained decoding
   // step and produces an incorrect hypothesis that dominates others.
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = 5;
   const std::vector<std::string> input = {"أ" ,"و" ,"ل" ,"ي" ,"س" ,"س"};
   const std::vector<std::string> prefix = {"u", "l", "i", "s", "e"};
@@ -736,14 +736,14 @@ TEST(TranslatorTest, TranslatePrefixWithLargeBeam) {
 }
 
 TEST(TranslatorTest, AlternativesFromPrefix) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 10;
   options.return_alternatives = true;
   options.return_attention = true;
   const std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   const std::vector<std::string> prefix = {"a", "t"};
-  const TranslationResult result = translator.translate_batch({input}, {prefix}, options)[0];
+  const ctranslate2::TranslationResult result = translator.translate_batch({input}, {prefix}, options)[0];
   ASSERT_EQ(result.num_hypotheses(), options.num_hypotheses);
   EXPECT_EQ(result.hypotheses[0], (std::vector<std::string>{"a", "t", "z", "m", "o", "n"}));
   EXPECT_EQ(result.hypotheses[1], (std::vector<std::string>{"a", "t", "s", "u", "m", "o", "n"}));
@@ -761,8 +761,8 @@ TEST(TranslatorTest, AlternativesFromPrefix) {
 }
 
 TEST(TranslatorTest, AlternativesFromPrefixMinExpansionProb) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 10;
   options.return_scores = true;
   options.return_attention = true;
@@ -771,15 +771,15 @@ TEST(TranslatorTest, AlternativesFromPrefixMinExpansionProb) {
   const std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   const std::vector<std::string> prefix = {"a", "t"};
   const size_t expected_alternatives = 6;
-  const TranslationResult result = translator.translate_batch({input}, {prefix}, options)[0];
+  const ctranslate2::TranslationResult result = translator.translate_batch({input}, {prefix}, options)[0];
   EXPECT_EQ(result.hypotheses.size(), expected_alternatives);
   EXPECT_EQ(result.scores.size(), expected_alternatives);
   EXPECT_EQ(result.attention.size(), expected_alternatives);
 }
 
 TEST(TranslatorTest, AlternativesFromPrefixBatch) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 10;
   options.return_alternatives = true;
   const std::vector<std::vector<std::string>> input = {
@@ -798,26 +798,26 @@ TEST(TranslatorTest, AlternativesFromPrefixBatch) {
 }
 
 TEST(TranslatorTest, AlternativesFromScratch) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 10;
   options.return_alternatives = true;
   const std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
-  const TranslationResult result = translator.translate_batch({input}, options)[0];
+  const ctranslate2::TranslationResult result = translator.translate_batch({input}, options)[0];
   ASSERT_EQ(result.num_hypotheses(), options.num_hypotheses);
   EXPECT_EQ(result.hypotheses[0], (std::vector<std::string>{"a", "t", "z", "m", "o", "n"}));
 }
 
 TEST(TranslatorTest, AlternativesFromScratchBatch) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 10;
   options.return_alternatives = true;
   const std::vector<std::vector<std::string>> inputs = {
     {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"},
     {"آ", "ز", "ا"}
   };
-  const std::vector<TranslationResult> results = translator.translate_batch(inputs, options);
+  const std::vector<ctranslate2::TranslationResult> results = translator.translate_batch(inputs, options);
   ASSERT_EQ(results.size(), inputs.size());
   ASSERT_EQ(results[0].num_hypotheses(), options.num_hypotheses);
   EXPECT_EQ(results[0].hypotheses[0], (std::vector<std::string>{"a", "t", "z", "m", "o", "n"}));
@@ -828,19 +828,19 @@ TEST(TranslatorTest, AlternativesFromScratchBatch) {
 }
 
 TEST(TranslatorTest, AlternativesFromFullTarget) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 4;
   options.return_alternatives = true;
   const std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   const std::vector<std::string> target = {"a", "t", "z", "m", "o", "n"};
-  const TranslationResult result = translator.translate_batch({input}, {target}, options)[0];
+  const ctranslate2::TranslationResult result = translator.translate_batch({input}, {target}, options)[0];
   EXPECT_EQ(result.hypotheses[0], (std::vector<std::string>{"a", "t", "z", "m", "o", "n", "e"}));
 }
 
 TEST(TranslatorTest, AlternativesMaxDecodingLength) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 4;
   options.max_decoding_length = 2;
   options.return_alternatives = true;
@@ -873,16 +873,16 @@ TEST(TranslatorTest, AlternativesMaxDecodingLength) {
 }
 
 TEST(TranslatorTest, InvalidNumHypotheses) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.num_hypotheses = 0;
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   EXPECT_THROW(translator.translate_batch({input}, options), std::invalid_argument);
 }
 
 TEST(TranslatorTest, Patience) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = 4;
   options.patience = 2;
   options.num_hypotheses = 8;
@@ -892,19 +892,19 @@ TEST(TranslatorTest, Patience) {
 }
 
 TEST(TranslatorTest, IgnoreScore) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.beam_size = 1;
   options.return_scores = false;
   const std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
-  const TranslationResult result = translator.translate_batch({input}, options)[0];
+  const ctranslate2::TranslationResult result = translator.translate_batch({input}, options)[0];
   EXPECT_FALSE(result.has_scores());
   EXPECT_EQ(result.output(), (std::vector<std::string>{"a", "t", "z", "m", "o", "n"}));
 }
 
 TEST(TranslatorTest, SameBeamAndGreedyScore) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   options.return_scores = true;
   std::vector<std::string> input = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   options.beam_size = 1;
@@ -915,8 +915,8 @@ TEST(TranslatorTest, SameBeamAndGreedyScore) {
 }
 
 TEST(TranslatorTest, BeamSizeLargerThanVocabSize) {
-  Translator translator = default_translator();
-  TranslationOptions options;
+  ctranslate2::Translator translator = default_translator();
+  ctranslate2::TranslationOptions options;
   // 22*2=44 candidates are retrieved from the model output but the vocabulary size is 42.
   options.beam_size = 22;
   options.num_hypotheses = options.beam_size;
@@ -926,7 +926,7 @@ TEST(TranslatorTest, BeamSizeLargerThanVocabSize) {
 }
 
 TEST(BufferedTranslationWrapperTest, Basic) {
-  BufferedTranslationWrapper wrapper(std::make_shared<Translator>(default_model_dir()),
+  ctranslate2::BufferedTranslationWrapper wrapper(std::make_shared<ctranslate2::Translator>(default_model_dir()),
                                      /*max_batch_size=*/32,
                                      /*batch_timeout_in_micros=*/5000);
 
@@ -963,7 +963,7 @@ TEST(TranslatorTest, Scoring) {
   };
   constexpr float abs_diff = 1e-5;
 
-  Translator translator = default_translator();
+  ctranslate2::Translator translator = default_translator();
   const auto scores = translator.score_batch(source, target);
 
   ASSERT_EQ(scores.size(), expected_scores.size());
@@ -975,9 +975,9 @@ TEST(TranslatorTest, ScoringMaxInputLength) {
   const std::vector<std::string> source = {"آ" ,"ت" ,"ز" ,"م" ,"و" ,"ن"};
   const std::vector<std::string> target = {"a", "t", "z", "m", "o", "n"};
 
-  ScoringOptions options;
+  ctranslate2::ScoringOptions options;
   options.max_input_length = 4;
-  Translator translator = default_translator();
+  ctranslate2::Translator translator = default_translator();
   const auto result = translator.score_batch({source}, {target}, options)[0];
 
   EXPECT_EQ(result.tokens, (std::vector<std::string>{"a", "t", "z", "</s>"}));

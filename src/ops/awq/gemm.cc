@@ -1,4 +1,9 @@
-#include <ctranslate2/ops/awq/gemm.h>
+#include "ctranslate2/ops/awq/gemm.h"
+
+#ifdef CT2_WITH_METAL
+#  include "../../metal/ops_awq_gemm_stub.mm" // Must be before first instantiation
+#endif
+
 #include <ctranslate2/ops/sum.h>
 #include "dispatch.h"
 

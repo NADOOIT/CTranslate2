@@ -1,5 +1,9 @@
 #include "ctranslate2/ops/gumbel_max.h"
 
+#ifdef CT2_WITH_METAL
+#  include "../metal/ops_gumbelmax_stub.mm" // Must be before first instantiation
+#endif
+
 #include "dispatch.h"
 
 namespace ctranslate2 {

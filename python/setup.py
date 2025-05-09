@@ -21,7 +21,7 @@ if os.path.exists(venv_path):
 try:
     import pybind11
 except ImportError:
-    subprocess.check_call([sys.executable, '-m', 'uv', 'pip', 'install', 'pybind11'])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pybind11'])
     import pybind11
 
 # Add custom bitset header path
@@ -35,6 +35,9 @@ CUSTOM_BITSET_INCLUDE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file_
 
 class custom_build_ext(build_ext):
     def build_extensions(self):
+        # Ensure the C++ library is built first with correct flags
+        build_cpp_lib()
+        
         # .mm-Dateien wie .cpp behandeln
         if '.mm' not in self.compiler.src_extensions:
             self.compiler.src_extensions.append('.mm')
@@ -61,6 +64,11 @@ class custom_build_ext(build_ext):
             return original_compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
         
         self.compiler._compile = _compile
+        # Add framework linker arguments for macOS
+        if sys.platform == "darwin":
+            for ext in self.extensions:
+                ext.extra_link_args.extend(["-framework", "Foundation", "-framework", "Metal"])
+        
         super().build_extensions()
 
 VERSION = "4.5.1"  # Fixed version number matching the installed library
@@ -90,16 +98,7 @@ def build_cpp_lib():
         "-DWITH_CUDA=OFF",
         "-DWITH_CUDNN=OFF",
         "-DBUILD_TESTS=OFF",
-        f"-DCMAKE_CXX_FLAGS=-std=c++17 -stdlib=libc++ -I{stdlib_include_path} -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1",
-        f"-DCMAKE_OBJCXX_FLAGS=-ObjC++ -std=c++17 -stdlib=libc++ -I{stdlib_include_path} -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1 -framework Metal -framework Foundation",
-        "-DCMAKE_EXE_LINKER_FLAGS=-framework Metal -framework Foundation",
-        "-DOpenMP_C_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
-        "-DOpenMP_CXX_FLAGS=-Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include",
-        "-DOpenMP_C_LIB_NAMES=omp",
-        "-DOpenMP_CXX_LIB_NAMES=omp",
-        "-DOpenMP_omp_LIBRARY=/opt/homebrew/opt/libomp/lib/libomp.dylib",
-        f"-DCMAKE_INSTALL_PREFIX={sys.prefix}",
-        f"-DCMAKE_PREFIX_PATH={xcode_toolchain_path}"
+        f"-DCMAKE_INSTALL_PREFIX={sys.prefix}"
     ]
     
     subprocess.check_call(["cmake", "-S", str(root_dir), "-B", str(build_dir)] + cmake_args)
@@ -144,45 +143,35 @@ class CustomBuildExt(build_ext):
 ext_module = Extension(
     "ctranslate2._ext",
     sources=[
-        os.path.join("cpp", name)
-        for name in [
-            "module.cc",
-            "encoder.cc",
-            "execution_stats.cc",
-            "generation_result.cc",
-            "generator.cc",
-            "logging.cc",
-            "mpi.cc",
-            "scoring_result.cc",
-            "storage_view.cc",
-            "translation_result.cc",
-            "translator.cc",
-            "wav2vec2.cc",
-            "wav2vec2bert.cc",
-            "whisper.cc",
-        ]
-    ] + [
-        os.path.join("..", "src", "metal", name) for name in [
-            "audio_processing.mm",
-            "metal_allocator.mm",
-            "metal_device.mm",
-            "metal_kernels.mm",
-            "metal_utils.mm",
-            "utils.mm",
-        ]
+        "cpp/encoder.mm",
+        "cpp/execution_stats.mm",
+        "cpp/generation_result.mm",
+        "cpp/generator.mm",
+        "cpp/logging.mm",
+        "cpp/module.mm",
+        "cpp/mpi.mm",
+        "cpp/scoring_result.mm",
+        "cpp/storage_view.mm",
+        "cpp/translation_result.mm",
+        "cpp/translator.mm",
+        "cpp/wav2vec2.mm",
+        "cpp/wav2vec2bert.mm",
+        "cpp/whisper.mm",
     ],
     include_dirs=[
         pybind11.get_include(),
-        f"{sys.prefix}/include",
+        f"{sys.prefix}/include/ctranslate2",  # For headers installed by CTranslate2 build
     ],
     library_dirs=[f"{sys.prefix}/lib"],
     libraries=["ctranslate2"],
-    extra_compile_args=["-std=c++17", "-mmacosx-version-min=10.14"],
+    extra_compile_args=["-std=c++17", "-mmacosx-version-min=10.14", "-stdlib=libc++"],
     extra_link_args=[
+        "-framework", "Foundation",
+        "-framework", "Metal",
+        "-stdlib=libc++",
         "-mmacosx-version-min=10.14",
-        "-Wl,-rpath,@loader_path/../lib"
+        "-Wl,-rpath,@loader_path",
     ],
-    language="objc++",
 )
 
 if platform.machine() == "arm64":
@@ -252,3 +241,4 @@ setup(
         ],
     },
 )
+

@@ -17,7 +17,7 @@ rm -rf build/ dist/ ctranslate2.egg-info/
 
 # Build sdist and universal2 wheel
 echo "Building universal2 wheel..."
-CMAKE_ARGS="-DWITH_METAL=ON" uv run -m build --sdist --wheel
+CMAKE_ARGS="-DWITH_METAL=ON" /Users/christophbackhaus/Documents/GitHub/faster-whisper/venv/bin/python -m build --sdist --wheel
 
 echo "\nBuild complete. Check dist/ for the universal2 wheel."
 ls -lh dist/

@@ -26,13 +26,13 @@ TEST(BatchingTest, RebatchInput) {
     {2, 3}
   };
 
-  const auto batches = rebatch_input(load_examples({source, target}), 2, BatchType::Examples);
+  const auto batches = rebatch_input(ctranslate2::load_examples({source, target}), 2, ctranslate2::BatchType::Examples);
   ASSERT_EQ(batches.size(), expected_batches.size());
 
   for (size_t i = 0; i < batches.size(); ++i) {
     const auto& batch = batches[i];
-    EXPECT_EQ(batch.get_stream(0), index_vector(source, expected_batches[i]));
-    EXPECT_EQ(batch.get_stream(1), index_vector(target, expected_batches[i]));
+    EXPECT_EQ(batch.get_stream(0), ctranslate2::index_vector(source, expected_batches[i]));
+    EXPECT_EQ(batch.get_stream(1), ctranslate2::index_vector(target, expected_batches[i]));
     EXPECT_EQ(batch.example_index, expected_batches[i]);
   }
 }

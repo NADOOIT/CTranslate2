@@ -4,71 +4,78 @@
 namespace ctranslate2 {
   namespace metal {
 
-    static id<MTLDevice> current_device = nil;
-    static id<MTLCommandQueue> command_queue = nil;
-    static std::vector<id<MTLDevice>> available_devices;
+    // Static variables moved to devices.mm
+    // static id<MTLDevice> current_device = nil;
+    // static id<MTLCommandQueue> command_queue = nil;
+    // static std::vector<id<MTLDevice>> available_devices;
 
     bool has_metal() {
-      @autoreleasepool {
-        return MTLCreateSystemDefaultDevice() != nil;
-      }
+      // Implemented in devices.mm
+      // @autoreleasepool {
+      //   return MTLCreateSystemDefaultDevice() != nil;
+      // }
     }
 
     int get_metal_device_count() {
-      @autoreleasepool {
-        if (available_devices.empty()) {
-          NSArray<id<MTLDevice>>* devices = MTLCopyAllDevices();
-          for (id<MTLDevice> device in devices) {
-            available_devices.push_back(device);
-          }
-          [devices release];
-        }
-        return available_devices.size();
-      }
+      // Implemented in devices.mm
+      // @autoreleasepool {
+      //   if (available_devices.empty()) {
+      //     NSArray<id<MTLDevice>>* devices = MTLCopyAllDevices();
+      //     for (id<MTLDevice> device in devices) {
+      //       available_devices.push_back(device);
+      //     }
+      //     [devices release];
+      //   }
+      //   return available_devices.size();
+      // }
     }
 
     id<MTLDevice> get_metal_device() {
-      if (current_device == nil) {
-        init_metal();
-      }
-      return current_device;
+      // Implemented in devices.mm
+      // if (current_device == nil) {
+      //   init_metal();
+      // }
+      // return current_device;
+      return nil; // Return nil to satisfy signature, but it's not used.
     }
 
     void set_metal_device(int index) {
-      @autoreleasepool {
-        if (index < 0 || index >= get_metal_device_count()) {
-          throw MetalError("Invalid Metal device index: " + std::to_string(index));
-        }
-
-        if (command_queue != nil) {
-          [command_queue release];
-          command_queue = nil;
-        }
-
-        current_device = available_devices[index];
-      }
+      // Implemented in devices.mm
+      // @autoreleasepool {
+      //   if (index < 0 || index >= get_metal_device_count()) {
+      //     throw MetalError("Invalid Metal device index: " + std::to_string(index));
+      //   }
+      // 
+      //   if (command_queue != nil) {
+      //     [command_queue release];
+      //     command_queue = nil;
+      //   }
+      // 
+      //   current_device = available_devices[index];
+      // }
     }
 
     void init_metal() {
-      @autoreleasepool {
-        if (!has_metal()) {
-          throw MetalError("No Metal-capable device found");
-        }
-
-        if (current_device == nil) {
-          current_device = MTLCreateSystemDefaultDevice();
-          if (current_device == nil) {
-            throw MetalError("Failed to create Metal device");
-          }
-        }
-
-        if (command_queue == nil) {
-          command_queue = [current_device newCommandQueue];
-          if (command_queue == nil) {
-            throw MetalError("Failed to create Metal command queue");
-          }
-        }
-      }
+      // Implemented in devices.mm
+      // @autoreleasepool {
+      //   if (!has_metal()) {
+      //     throw MetalError("No Metal-capable device found");
+      //   }
+      // 
+      //   if (current_device == nil) {
+      //     current_device = MTLCreateSystemDefaultDevice();
+      //     if (current_device == nil) {
+      //       throw MetalError("Failed to create Metal device");
+      //     }
+      //   }
+      // 
+      //   if (command_queue == nil) {
+      //     command_queue = [current_device newCommandQueue];
+      //     if (command_queue == nil) {
+      //       throw MetalError("Failed to create Metal command queue");
+      //     }
+      //   }
+      // }
     }
 
     id<MTLCommandQueue> create_command_queue() {
@@ -83,13 +90,14 @@ namespace ctranslate2 {
     }
 
     void synchronize_device() {
-      @autoreleasepool {
-        if (command_queue != nil) {
-          id<MTLCommandBuffer> command_buffer = [command_queue commandBuffer];
-          [command_buffer commit];
-          [command_buffer waitUntilCompleted];
-        }
-      }
+      // Implemented in devices.mm
+      // @autoreleasepool {
+      //   if (command_queue != nil) {
+      //     id<MTLCommandBuffer> command_buffer = [command_queue commandBuffer];
+      //     [command_buffer commit];
+      //     [command_buffer waitUntilCompleted];
+      //   }
+      // }
     }
 
     void* metal_malloc(size_t size) {

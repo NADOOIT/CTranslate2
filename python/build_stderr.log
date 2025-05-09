@@ -1,0 +1,1320 @@
+DEBUG uv 0.5.17 (c198e2233 2025-01-10)
+DEBUG Searching for default Python interpreter in virtual environments
+DEBUG Found `cpython-3.9.6-macos-aarch64-none` at `/Users/christophbackhaus/Documents/GitHub/faster-whisper/venv/bin/python3` (active virtual environment)
+Using Python 3.9.6 environment at: /Users/christophbackhaus/Documents/GitHub/faster-whisper/venv
+DEBUG Acquired lock for `/Users/christophbackhaus/Documents/GitHub/faster-whisper/venv`
+DEBUG At least one requirement is not satisfied: file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python
+DEBUG Using request timeout of 30s
+DEBUG Found PEP 621 metadata for /Users/christophbackhaus/Documents/GitHub/CTranslate2/python in `pyproject.toml` (ctranslate2)
+DEBUG Found static `pyproject.toml` for: ctranslate2 @ file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python
+DEBUG Project is contained in non-workspace project: `/Users/christophbackhaus/Documents/GitHub/CTranslate2`
+DEBUG No workspace root found, using project root
+DEBUG Solving with installed Python version: 3.9.6
+DEBUG Solving with target Python version: >=3.9.6
+DEBUG Adding direct dependency: ctranslate2*
+DEBUG Searching for a compatible version of ctranslate2 @ file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python (*)
+DEBUG Adding transitive dependency for ctranslate2==4.5.1: numpy*
+DEBUG Adding transitive dependency for ctranslate2==4.5.1: pyyaml>=5.3, <7
+DEBUG No cache entry for: https://pypi.org/simple/numpy/
+DEBUG No cache entry for: https://pypi.org/simple/pyyaml/
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py2.5.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py2.6.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py3.0.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py3.1.exe
+WARN Skipping file for pyyaml: PyYAML-3.10.win32-py3.2.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py2.6.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.1.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.2.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.3.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win-amd64-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py2.6.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.1.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.2.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.3.exe
+WARN Skipping file for pyyaml: PyYAML-3.11.win32-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win-amd64-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win-amd64-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win-amd64-py3.5.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win32-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-3.12.win32-py3.5.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win-amd64-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win-amd64-py3.4.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win32-py2.7.exe
+WARN Skipping file for pyyaml: PyYAML-4.2b4.win32-py3.4.exe
+DEBUG Found installed version of pyyaml==6.0.2 that satisfies >=5.3, <7
+WARN Skipping file for numpy: numpy-1.0.1.dev3460.win32-py2.4.exe
+WARN Skipping file for numpy: numpy-1.3.0.win32-py2.5.exe
+WARN Skipping file for numpy: numpy-1.5.0.win32-py2.6.exe
+WARN Skipping file for numpy: numpy-1.5.1.win32-py2.5-nosse.exe
+WARN Skipping file for numpy: numpy-1.5.1.win32-py2.6-nosse.exe
+WARN Skipping file for numpy: numpy-1.5.1.win32-py2.7-nosse.exe
+WARN Skipping file for numpy: numpy-1.5.1.win32-py3.1-nosse.exe
+WARN Skipping file for numpy: numpy-1.6.0.win32-py2.5.exe
+WARN Skipping file for numpy: numpy-1.6.0.win32-py2.6.exe
+WARN Skipping file for numpy: numpy-1.6.0.win32-py2.7.exe
+WARN Skipping file for numpy: numpy-1.6.0.win32-py3.1.exe
+WARN Skipping file for numpy: numpy-1.6.0.win32-py3.2.exe
+WARN Skipping file for numpy: numpy-1.6.1.win32-py2.5.exe
+WARN Skipping file for numpy: numpy-1.6.1.win32-py2.6.exe
+WARN Skipping file for numpy: numpy-1.6.1.win32-py2.7.exe
+WARN Skipping file for numpy: numpy-1.6.1.win32-py3.1.exe
+WARN Skipping file for numpy: numpy-1.6.1.win32-py3.2.exe
+WARN Skipping file for numpy: numpy-1.6.2.win32-py2.5.exe
+WARN Skipping file for numpy: numpy-1.6.2.win32-py2.6.exe
+WARN Skipping file for numpy: numpy-1.6.2.win32-py2.7.exe
+WARN Skipping file for numpy: numpy-1.6.2.win32-py3.1.exe
+WARN Skipping file for numpy: numpy-1.6.2.win32-py3.2.exe
+WARN Skipping file for numpy: numpy-1.7.0.win32-py2.5.exe
+WARN Skipping file for numpy: numpy-1.7.0.win32-py2.6.exe
+WARN Skipping file for numpy: numpy-1.7.0.win32-py2.7.exe
+WARN Skipping file for numpy: numpy-1.7.0.win32-py3.1.exe
+WARN Skipping file for numpy: numpy-1.7.0.win32-py3.2.exe
+WARN Skipping file for numpy: numpy-1.7.0.win32-py3.3.exe
+WARN Skipping file for numpy: numpy-1.7.1.win32-py2.5.exe
+WARN Skipping file for numpy: numpy-1.7.1.win32-py2.6.exe
+WARN Skipping file for numpy: numpy-1.7.1.win32-py2.7.exe
+WARN Skipping file for numpy: numpy-1.7.1.win32-py3.1.exe
+WARN Skipping file for numpy: numpy-1.7.1.win32-py3.2.exe
+WARN Skipping file for numpy: numpy-1.7.1.win32-py3.3.exe
+DEBUG Found installed version of numpy==2.0.2 that satisfies *
+DEBUG Searching for a compatible version of numpy (*)
+DEBUG Found installed version of numpy==2.0.2 that satisfies *
+DEBUG Selecting: numpy==2.0.2 [installed] (installed)
+DEBUG Searching for a compatible version of pyyaml (>=5.3, <7)
+DEBUG Found installed version of pyyaml==6.0.2 that satisfies >=5.3, <7
+DEBUG Selecting: pyyaml==6.0.2 [installed] (installed)
+DEBUG Tried 3 versions: ctranslate2 1, numpy 1, pyyaml 1
+DEBUG marker environment resolution took 0.121s
+Resolved 3 packages in 130ms
+DEBUG Requirement installed, but not fresh: ctranslate2==4.5.1 (from file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python)
+DEBUG Identified uncached distribution: ctranslate2 @ file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python
+DEBUG Requirement already installed: numpy==2.0.2
+DEBUG Requirement already installed: pyyaml==6.0.2
+DEBUG Unnecessary package: av==14.3.0
+DEBUG Unnecessary package: build==1.2.2.post1
+DEBUG Unnecessary package: certifi==2025.4.26
+DEBUG Unnecessary package: charset-normalizer==3.4.2
+DEBUG Unnecessary package: coloredlogs==15.0.1
+DEBUG Unnecessary package: filelock==3.18.0
+DEBUG Unnecessary package: flatbuffers==25.2.10
+DEBUG Unnecessary package: fsspec==2025.3.2
+DEBUG Unnecessary package: huggingface-hub==0.30.2
+DEBUG Unnecessary package: humanfriendly==10.0
+DEBUG Unnecessary package: idna==3.10
+DEBUG Unnecessary package: importlib-metadata==8.7.0
+DEBUG Unnecessary package: mpmath==1.3.0
+DEBUG Unnecessary package: onnxruntime==1.19.2
+DEBUG Unnecessary package: packaging==25.0
+DEBUG Preserving seed package: pip==25.1.1
+DEBUG Unnecessary package: protobuf==6.30.2
+DEBUG Unnecessary package: pybind11==2.13.6
+DEBUG Unnecessary package: pyproject-hooks==1.2.0
+DEBUG Unnecessary package: requests==2.32.3
+DEBUG Preserving seed package: setuptools==80.3.1
+DEBUG Unnecessary package: sympy==1.14.0
+DEBUG Unnecessary package: tokenizers==0.21.1
+DEBUG Unnecessary package: tomli==2.2.1
+DEBUG Unnecessary package: tqdm==4.67.1
+DEBUG Unnecessary package: typing-extensions==4.13.2
+DEBUG Unnecessary package: urllib3==2.4.0
+DEBUG Preserving seed package: wheel==0.45.1
+DEBUG Unnecessary package: zipp==3.21.0
+DEBUG Acquired lock for `/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/sdists-v6/path/b78c935c927f8f0c`
+DEBUG Building: ctranslate2 @ file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python
+DEBUG Project is contained in non-workspace project: `/Users/christophbackhaus/Documents/GitHub/CTranslate2`
+DEBUG No workspace root found, using project root
+DEBUG Using base executable for virtual environment: /Users/christophbackhaus/Documents/GitHub/faster-whisper/venv/bin/python3
+DEBUG Ignoring empty directory
+DEBUG Resolving build requirements
+DEBUG Solving with installed Python version: 3.9.6
+DEBUG Solving with target Python version: >=3.9.6
+DEBUG Adding direct dependency: setuptools>=61.0
+DEBUG Adding direct dependency: cmake>=3.12
+DEBUG Adding direct dependency: pybind11>=2.6.0
+DEBUG No cache entry for: https://pypi.org/simple/setuptools/
+DEBUG No cache entry for: https://pypi.org/simple/pybind11/
+DEBUG No cache entry for: https://pypi.org/simple/cmake/
+WARN Skipping file for setuptools: setuptools-0.6b1-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b1-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6b2-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b2-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6b3-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b3-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6b4-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6b4-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c1-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c1-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c10-py2.6.egg
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c10.win32-py2.6.exe
+WARN Skipping file for setuptools: setuptools-0.6c11-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.6.egg
+WARN Skipping file for setuptools: setuptools-0.6c11-py2.7.egg
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.6.exe
+WARN Skipping file for setuptools: setuptools-0.6c11.win32-py2.7.exe
+WARN Skipping file for setuptools: setuptools-0.6c2-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c2-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c3-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c3-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c3-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c4-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c4-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c4-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c4-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c4.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c4.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c4.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c5-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c5-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c5-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c5-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c5.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c5.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c5.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c6-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c6-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c6-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c6-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c6.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c6.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c6.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c7-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c7-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c7-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c7-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c7.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c7.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c7.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c8-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c8-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c8-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c8-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c8.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c8.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c8.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-0.6c9-1.src.rpm
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.3.egg
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.4.egg
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.5.egg
+WARN Skipping file for setuptools: setuptools-0.6c9-py2.6.egg
+WARN Skipping file for setuptools: setuptools-0.6c9.win32-py2.3.exe
+WARN Skipping file for setuptools: setuptools-0.6c9.win32-py2.4.exe
+WARN Skipping file for setuptools: setuptools-0.6c9.win32-py2.5.exe
+WARN Skipping file for setuptools: setuptools-18.3.1-py3.4.egg
+DEBUG Searching for a compatible version of setuptools (>=61.0)
+DEBUG Selecting: setuptools==80.3.1 [compatible] (setuptools-80.3.1-py3-none-any.whl)
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/53/7e/5d8af3317ddbf9519b687bd1c39d8737fde07d97f54df65553faca5cffb1/setuptools-80.3.1-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/13/2f/0f24b288e2ce56f51c920137620b4434a38fd80583dbbe24fc2a1656c388/pybind11-2.13.6-py3-none-any.whl.metadata
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/3d/ca/503c6e7e5bf084d93dcc2279616f800f3b67f8a37af0a8c6aeccbb735ec0/cmake-4.0.0-py3-none-macosx_10_10_universal2.whl.metadata
+DEBUG Searching for a compatible version of cmake (>=3.12)
+DEBUG Selecting: cmake==4.0.0 [compatible] (cmake-4.0.0-py3-none-macosx_10_10_universal2.whl)
+DEBUG Searching for a compatible version of pybind11 (>=2.6.0)
+DEBUG Selecting: pybind11==2.13.6 [compatible] (pybind11-2.13.6-py3-none-any.whl)
+DEBUG Tried 3 versions: cmake 1, pybind11 1, setuptools 1
+DEBUG marker environment resolution took 0.112s
+DEBUG Installing in cmake==4.0.0, pybind11==2.13.6, setuptools==80.3.1 in /var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND
+DEBUG Identified uncached distribution: cmake==4.0.0
+DEBUG Identified uncached distribution: pybind11==2.13.6
+DEBUG Identified uncached distribution: setuptools==80.3.1
+DEBUG Downloading and building requirements for build: cmake==4.0.0, pybind11==2.13.6, setuptools==80.3.1
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/3d/ca/503c6e7e5bf084d93dcc2279616f800f3b67f8a37af0a8c6aeccbb735ec0/cmake-4.0.0-py3-none-macosx_10_10_universal2.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/53/7e/5d8af3317ddbf9519b687bd1c39d8737fde07d97f54df65553faca5cffb1/setuptools-80.3.1-py3-none-any.whl
+DEBUG No cache entry for: https://files.pythonhosted.org/packages/13/2f/0f24b288e2ce56f51c920137620b4434a38fd80583dbbe24fc2a1656c388/pybind11-2.13.6-py3-none-any.whl
+DEBUG Installing build requirements: pybind11==2.13.6, setuptools==80.3.1, cmake==4.0.0
+DEBUG Creating PEP 517 build environment
+DEBUG Calling `setuptools.build_meta.get_requires_for_build_wheel()`
+DEBUG Project is contained in non-workspace project: `/Users/christophbackhaus/Documents/GitHub/CTranslate2`
+DEBUG No workspace root found, using project root
+DEBUG Installing extra requirements for build backend
+DEBUG Solving with installed Python version: 3.9.6
+DEBUG Solving with target Python version: >=3.9.6
+DEBUG Adding direct dependency: setuptools>=61.0
+DEBUG Adding direct dependency: cmake>=3.12
+DEBUG Adding direct dependency: pybind11>=2.6.0
+DEBUG Adding direct dependency: pybind11>=2.6.0
+DEBUG Adding direct dependency: setuptools>=65
+DEBUG Searching for a compatible version of setuptools (>=65)
+DEBUG Selecting: setuptools==80.3.1 [compatible] (setuptools-80.3.1-py3-none-any.whl)
+DEBUG Searching for a compatible version of cmake (>=3.12)
+DEBUG Selecting: cmake==4.0.0 [compatible] (cmake-4.0.0-py3-none-macosx_10_10_universal2.whl)
+DEBUG Searching for a compatible version of pybind11 (>=2.6.0)
+DEBUG Selecting: pybind11==2.13.6 [compatible] (pybind11-2.13.6-py3-none-any.whl)
+DEBUG Tried 3 versions: cmake 1, pybind11 1, setuptools 1
+DEBUG marker environment resolution took 0.000s
+DEBUG Installing in cmake==4.0.0, pybind11==2.13.6, setuptools==80.3.1 in /var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND
+DEBUG Requirement already installed: cmake==4.0.0
+DEBUG Requirement already installed: pybind11==2.13.6
+DEBUG Requirement already installed: setuptools==80.3.1
+DEBUG No build requirements to install for build
+DEBUG Calling `setuptools.build_meta.build_wheel("/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmpcmwIpG", {}, None)`
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `license` defined outside of `pyproject.toml` is ignored.
+DEBUG !!
+DEBUG 
+DEBUG         ********************************************************************************
+DEBUG         The following seems to be defined outside of `pyproject.toml`:
+DEBUG 
+DEBUG         `license = 'MIT'`
+DEBUG 
+DEBUG         According to the spec (see the link below), however, setuptools CANNOT
+DEBUG         consider this value unless `license` is listed as `dynamic`.
+DEBUG 
+DEBUG         https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+DEBUG 
+DEBUG         To prevent this problem, you can list `license` under `dynamic` or alternatively
+DEBUG         remove the `[project]` table from your file and rely entirely on other means of
+DEBUG         configuration.
+DEBUG         ********************************************************************************
+DEBUG 
+DEBUG !!
+DEBUG   _handle_missing_dynamic(dist, project_table)
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is ignored.
+DEBUG !!
+DEBUG 
+DEBUG         ********************************************************************************
+DEBUG         The following seems to be defined outside of `pyproject.toml`:
+DEBUG 
+DEBUG         `classifiers = ['Development Status :: 5 - Production/Stable', 'Environment :: GPU :: NVIDIA CUDA :: 11.0', 'Intended Audience :: Developers', 'Intended Audience :: Science/Research', 'License :: OSI Approved :: MIT License', 'Programming Language :: Python :: 3', 'Programming Language :: Python :: 3 :: Only', 'Programming Language :: Python :: 3.7', 'Programming Language :: Python :: 3.8', 'Programming Language :: Python :: 3.9', 'Programming Language :: Python :: 3.10', 'Programming Language :: Python :: 3.11', 'Programming Language :: Python :: 3.12', 'Topic :: Scientific/Engineering :: Artificial Intelligence']`
+DEBUG 
+DEBUG         According to the spec (see the link below), however, setuptools CANNOT
+DEBUG         consider this value unless `classifiers` is listed as `dynamic`.
+DEBUG 
+DEBUG         https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+DEBUG 
+DEBUG         To prevent this problem, you can list `classifiers` under `dynamic` or alternatively
+DEBUG         remove the `[project]` table from your file and rely entirely on other means of
+DEBUG         configuration.
+DEBUG         ********************************************************************************
+DEBUG 
+DEBUG !!
+DEBUG   _handle_missing_dynamic(dist, project_table)
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `urls` defined outside of `pyproject.toml` is ignored.
+DEBUG !!
+DEBUG 
+DEBUG         ********************************************************************************
+DEBUG         The following seems to be defined outside of `pyproject.toml`:
+DEBUG 
+DEBUG         `urls = {'Forum': 'https://forum.opennmt.net', 'Source': 'https://github.com/OpenNMT/CTranslate2'}`
+DEBUG 
+DEBUG         According to the spec (see the link below), however, setuptools CANNOT
+DEBUG         consider this value unless `urls` is listed as `dynamic`.
+DEBUG 
+DEBUG         https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+DEBUG 
+DEBUG         To prevent this problem, you can list `urls` under `dynamic` or alternatively
+DEBUG         remove the `[project]` table from your file and rely entirely on other means of
+DEBUG         configuration.
+DEBUG         ********************************************************************************
+DEBUG 
+DEBUG !!
+DEBUG   _handle_missing_dynamic(dist, project_table)
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75: _MissingDynamic: `scripts` defined outside of `pyproject.toml` is ignored.
+DEBUG !!
+DEBUG 
+DEBUG         ********************************************************************************
+DEBUG         The following seems to be defined outside of `pyproject.toml`:
+DEBUG 
+DEBUG         `scripts = ['ct2-fairseq-converter=ctranslate2.converters.fairseq:main', 'ct2-marian-converter=ctranslate2.converters.marian:main', 'ct2-openai-gpt2-converter=ctranslate2.converters.openai_gpt2:main', 'ct2-opennmt-py-converter=ctranslate2.converters.opennmt_py:main', 'ct2-opennmt-tf-converter=ctranslate2.converters.opennmt_tf:main', 'ct2-opus-mt-converter=ctranslate2.converters.opus_mt:main', 'ct2-transformers-converter=ctranslate2.converters.transformers:main']`
+DEBUG 
+DEBUG         According to the spec (see the link below), however, setuptools CANNOT
+DEBUG         consider this value unless `scripts` is listed as `dynamic`.
+DEBUG 
+DEBUG         https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+DEBUG 
+DEBUG         To prevent this problem, you can list `scripts` under `dynamic` or alternatively
+DEBUG         remove the `[project]` table from your file and rely entirely on other means of
+DEBUG         configuration.
+DEBUG         ********************************************************************************
+DEBUG 
+DEBUG !!
+DEBUG   _handle_missing_dynamic(dist, project_table)
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/expand.py:126: SetuptoolsWarning: File '/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/README.md' cannot be found
+DEBUG   return '\n'.join(
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml` (dependencies)
+DEBUG   corresp(dist, value, root_dir)
+DEBUG /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsWarning: `license` overwritten by `pyproject.toml`
+DEBUG   corresp(dist, value, root_dir)
+DEBUG running bdist_wheel
+DEBUG running build
+DEBUG running build_py
+DEBUG copying ctranslate2/logging.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG copying ctranslate2/version.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG copying ctranslate2/__init__.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG copying ctranslate2/extensions.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG copying ctranslate2/specs/model_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/transformer_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/wav2vec2bert_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/common_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/__init__.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/attention_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/wav2vec2_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/specs/whisper_spec.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+DEBUG copying ctranslate2/converters/opennmt_tf.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/fairseq.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/transformers.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/opus_mt.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/converter.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/__init__.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/marian.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/utils.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/opennmt_py.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/converters/openai_gpt2.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+DEBUG copying ctranslate2/models/__init__.py -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/models
+DEBUG running egg_info
+DEBUG writing ctranslate2.egg-info/PKG-INFO
+DEBUG writing dependency_links to ctranslate2.egg-info/dependency_links.txt
+DEBUG writing requirements to ctranslate2.egg-info/requires.txt
+DEBUG writing top-level names to ctranslate2.egg-info/top_level.txt
+DEBUG reading manifest file 'ctranslate2.egg-info/SOURCES.txt'
+DEBUG writing manifest file 'ctranslate2.egg-info/SOURCES.txt'
+DEBUG copying ctranslate2/libctranslate2.4.5.1.dylib -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG copying ctranslate2/libctranslate2.4.dylib -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG copying ctranslate2/libctranslate2.dylib -> build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+DEBUG running build_ext
+DEBUG -- Build spdlog: 1.10.0
+DEBUG -- Build type: Release
+DEBUG -- Configuring done (0.6s)
+DEBUG -- Generating done (0.1s)
+DEBUG -- Build files have been written to: /Users/christophbackhaus/Documents/GitHub/CTranslate2/build
+DEBUG [  1%] [32m[1mLinking CXX shared library ../../../../lib/libgtest.dylib[0m
+DEBUG [  3%] [32m[1mLinking OBJCXX executable metal_buffer_test[0m
+DEBUG [  3%] [32m[1mLinking OBJCXX executable metal_ops_test[0m
+DEBUG [  4%] [32m[1mLinking OBJCXX executable metal_device_info_test[0m
+DEBUG [  5%] Built target gtest
+DEBUG [  5%] Built target metal_device_info_test
+DEBUG [  6%] Built target metal_ops_test
+DEBUG [  7%] Built target metal_buffer_test
+DEBUG [  8%] [32m[1mLinking CXX shared library ../../../../lib/libgtest_main.dylib[0m
+DEBUG [  8%] Built target gtest_main
+DEBUG [  8%] [32m[1mLinking CXX shared library libctranslate2.dylib[0m
+DEBUG ld: warning: ignoring duplicate libraries: '-lomp'
+DEBUG [100%] Built target ctranslate2
+DEBUG -- Install configuration: "Release"
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_utils.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_allocator.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/speaker_profile.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_device.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/audio_processing.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_kernels.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/std_namespace_fix.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/libctranslate2.4.5.1.dylib
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/libctranslate2.4.dylib
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/libctranslate2.dylib
+DEBUG -- Up-to-date: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/half_float
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/half_float/half.hpp
+DEBUG -- Up-to-date: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/filesystem.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/devices.h
+DEBUG -- Up-to-date: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/decoding.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/vocabulary_map.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/generation.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/storage_view.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/attention.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/whisper.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/decoder.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/wav2vec2bert.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/common.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/encoder.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/flash_attention.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/transformer.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/wav2vec2.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/layers.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/attention_layer.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/types.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/vocabulary.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoding.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/translation.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/decoding_utils.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/logging.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/whisper.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/sequence_to_sequence.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/language_model.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/wav2vec2bert.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/model_reader.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/model.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/transformer.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/wav2vec2.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/model_factory.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/thread_pool.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/bfloat16.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/allocator.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/padder.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/softmax.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/quantize.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/dequantize.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/matmul.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/layer_norm.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/multinomial.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/topk.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/op.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/bias_add.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gumbel_max.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gemm.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/rms_norm.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/unsqueeze.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/tile.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/relu.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gelu.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/conv1d.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/swish.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gather.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sub.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/rotary.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/add.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq/gemm.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq/dequantize_awq.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq/gemv.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/topp_mask.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/concat.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/min_max.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/tanh.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sum.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/mul.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/nccl_ops.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/identity.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/log.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/mean.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sigmoid.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/slide.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash_attention.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/activation.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/cos.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/ops.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/softmax.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/mask.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/flash_fwd_kernel.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/utils.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/block_info.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/flash_fwd_launch_template.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/rotary.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/alibi.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/kernel_traits.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/static_switch.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/flash.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/squeeze.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sin.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/alibi_add.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/transpose.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/split.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/median_filter.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/sampling.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/primitives.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/translator.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/profiler.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/buffered_translation_wrapper.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/scoring.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/generator.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/random.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/nlohmann
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/nlohmann/json.hpp
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2Targets.cmake
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2Targets-release.cmake
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2Config.cmake
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/FindNCCL.cmake
+DEBUG -- Installing: /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2ConfigVersion.cmake
+DEBUG building 'ctranslate2._ext' extension
+DEBUG clang++ -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -iwithsysroot/System/Library/Frameworks/System.framework/PrivateHeaders -iwithsysroot/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -Werror=implicit-function-declaration -Wno-error=unreachable-code -Wno-error=unused-but-set-variable -Wno-error=cast-function-type-mismatch -Wno-unknown-warning-option -I/opt/homebrew/opt/libomp/include -arch arm64 -I/private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/pybind11/include -I/private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2 -I/private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers -c cpp/encoder.cc -o build/temp.macosx-10.9-universal2-cpython-39/cpp/encoder.o -x objective-c++ -std=c++17 -mmacosx-version-min=10.14 -stdlib=libc++ -stdlib=libc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -D_LIBCPP_DISABLE_AVAILABILITY=1 -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+DEBUG clang++: warning: '-x objective-c++' after last input file has no effect [-Wunused-command-line-argument]
+DEBUG In file included from cpp/encoder.cc:3:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h:3:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h:6:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h:8:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h:5:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.h:9:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLTypes.h:8:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:9:
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:612:1: error: expected unqualified-id
+DEBUG   612 | @class NSString, Protocol;
+DEBUG       | ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:614:9: error: unknown type name 'NSString'
+DEBUG   614 | typedef NSString * NSExceptionName NS_TYPED_EXTENSIBLE_ENUM;
+DEBUG       |         ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:615:9: error: unknown type name 'NSString'
+DEBUG   615 | typedef NSString * NSRunLoopMode NS_TYPED_EXTENSIBLE_ENUM;
+DEBUG       |         ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:617:19: error: unknown type name 'NSString'
+DEBUG   617 | FOUNDATION_EXPORT NSString *NSStringFromSelector(SEL aSelector);
+DEBUG       |                   ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:618:44: error: unknown type name 'NSString'
+DEBUG   618 | FOUNDATION_EXPORT SEL NSSelectorFromString(NSString *aSelectorName);
+DEBUG       |                                            ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:620:19: error: unknown type name 'NSString'
+DEBUG   620 | FOUNDATION_EXPORT NSString *NSStringFromClass(Class aClass);
+DEBUG       |                   ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:621:53: error: unknown type name 'NSString'
+DEBUG   621 | FOUNDATION_EXPORT Class _Nullable NSClassFromString(NSString *aClassName);
+DEBUG       |                                                     ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:623:19: error: unknown type name 'NSString'
+DEBUG   623 | FOUNDATION_EXPORT NSString *NSStringFromProtocol(Protocol *proto) API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+DEBUG       |                   ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:624:61: error: unknown type name 'NSString'
+DEBUG   624 | FOUNDATION_EXPORT Protocol * _Nullable NSProtocolFromString(NSString *namestr) API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+DEBUG       |                                                             ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:628:30: error: unknown type name 'NSString'
+DEBUG   628 | FOUNDATION_EXPORT void NSLog(NSString *format, ...) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
+DEBUG       |                              ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:628:53: error: format argument not a string type
+DEBUG   628 | FOUNDATION_EXPORT void NSLog(NSString *format, ...) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
+DEBUG       |                              ~~~~~~~~~~~~~~~~       ^                  ~
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:94:49: note: expanded from macro 'NS_FORMAT_FUNCTION'
+DEBUG    94 |         #define NS_FORMAT_FUNCTION(F,A) __attribute__((format(__NSString__, F, A)))
+DEBUG       |                                                        ^                    ~
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:629:31: error: unknown type name 'NSString'
+DEBUG   629 | FOUNDATION_EXPORT void NSLogv(NSString *format, va_list args) NS_FORMAT_FUNCTION(1,0) NS_NO_TAIL_CALL;
+DEBUG       |                               ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:629:63: error: format argument not a string type
+DEBUG   629 | FOUNDATION_EXPORT void NSLogv(NSString *format, va_list args) NS_FORMAT_FUNCTION(1,0) NS_NO_TAIL_CALL;
+DEBUG       |                               ~~~~~~~~~~~~~~~~                ^                  ~
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:94:49: note: expanded from macro 'NS_FORMAT_FUNCTION'
+DEBUG    94 |         #define NS_FORMAT_FUNCTION(F,A) __attribute__((format(__NSString__, F, A)))
+DEBUG       |                                                        ^                    ~
+DEBUG In file included from cpp/encoder.cc:3:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h:3:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h:6:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h:8:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h:5:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.h:9:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLTypes.h:8:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:11:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSArray.h:5:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:7:
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSZone.h:9:1: error: expected unqualified-id
+DEBUG     9 | @class NSString;
+DEBUG       | ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSZone.h:19:63: error: unknown type name 'NSString'
+DEBUG    19 | FOUNDATION_EXPORT void NSSetZoneName(NSZone * _Nullable zone, NSString *name)NS_SWIFT_UNAVAILABLE("Zone-based memory management is unavailable");
+DEBUG       |                                                               ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSZone.h:20:19: error: unknown type name 'NSString'
+DEBUG    20 | FOUNDATION_EXPORT NSString *NSZoneName(NSZone * _Nullable zone) NS_SWIFT_UNAVAILABLE("Zone-based memory management is unavailable");
+DEBUG       |                   ^
+DEBUG In file included from cpp/encoder.cc:3:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h:3:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h:6:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h:8:
+DEBUG In file included from /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h:5:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.h:9:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLTypes.h:8:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:11:
+DEBUG In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSArray.h:5:
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:9:1: error: expected unqualified-id
+DEBUG     9 | @class NSInvocation, NSMethodSignature, NSCoder, NSString, NSEnumerator;
+DEBUG       | ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:10:1: error: expected unqualified-id
+DEBUG    10 | @class Protocol;
+DEBUG       | ^
+DEBUG /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:16:1: error: expected unqualified-id
+DEBUG    16 | @protocol NSCopying
+DEBUG       | ^
+DEBUG fatal error: too many errors emitted, stopping now [-ferror-limit=]
+DEBUG 20 errors generated.
+DEBUG error: command '/usr/bin/clang++' failed with exit code 1
+DEBUG Released lock at `/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/sdists-v6/path/b78c935c927f8f0c/.lock`
+  × Failed to build `ctranslate2 @
+  │ file:///Users/christophbackhaus/Documents/GitHub/CTranslate2/python`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta.build_wheel` failed (exit status: 1)
+
+      [stdout]
+      running bdist_wheel
+      running build
+      running build_py
+      copying ctranslate2/logging.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      copying ctranslate2/version.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      copying ctranslate2/__init__.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      copying ctranslate2/extensions.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      copying ctranslate2/specs/model_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/transformer_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/wav2vec2bert_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/common_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/__init__.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/attention_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/wav2vec2_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/specs/whisper_spec.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/specs
+      copying ctranslate2/converters/opennmt_tf.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/fairseq.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/transformers.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/opus_mt.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/converter.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/__init__.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/marian.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/utils.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/opennmt_py.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/converters/openai_gpt2.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/converters
+      copying ctranslate2/models/__init__.py ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2/models
+      running egg_info
+      writing ctranslate2.egg-info/PKG-INFO
+      writing dependency_links to ctranslate2.egg-info/dependency_links.txt
+      writing requirements to ctranslate2.egg-info/requires.txt
+      writing top-level names to ctranslate2.egg-info/top_level.txt
+      reading manifest file 'ctranslate2.egg-info/SOURCES.txt'
+      writing manifest file 'ctranslate2.egg-info/SOURCES.txt'
+      copying ctranslate2/libctranslate2.4.5.1.dylib ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      copying ctranslate2/libctranslate2.4.dylib ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      copying ctranslate2/libctranslate2.dylib ->
+      build/lib.macosx-10.9-universal2-cpython-39/ctranslate2
+      running build_ext
+      -- Build spdlog: 1.10.0
+      -- Build type: Release
+      -- Configuring done (0.6s)
+      -- Generating done (0.1s)
+      -- Build files have been written to:
+      /Users/christophbackhaus/Documents/GitHub/CTranslate2/build
+      [  1%] Linking CXX shared library ../../../../lib/libgtest.dylib
+      [  3%] Linking OBJCXX executable metal_buffer_test
+      [  3%] Linking OBJCXX executable metal_ops_test
+      [  4%] Linking OBJCXX executable metal_device_info_test
+      [  5%] Built target gtest
+      [  5%] Built target metal_device_info_test
+      [  6%] Built target metal_ops_test
+      [  7%] Built target metal_buffer_test
+      [  8%] Linking CXX shared library ../../../../lib/libgtest_main.dylib
+      [  8%] Built target gtest_main
+      [  8%] Linking CXX shared library libctranslate2.dylib
+      [100%] Built target ctranslate2
+      -- Install configuration: "Release"
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_utils.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_allocator.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/speaker_profile.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_device.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/audio_processing.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/metal_kernels.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/std_namespace_fix.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/libctranslate2.4.5.1.dylib
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/libctranslate2.4.dylib
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/libctranslate2.dylib
+      -- Up-to-date:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/half_float
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/half_float/half.hpp
+      -- Up-to-date:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/filesystem.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/devices.h
+      -- Up-to-date:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/decoding.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/vocabulary_map.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/generation.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/storage_view.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/attention.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/whisper.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/decoder.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/wav2vec2bert.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/common.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/encoder.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/flash_attention.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/transformer.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/wav2vec2.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/layers.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/layers/attention_layer.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/types.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/vocabulary.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoding.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/translation.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/decoding_utils.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/logging.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/whisper.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/sequence_to_sequence.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/language_model.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/wav2vec2bert.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/model_reader.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/model.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/transformer.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/wav2vec2.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/models/model_factory.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/thread_pool.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/bfloat16.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/allocator.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/padder.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/softmax.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/quantize.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/dequantize.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/matmul.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/layer_norm.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/multinomial.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/topk.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/op.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/bias_add.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gumbel_max.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gemm.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/rms_norm.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/unsqueeze.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/tile.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/relu.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gelu.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/conv1d.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/swish.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/gather.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sub.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/rotary.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/add.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq/gemm.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq/dequantize_awq.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/awq/gemv.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/topp_mask.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/concat.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/min_max.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/tanh.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sum.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/mul.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/nccl_ops.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/identity.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/log.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/mean.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sigmoid.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/slide.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash_attention.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/activation.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/cos.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/ops.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/softmax.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/mask.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/flash_fwd_kernel.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/utils.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/block_info.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/flash_fwd_launch_template.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/rotary.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/alibi.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/kernel_traits.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/static_switch.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/flash-attention/flash.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/squeeze.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/sin.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/alibi_add.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/transpose.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/split.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/ops/median_filter.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/sampling.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/primitives.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/translator.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/profiler.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/buffered_translation_wrapper.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/scoring.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/generator.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/random.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/nlohmann
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/nlohmann/json.hpp
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2Targets.cmake
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2Targets-release.cmake
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2Config.cmake
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/FindNCCL.cmake
+      -- Installing:
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/cmake/ctranslate2/ctranslate2ConfigVersion.cmake
+      building 'ctranslate2._ext' extension
+      clang++ -Wno-unused-result -Wsign-compare -Wunreachable-code
+      -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall
+      -iwithsysroot/System/Library/Frameworks/System.framework/PrivateHeaders
+      -iwithsysroot/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers
+      -Werror=implicit-function-declaration
+      -Wno-error=unreachable-code -Wno-error=unused-but-set-variable
+      -Wno-error=cast-function-type-mismatch -Wno-unknown-warning-option
+      -I/opt/homebrew/opt/libomp/include -arch arm64
+      -I/private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/pybind11/include
+      -I/private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2
+      -I/private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include
+      -I/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Headers
+      -c cpp/encoder.cc -o
+      build/temp.macosx-10.9-universal2-cpython-39/cpp/encoder.o
+      -x objective-c++ -std=c++17 -mmacosx-version-min=10.14
+      -stdlib=libc++ -stdlib=libc++
+      -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
+      -D_LIBCPP_DISABLE_AVAILABILITY=1
+      -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=1
+
+      [stderr]
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `license` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+      
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `license = 'MIT'`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `license` is listed as `dynamic`.
+
+      
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `license` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+      
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+      
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `classifiers = ['Development Status :: 5 - Production/Stable',
+      'Environment :: GPU :: NVIDIA CUDA :: 11.0', 'Intended Audience ::
+      Developers', 'Intended Audience :: Science/Research', 'License ::
+      OSI Approved :: MIT License', 'Programming Language :: Python :: 3',
+      'Programming Language :: Python :: 3 :: Only', 'Programming Language ::
+      Python :: 3.7', 'Programming Language :: Python :: 3.8', 'Programming
+      Language :: Python :: 3.9', 'Programming Language :: Python :: 3.10',
+      'Programming Language :: Python :: 3.11', 'Programming Language
+      :: Python :: 3.12', 'Topic :: Scientific/Engineering :: Artificial
+      Intelligence']`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `classifiers` is listed as `dynamic`.
+
+      
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `classifiers` under
+      `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+      
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `urls` defined outside of `pyproject.toml` is ignored.
+      !!
+
+      
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `urls = {'Forum': 'https://forum.opennmt.net', 'Source':
+      'https://github.com/OpenNMT/CTranslate2'}`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `urls` is listed as `dynamic`.
+
+      
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `urls` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+      
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `scripts` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+      
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `scripts =
+      ['ct2-fairseq-converter=ctranslate2.converters.fairseq:main',
+      'ct2-marian-converter=ctranslate2.converters.marian:main',
+      'ct2-openai-gpt2-converter=ctranslate2.converters.openai_gpt2:main',
+      'ct2-opennmt-py-converter=ctranslate2.converters.opennmt_py:main',
+      'ct2-opennmt-tf-converter=ctranslate2.converters.opennmt_tf:main',
+      'ct2-opus-mt-converter=ctranslate2.converters.opus_mt:main',
+      'ct2-transformers-converter=ctranslate2.converters.transformers:main']`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `scripts` is listed as `dynamic`.
+
+      
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `scripts` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+      
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/expand.py:126:
+      SetuptoolsWarning: File
+      '/Users/christophbackhaus/Documents/GitHub/CTranslate2/python/README.md'
+      cannot be found
+        return '\n'.join(
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:82:
+      SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml`
+      (dependencies)
+        corresp(dist, value, root_dir)
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/lib/python3.9/site-packages/setuptools/config/_apply_pyprojecttoml.py:82:
+      SetuptoolsWarning: `license` overwritten by `pyproject.toml`
+        corresp(dist, value, root_dir)
+      ld: warning: ignoring duplicate libraries: '-lomp'
+      clang++: warning: '-x objective-c++' after last input file has no effect
+      [-Wunused-command-line-argument]
+      In file included from cpp/encoder.cc:3:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h:3:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h:6:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h:8:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h:5:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.h:9:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLTypes.h:8:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:9:
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:612:1:
+      error: expected unqualified-id
+        612 | @class NSString, Protocol;
+            | ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:614:9:
+      error: unknown type name 'NSString'
+        614 | typedef NSString * NSExceptionName NS_TYPED_EXTENSIBLE_ENUM;
+            |         ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:615:9:
+      error: unknown type name 'NSString'
+        615 | typedef NSString * NSRunLoopMode NS_TYPED_EXTENSIBLE_ENUM;
+            |         ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:617:19:
+      error: unknown type name 'NSString'
+        617 | FOUNDATION_EXPORT NSString *NSStringFromSelector(SEL aSelector);
+            |                   ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:618:44:
+      error: unknown type name 'NSString'
+        618 | FOUNDATION_EXPORT SEL NSSelectorFromString(NSString
+      *aSelectorName);
+            |                                            ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:620:19:
+      error: unknown type name 'NSString'
+        620 | FOUNDATION_EXPORT NSString *NSStringFromClass(Class aClass);
+            |                   ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:621:53:
+      error: unknown type name 'NSString'
+        621 | FOUNDATION_EXPORT Class _Nullable NSClassFromString(NSString
+      *aClassName);
+            |                                                     ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:623:19:
+      error: unknown type name 'NSString'
+        623 | FOUNDATION_EXPORT NSString *NSStringFromProtocol(Protocol
+      *proto) API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
+            |                   ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:624:61:
+      error: unknown type name 'NSString'
+        624 | FOUNDATION_EXPORT Protocol * _Nullable
+      NSProtocolFromString(NSString *namestr) API_AVAILABLE(macos(10.5),
+      ios(2.0), watchos(2.0), tvos(9.0));
+            |                                                             ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:628:30:
+      error: unknown type name 'NSString'
+        628 | FOUNDATION_EXPORT void NSLog(NSString *format, ...)
+      NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
+            |                              ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:628:53:
+      error: format argument not a string type
+        628 | FOUNDATION_EXPORT void NSLog(NSString *format, ...)
+      NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
+            |                              ~~~~~~~~~~~~~~~~       ^
+      ~
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:94:49:
+      note: expanded from macro 'NS_FORMAT_FUNCTION'
+         94 |         #define NS_FORMAT_FUNCTION(F,A)
+      __attribute__((format(__NSString__, F, A)))
+            |                                                        ^
+      ~
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:629:31:
+      error: unknown type name 'NSString'
+        629 | FOUNDATION_EXPORT void NSLogv(NSString *format, va_list args)
+      NS_FORMAT_FUNCTION(1,0) NS_NO_TAIL_CALL;
+            |                               ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:629:63:
+      error: format argument not a string type
+        629 | FOUNDATION_EXPORT void NSLogv(NSString *format, va_list args)
+      NS_FORMAT_FUNCTION(1,0) NS_NO_TAIL_CALL;
+            |                               ~~~~~~~~~~~~~~~~                ^
+      ~
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObjCRuntime.h:94:49:
+      note: expanded from macro 'NS_FORMAT_FUNCTION'
+         94 |         #define NS_FORMAT_FUNCTION(F,A)
+      __attribute__((format(__NSString__, F, A)))
+            |                                                        ^
+      ~
+      In file included from cpp/encoder.cc:3:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h:3:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h:6:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h:8:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h:5:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.h:9:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLTypes.h:8:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:11:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSArray.h:5:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:7:
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSZone.h:9:1:
+      error: expected unqualified-id
+          9 | @class NSString;
+            | ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSZone.h:19:63:
+      error: unknown type name 'NSString'
+         19 | FOUNDATION_EXPORT void NSSetZoneName(NSZone * _Nullable zone,
+      NSString *name)NS_SWIFT_UNAVAILABLE("Zone-based memory management is
+      unavailable");
+            |                                                               ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSZone.h:20:19:
+      error: unknown type name 'NSString'
+         20 | FOUNDATION_EXPORT NSString *NSZoneName(NSZone * _Nullable zone)
+      NS_SWIFT_UNAVAILABLE("Zone-based memory management is unavailable");
+            |                   ^
+      In file included from cpp/encoder.cc:3:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/encoder.h:3:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/replica_pool.h:6:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/batch_reader.h:8:
+      In file included from
+      /private/var/folders/47/kfsw22311g55y6_jmdglpb_h0000gn/T/.tmpRrQePH/builds-v0/.tmppMugND/include/ctranslate2/utils.h:5:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.h:9:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLTypes.h:8:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h:11:
+      In file included from
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSArray.h:5:
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:9:1:
+      error: expected unqualified-id
+          9 | @class NSInvocation, NSMethodSignature, NSCoder, NSString,
+      NSEnumerator;
+            | ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:10:1:
+      error: expected unqualified-id
+         10 | @class Protocol;
+            | ^
+      /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:16:1:
+      error: expected unqualified-id
+         16 | @protocol NSCopying
+            | ^
+      fatal error: too many errors emitted, stopping now [-ferror-limit=]
+      20 errors generated.
+      error: command '/usr/bin/clang++' failed with exit code 1
+
+      hint: This usually indicates a problem with the package or the build
+      environment.
+DEBUG Released lock at `/Users/christophbackhaus/Documents/GitHub/faster-whisper/venv/.lock`

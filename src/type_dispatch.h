@@ -50,7 +50,7 @@ namespace ctranslate2 {
 #undef MATCH_TYPE_AND_ENUM
 
 #define TYPE_CASE(TYPE, STMTS)                  \
-  case DataTypeToEnum<TYPE>::value: {           \
+  case ctranslate2::DataTypeToEnum<TYPE>::value: {           \
     typedef TYPE T;                             \
     STMTS;                                      \
     break;                                      \
@@ -63,8 +63,8 @@ namespace ctranslate2 {
     TYPE_CASE(int8_t, SINGLE_ARG(STMTS))            \
     TYPE_CASE(int16_t, SINGLE_ARG(STMTS))           \
     TYPE_CASE(int32_t, SINGLE_ARG(STMTS))           \
-    TYPE_CASE(float16_t, SINGLE_ARG(STMTS))         \
-    TYPE_CASE(bfloat16_t, SINGLE_ARG(STMTS))        \
+    TYPE_CASE(ctranslate2::float16_t, SINGLE_ARG(STMTS))         \
+    TYPE_CASE(ctranslate2::bfloat16_t, SINGLE_ARG(STMTS))        \
   }
 
 #define DECLARE_ALL_TYPES(FUNC)                 \

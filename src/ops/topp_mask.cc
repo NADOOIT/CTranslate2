@@ -1,5 +1,9 @@
 #include "ctranslate2/ops/topp_mask.h"
 
+#ifdef CT2_WITH_METAL
+#  include "../metal/ops_toppmask_stub.mm" // Must be before first instantiation
+#endif
+
 #include "ctranslate2/ops/softmax.h"
 
 #include "dispatch.h"

@@ -1,4 +1,9 @@
 #include "ctranslate2/ops/nccl_ops.h"
+
+#ifdef CT2_WITH_METAL
+#  include "../metal/ops_nccl_stubs.mm" // Must be before first instantiation
+#endif
+
 #include "dispatch.h"
 
 namespace ctranslate2 {

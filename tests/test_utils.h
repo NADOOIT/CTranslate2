@@ -6,8 +6,7 @@
 
 #include "type_dispatch.h"
 
-using namespace ctranslate2;
-
+// using namespace ctranslate2; // Avoid in headers to prevent namespace pollution
 const std::string& get_data_dir();
 std::string default_model_dir();
 
@@ -60,22 +59,22 @@ void assert_vector_eq(const std::vector<T>& got, const std::vector<T>& expected)
   }
 }
 
-inline void expect_storage_eq(const StorageView& got,
-                              const StorageView& expected,
+inline void expect_storage_eq(const ctranslate2::StorageView& got,
+                              const ctranslate2::StorageView& expected,
                               float abs_diff = 0) {
-  StorageView got_cpu = got.to(Device::CPU);
-  StorageView expected_cpu = expected.to(Device::CPU);
+  ctranslate2::StorageView got_cpu = got.to(ctranslate2::Device::CPU);
+  ctranslate2::StorageView expected_cpu = expected.to(ctranslate2::Device::CPU);
   ASSERT_EQ(got.dtype(), expected.dtype());
   assert_vector_eq(got.shape(), expected.shape());
   TYPE_DISPATCH(got.dtype(), expect_array_eq(got_cpu.data<T>(), expected_cpu.data<T>(), got.size(), static_cast<T>(abs_diff)));
 }
 
 struct FloatType {
-  Device device;
-  DataType dtype;
+  ctranslate2::Device device;
+  ctranslate2::DataType dtype;
   float error = 0;
 };
 
 inline std::string fp_test_name(::testing::TestParamInfo<FloatType> param_info) {
-  return dtype_name(param_info.param.dtype);
+  return ctranslate2::dtype_name(param_info.param.dtype);
 }

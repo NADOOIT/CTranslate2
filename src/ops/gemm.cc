@@ -4,6 +4,10 @@
 
 #include "dispatch.h"
 
+// #ifdef CT2_WITH_METAL
+// #  include "../metal/ops_gemm_stub.mm" // Removed: stub is compiled separately
+// #endif
+
 namespace ctranslate2 {
   namespace ops {
 
@@ -45,22 +49,25 @@ namespace ctranslate2 {
 
       switch (a.dtype()) {
       case DataType::INT8:
-        DEVICE_DISPATCH(a.device(), (compute<D, int8_t, int32_t>(a, b, c, a_shift_compensation)));
+        DEVICE_DISPATCH(a.device(), (compute<D, int8_t, int32_t>(a, b, a_shift_compensation, c)));
         break;
 
       case DataType::INT16:
         if (a.device() != Device::CPU)
           throw std::invalid_argument("INT16 GEMM is only supported on CPU");
-        compute<Device::CPU, int16_t, int32_t>(a, b, c, a_shift_compensation);
+        compute<Device::CPU, int16_t, int32_t>(a, b, a_shift_compensation, c);
         break;
 
       case DataType::FLOAT32:
       case DataType::FLOAT16:
-      case DataType::BFLOAT16: {
-        DEVICE_AND_FLOAT_DISPATCH("Gemm", a.device(), a.dtype(),
-                                  (compute<D, T, T>(a, b, c, a_shift_compensation)));
-        break;
-      }
+      case DataType::BFLOAT16:
+        // DEVICE_AND_FLOAT_DISPATCH will correctly pick up the Metal specialization
+        // from the included ops_gemm_stub.mm if a.device() == Device::METAL.
+        DEVICE_AND_FLOAT_DISPATCH("Gemm",
+                                  a.device(),
+                                  a.dtype(),
+                                  (compute<D, T, T>(a, b, a_shift_compensation, c)));
+      break;
 
       default:
         throw std::invalid_argument("Gemm: unsupported input type " + dtype_name(a.dtype()));
@@ -72,8 +79,8 @@ namespace ctranslate2 {
     template <Device D, typename In, typename Out>
     void Gemm::compute(const StorageView& a,
                        const StorageView& b,
-                       StorageView& c,
-                       const StorageView* a_shift_compensation) const {
+                       const StorageView* a_shift_compensation, // Swapped
+                       StorageView& c) const {                 // Swapped
       const dim_t k = a.dim(_trans_a ? -2 : -1);
       const dim_t n = b.dim(_trans_b ? -2 : -1);
       const dim_t m = a.size() / k;  // Collapse leading dimensions.

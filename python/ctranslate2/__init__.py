@@ -53,7 +53,9 @@ try:
         contains_model,
         get_cuda_device_count,
         get_supported_compute_types,
+        list_supported_devices,
         set_random_seed,
+        check_metal_directly,  # Added for debugging
     )
     from ctranslate2.extensions import register_extensions
     from ctranslate2.logging import get_log_level, set_log_level

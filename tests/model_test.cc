@@ -5,12 +5,12 @@
 #include "test_utils.h"
 
 TEST(ModelTest, ContainsModel) {
-  ASSERT_TRUE(models::contains_model(default_model_dir()));
+  ASSERT_TRUE(ctranslate2::models::contains_model(default_model_dir()));
 }
 
 TEST(ModelTest, UpdateDecoderOutputLayer) {
-  auto model = models::Model::load(default_model_dir())->as_sequence_to_sequence();
-  auto& decoder = dynamic_cast<models::EncoderDecoderReplica&>(*model).decoder();
+  auto model = ctranslate2::models::Model::load(default_model_dir())->as_sequence_to_sequence();
+  auto& decoder = dynamic_cast<ctranslate2::models::EncoderDecoderReplica&>(*model).decoder();
 
   decoder.update_output_layer();
   EXPECT_FALSE(decoder.output_layer_is_updated());
@@ -50,19 +50,19 @@ TEST(ModelTest, UpdateDecoderOutputLayer) {
 }
 
 TEST(ModelTest, LayerExists) {
-  const auto model = models::Model::load(default_model_dir());
+  const auto model = ctranslate2::models::Model::load(default_model_dir());
   EXPECT_TRUE(model->layer_exists("encoder/layer_0"));
   EXPECT_TRUE(model->layer_exists("encoder/layer_0/"));
   EXPECT_FALSE(model->layer_exists("encoder/layer"));
 }
 
 TEST(ModelTest, EncoderDecoderNoLength) {
-  auto model = models::Model::load(default_model_dir())->as_sequence_to_sequence();
-  auto& encoder_decoder = dynamic_cast<models::EncoderDecoderReplica&>(*model);
+  auto model = ctranslate2::models::Model::load(default_model_dir())->as_sequence_to_sequence();
+  auto& encoder_decoder = dynamic_cast<ctranslate2::models::EncoderDecoderReplica&>(*model);
   auto& encoder = encoder_decoder.encoder();
   auto& decoder = encoder_decoder.decoder();
 
-  StorageView input_ids({1, 6}, std::vector<int32_t>{31, 10, 19, 13, 5, 7});
+  ctranslate2::StorageView input_ids({1, 6}, std::vector<int32_t>{31, 10, 19, 13, 5, 7});
   size_t decoder_start_id = 1;
   size_t decoder_end_id = 2;
 
@@ -70,11 +70,11 @@ TEST(ModelTest, EncoderDecoderNoLength) {
   std::vector<size_t> output_wo_length;
 
   {
-    StorageView lengths({1}, std::vector<int32_t>{6});
-    StorageView encoder_output;
+    ctranslate2::StorageView lengths({1}, std::vector<int32_t>{6});
+    ctranslate2::StorageView encoder_output;
     encoder(input_ids, lengths, encoder_output);
 
-    layers::DecoderState state = decoder.initial_state();
+    ctranslate2::layers::DecoderState state = decoder.initial_state();
     state.emplace("memory", encoder_output);
     state.emplace("memory_lengths", lengths);
 
@@ -83,10 +83,10 @@ TEST(ModelTest, EncoderDecoderNoLength) {
   }
 
   {
-    StorageView encoder_output;
+    ctranslate2::StorageView encoder_output;
     encoder(input_ids, encoder_output);
 
-    layers::DecoderState state = decoder.initial_state();
+    ctranslate2::layers::DecoderState state = decoder.initial_state();
     state.emplace("memory", encoder_output);
 
     auto results = decode(decoder, state, {{decoder_start_id}}, {decoder_end_id});
@@ -97,50 +97,50 @@ TEST(ModelTest, EncoderDecoderNoLength) {
 }
 
 TEST(ModelTest, DecoderIterativeSequence) {
-  auto model = models::Model::load(default_model_dir())->as_sequence_to_sequence();
-  auto& encoder_decoder = dynamic_cast<models::EncoderDecoderReplica&>(*model);
+  auto model = ctranslate2::models::Model::load(default_model_dir())->as_sequence_to_sequence();
+  auto& encoder_decoder = dynamic_cast<ctranslate2::models::EncoderDecoderReplica&>(*model);
   auto& encoder = encoder_decoder.encoder();
   auto& decoder = encoder_decoder.decoder();
 
-  StorageView source_ids({1, 6}, std::vector<int32_t>{31, 10, 19, 13, 5, 7});
-  StorageView target_ids({1, 5}, std::vector<int32_t>{1, 3, 11, 23, 13});
+  ctranslate2::StorageView source_ids({1, 6}, std::vector<int32_t>{31, 10, 19, 13, 5, 7});
+  ctranslate2::StorageView target_ids({1, 5}, std::vector<int32_t>{1, 3, 11, 23, 13});
 
-  StorageView encoder_output;
+  ctranslate2::StorageView encoder_output;
   encoder(source_ids, encoder_output);
 
   // Forward step by step.
-  layers::DecoderState state_by_step = decoder.initial_state();
+  ctranslate2::layers::DecoderState state_by_step = decoder.initial_state();
   state_by_step.emplace("memory", encoder_output);
-  StorageView logits_by_step;
-  for (dim_t step = 0; step < target_ids.dim(1); ++step) {
-    StorageView step_logits;
-    StorageView step_input({1}, target_ids.at<int32_t>(step));
+  ctranslate2::StorageView logits_by_step;
+  for (ctranslate2::dim_t step = 0; step < target_ids.dim(1); ++step) {
+    ctranslate2::StorageView step_logits;
+    ctranslate2::StorageView step_input({1}, target_ids.at<int32_t>(step));
     decoder(step, step_input, state_by_step, &step_logits);
     step_logits.expand_dims(1);
     if (step == 0)
       logits_by_step = std::move(step_logits);
     else {
-      StorageView logits_concat;
-      ops::Concat(1)({&logits_by_step, &step_logits}, logits_concat);
+      ctranslate2::StorageView logits_concat;
+      ctranslate2::ops::Concat(1)({&logits_by_step, &step_logits}, logits_concat);
       logits_by_step = std::move(logits_concat);
     }
   }
 
   // Forward sequence by sequence.
-  layers::DecoderState state_sequence = decoder.initial_state();
+  ctranslate2::layers::DecoderState state_sequence = decoder.initial_state();
   state_sequence.emplace("memory", encoder_output);
 
-  StorageView seq1(target_ids.dtype());
-  StorageView seq2(target_ids.dtype());
-  ops::Split(-1, {3, 2})(target_ids, seq1, seq2);
+  ctranslate2::StorageView seq1(target_ids.dtype());
+  ctranslate2::StorageView seq2(target_ids.dtype());
+  ctranslate2::ops::Split(-1, {3, 2})(target_ids, seq1, seq2);
 
-  StorageView logits1;
-  StorageView logits2;
+  ctranslate2::StorageView logits1;
+  ctranslate2::StorageView logits2;
   decoder(0, seq1, state_sequence, &logits1);
   decoder(seq1.dim(-1), seq2, state_sequence, &logits2);
 
-  StorageView logits_sequence;
-  ops::Concat(1)({&logits1, &logits2}, logits_sequence);
+  ctranslate2::StorageView logits_sequence;
+  ctranslate2::ops::Concat(1)({&logits1, &logits2}, logits_sequence);
 
   expect_storage_eq(logits_sequence, logits_by_step, 1e-5);
 

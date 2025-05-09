@@ -1,5 +1,9 @@
 #include "ctranslate2/ops/rms_norm.h"
 
+#ifdef CT2_WITH_METAL
+#  include "../metal/ops_rmsnorm_stub.mm" // Must be before first instantiation
+#endif
+
 #include "dispatch.h"
 
 namespace ctranslate2 {

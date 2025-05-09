@@ -2,7 +2,9 @@
 
 #include <string>
 #include <stdexcept>
+#ifdef __OBJC__
 #include <Metal/Metal.h>
+#endif
 
 namespace ctranslate2 {
   namespace metal {
@@ -18,8 +20,11 @@ namespace ctranslate2 {
     // Get number of Metal devices
     int get_metal_device_count();
 
-    // Get current Metal device
+\
+    // Get current Metal device (Objective-C++ only)
+#ifdef __OBJC__
     id<MTLDevice> get_metal_device();
+#endif
 
     // Set current Metal device
     void set_metal_device(int index);
@@ -27,8 +32,10 @@ namespace ctranslate2 {
     // Initialize Metal device
     void init_metal();
 
-    // Create Metal command queue
+    // Create Metal command queue (Objective-C++ only)
+#ifdef __OBJC__
     id<MTLCommandQueue> create_command_queue();
+#endif
 
     // Synchronize Metal device
     void synchronize_device();

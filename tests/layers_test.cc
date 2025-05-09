@@ -6,14 +6,14 @@ class LayerDeviceFPTest : public ::testing::TestWithParam<FloatType> {
 };
 
 TEST(LayerTest, MakeRelativePositions1D) {
-  const StorageView positions = layers::make_relative_positions(1, 4, 2);
-  const StorageView expected({1, 4}, std::vector<int32_t>{0, 0, 1, 2});
+  const ctranslate2::StorageView positions = ctranslate2::layers::make_relative_positions(1, 4, 2);
+  const ctranslate2::StorageView expected({1, 4}, std::vector<int32_t>{0, 0, 1, 2});
   expect_storage_eq(positions, expected);
 }
 
 TEST(LayerTest, MakeRelativePositions2D) {
-  const StorageView positions = layers::make_relative_positions(4, 4, 2);
-  const StorageView expected({4, 4}, std::vector<int32_t>{
+  const ctranslate2::StorageView positions = ctranslate2::layers::make_relative_positions(4, 4, 2);
+  const ctranslate2::StorageView expected({4, 4}, std::vector<int32_t>{
       2, 3, 4, 4,
       1, 2, 3, 4,
       0, 1, 2, 3,
@@ -22,8 +22,8 @@ TEST(LayerTest, MakeRelativePositions2D) {
 }
 
 TEST(LayerTest, MakeAsymmetricRelativePositions2D) {
-  const StorageView positions = layers::make_asymmetric_relative_positions(4, 4, 3, 2);
-  const StorageView expected({4, 4}, std::vector<int32_t>{
+  const ctranslate2::StorageView positions = ctranslate2::layers::make_asymmetric_relative_positions(4, 4, 3, 2);
+  const ctranslate2::StorageView expected({4, 4}, std::vector<int32_t>{
       3, 4, 5, 5,
       2, 3, 4, 5,
       1, 2, 3, 4,
@@ -32,14 +32,14 @@ TEST(LayerTest, MakeAsymmetricRelativePositions2D) {
 }
 
 TEST_P(LayerDeviceFPTest, Alibi) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = std::max(GetParam().error, float(1e-4));
 
-  const StorageView zero({3, 4, 2, 5}, 0.f, device);
+  const ctranslate2::StorageView zero({3, 4, 2, 5}, 0.f, device);
 
   {
-    const StorageView expected({3, 4, 2, 5}, std::vector<float>{
+    const ctranslate2::StorageView expected({3, 4, 2, 5}, std::vector<float>{
         -1.0, -0.75, -0.5, -0.25, 0.0,
         -1.0, -0.75, -0.5, -0.25, 0.0,
         -0.25, -0.1875, -0.125, -0.0625, 0.0,
@@ -65,14 +65,14 @@ TEST_P(LayerDeviceFPTest, Alibi) {
         -0.015625, -0.01171875, -0.0078125, -0.00390625, 0.0,
         -0.015625, -0.01171875, -0.0078125, -0.00390625, 0.0});
 
-    layers::Alibi alibi;
-    StorageView x = zero.to(dtype);
+    ctranslate2::layers::Alibi alibi;
+    ctranslate2::StorageView x = zero.to(dtype);
     alibi.apply(x);
     expect_storage_eq(x.to_float32(), expected, error);
   }
 
   {
-    const StorageView expected({3, 4, 2, 5}, std::vector<float>{
+    const ctranslate2::StorageView expected({3, 4, 2, 5}, std::vector<float>{
         0.0000, 0.2500, 0.5000, 0.7500, 1.0000,
         0.0000, 0.2500, 0.5000, 0.7500, 1.0000,
         0.0000, 0.0625, 0.1250, 0.1875, 0.2500,
@@ -98,19 +98,19 @@ TEST_P(LayerDeviceFPTest, Alibi) {
         0.0000, 0.0039, 0.0078, 0.0117, 0.0156,
         0.0000, 0.0039, 0.0078, 0.0117, 0.0156});
 
-    layers::Alibi alibi(/*use_positive_positions=*/true);
-    StorageView x = zero.to(dtype);
+    ctranslate2::layers::Alibi alibi(/*use_positive_positions=*/true);
+    ctranslate2::StorageView x = zero.to(dtype);
     alibi.apply(x);
     expect_storage_eq(x.to_float32(), expected, error);
   }
 }
 
 TEST_P(LayerDeviceFPTest, RotaryEmbedding) {
-  const Device device = GetParam().device;
-  const DataType dtype = GetParam().dtype;
+  const ctranslate2::Device device = GetParam().device;
+  const ctranslate2::DataType dtype = GetParam().dtype;
   const float error = GetParam().error;
 
-  const StorageView input({2, 4, 2, 6}, std::vector<float>{
+  const ctranslate2::StorageView input({2, 4, 2, 6}, std::vector<float>{
       0.8822692632675171, 0.9150039553642273, 0.38286375999450684, 0.9593056440353394,
       0.3904482126235962, 0.600895345211029, 0.10531491041183472, 0.26949483156204224,
       0.3588126301765442, 0.19936376810073853, 0.5471915602684021, 0.006160438060760498,
@@ -137,7 +137,7 @@ TEST_P(LayerDeviceFPTest, RotaryEmbedding) {
       0.7980347275733948, 0.8399046063423157, 0.13741332292556763, 0.2330659031867981
     }, device);
 
-  const StorageView expected({2, 4, 2, 6}, std::vector<float>{
+  const ctranslate2::StorageView expected({2, 4, 2, 6}, std::vector<float>{
       -1.1991642713546753, 0.421469122171402, 0.29228904843330383, 0.9906659722328186,
       0.3878554105758667, 0.6025721430778503, -0.1422920823097229, -0.25193583965301514,
       0.3276682496070862, 0.24723657965660095, 0.5471403002738953, 0.009696949273347855,
@@ -164,39 +164,39 @@ TEST_P(LayerDeviceFPTest, RotaryEmbedding) {
       0.6737331748008728, 0.9425405859947205, 0.13590410351753235, 0.2339491844177246
     }, device);
 
-  const auto permute = [](const StorageView& in) {
-    StorageView x = in;
+  const auto permute = [](const ctranslate2::StorageView& in) {
+    ctranslate2::StorageView x = in;
     x.reshape({8, 2, 3, 2});
 
-    StorageView y(x.device());
-    ops::Transpose({0, 1, 3, 2})(x, y);
+    ctranslate2::StorageView y(x.device());
+    ctranslate2::ops::Transpose({0, 1, 3, 2})(x, y);
 
     y.reshape({2, 4, 2, 6});
     return y;
   };
 
   {
-    layers::RotaryEmbeddings rotary_embeddings;
-    StorageView x = input.to(dtype);
+    ctranslate2::layers::RotaryEmbeddings rotary_embeddings;
+    ctranslate2::StorageView x = input.to(dtype);
     rotary_embeddings.apply(x, 2);
     expect_storage_eq(x.to_float32(), expected, error);
   }
 
   {
-    layers::RotaryEmbeddings rotary_embeddings(0, false);
-    StorageView x = permute(input).to(dtype);
+    ctranslate2::layers::RotaryEmbeddings rotary_embeddings(0, false);
+    ctranslate2::StorageView x = permute(input).to(dtype);
     rotary_embeddings.apply(x, 2);
     expect_storage_eq(x.to_float32(), permute(expected), error);
   }
 }
 
 TEST(LayerTest, Padder) {
-  const StorageView lengths({3}, std::vector<int32_t>{2, 3, 1});
-  const Padder padder(lengths, /*max_time=*/4);
+  const ctranslate2::StorageView lengths({3}, std::vector<int32_t>{2, 3, 1});
+  const ctranslate2::Padder padder(lengths, /*max_time=*/4);
 
-  StorageView x({3, 4}, std::vector<int32_t>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
-  const StorageView wo_padding({6}, std::vector<int32_t>{0, 1, 4, 5, 6, 8});
-  const StorageView w_padding({3, 4}, std::vector<int32_t>{0, 1, 1, 1, 4, 5, 6, 6, 8, 8, 8, 8});
+  ctranslate2::StorageView x({3, 4}, std::vector<int32_t>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
+  const ctranslate2::StorageView wo_padding({6}, std::vector<int32_t>{0, 1, 4, 5, 6, 8});
+  const ctranslate2::StorageView w_padding({3, 4}, std::vector<int32_t>{0, 1, 1, 1, 4, 5, 6, 6, 8, 8, 8, 8});
 
   padder.remove_padding(x);
   ASSERT_EQ(x.rank(), 1);
@@ -207,12 +207,12 @@ TEST(LayerTest, Padder) {
 }
 
 TEST(LayerTest, PadderToMultiple) {
-  const StorageView lengths({3}, std::vector<int32_t>{2, 3, 1});
-  const Padder padder(lengths, /*max_time=*/4, /*pad_batch_to_multiple=*/8);
+  const ctranslate2::StorageView lengths({3}, std::vector<int32_t>{2, 3, 1});
+  const ctranslate2::Padder padder(lengths, /*max_time=*/4, /*pad_batch_to_multiple=*/8);
 
-  StorageView x({3, 4}, std::vector<int32_t>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
-  const StorageView wo_padding({8}, std::vector<int32_t>{0, 1, 4, 5, 6, 8, 8, 8});
-  const StorageView w_padding({3, 4}, std::vector<int32_t>{0, 1, 1, 1, 4, 5, 6, 6, 8, 8, 8, 8});
+  ctranslate2::StorageView x({3, 4}, std::vector<int32_t>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
+  const ctranslate2::StorageView wo_padding({8}, std::vector<int32_t>{0, 1, 4, 5, 6, 8, 8, 8});
+  const ctranslate2::StorageView w_padding({3, 4}, std::vector<int32_t>{0, 1, 1, 1, 4, 5, 6, 6, 8, 8, 8, 8});
 
   padder.remove_padding(x);
   expect_storage_eq(x, wo_padding);
@@ -221,11 +221,11 @@ TEST(LayerTest, PadderToMultiple) {
 }
 
 TEST(LayerTest, PadderIgnore) {
-  const StorageView lengths({3}, std::vector<int32_t>{4, 4, 4});
-  const Padder padder(lengths);
+  const ctranslate2::StorageView lengths({3}, std::vector<int32_t>{4, 4, 4});
+  const ctranslate2::Padder padder(lengths);
 
-  StorageView x({3, 4}, std::vector<int32_t>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
-  const StorageView original(x);
+  ctranslate2::StorageView x({3, 4}, std::vector<int32_t>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
+  const ctranslate2::StorageView original(x);
 
   padder.remove_padding(x);
   expect_storage_eq(x, original);
@@ -235,22 +235,22 @@ TEST(LayerTest, PadderIgnore) {
 
 TEST(LayerTest, PositionEncoderNoSharedState) {
   // Test case for issue: http://forum.opennmt.net/t/ctranslate2-c-api-returns-strange-results-when-initializing-2-models/3208
-  layers::SinusoidalPositionEncoder position_encoder_1(4);
-  layers::SinusoidalPositionEncoder position_encoder_2(6);
+  ctranslate2::layers::SinusoidalPositionEncoder position_encoder_1(4);
+  ctranslate2::layers::SinusoidalPositionEncoder position_encoder_2(6);
 
   {
-    StorageView input(
+    ctranslate2::StorageView input(
       {1, 1, 4}, std::vector<float>{0.1, -2.3, 0.5, 1.2});
-    StorageView expected(
+    ctranslate2::StorageView expected(
       {1, 1, 4}, std::vector<float>{0.941471, -2.2999, 1.0403, 2.2});
     position_encoder_1(input);
     expect_storage_eq(input, expected, 1e-5);
   }
 
   {
-    StorageView input(
+    ctranslate2::StorageView input(
       {1, 1, 6}, std::vector<float>{-0.2, -1.3, 0.1, -0.6, 2.0, 1.1});
-    StorageView expected(
+    ctranslate2::StorageView expected(
       {1, 1, 6}, std::vector<float>{0.641471, -1.29, 0.1001, -0.0596977, 2.99995, 2.1});
     position_encoder_2(input);
     expect_storage_eq(input, expected, 1e-5);
@@ -259,12 +259,12 @@ TEST(LayerTest, PositionEncoderNoSharedState) {
 
 
 INSTANTIATE_TEST_SUITE_P(CPU, LayerDeviceFPTest,
-                         ::testing::Values(FloatType{Device::CPU, DataType::FLOAT32, 1e-5}),
+                         ::testing::Values(FloatType{ctranslate2::Device::CPU, ctranslate2::DataType::FLOAT32, 1e-5}),
                          fp_test_name);
 #ifdef CT2_WITH_CUDA
 INSTANTIATE_TEST_SUITE_P(CUDA, LayerDeviceFPTest,
-                         ::testing::Values(FloatType{Device::CUDA, DataType::FLOAT32, 1e-5},
-                                           FloatType{Device::CUDA, DataType::FLOAT16, 1e-2},
-                                           FloatType{Device::CUDA, DataType::BFLOAT16, 1e-2}),
+                         ::testing::Values(FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::FLOAT32, 1e-5},
+                                           FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::FLOAT16, 1e-2},
+                                           FloatType{ctranslate2::Device::CUDA, ctranslate2::DataType::BFLOAT16, 1e-2}),
                          fp_test_name);
 #endif

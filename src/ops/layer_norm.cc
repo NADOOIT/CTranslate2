@@ -2,6 +2,10 @@
 
 #include "dispatch.h"
 
+#ifdef CT2_WITH_METAL
+#  include "../metal/ops_layernorm_stub.mm" // Must be before first instantiation
+#endif
+
 namespace ctranslate2 {
   namespace ops {
 
@@ -54,5 +58,5 @@ namespace ctranslate2 {
                                                output)));
     }
 
-  }
-}
+  } // namespace ops
+} // namespace ctranslate2
